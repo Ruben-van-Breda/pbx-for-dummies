@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 1 — Day 4: SIP Signaling Deep Dive</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-03.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-05.html">Next →</a>
+      </nav>
+      <h1>Day 4 — SIP Signaling Deep Dive</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Learn SIP message types (INVITE, ACK, BYE, REGISTER)</li>
+        <li>Read SIP call flows and key headers</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li>SIP is a text-based protocol (like HTTP) used to set up sessions.</li>
+        <li>Core messages: INVITE (start call), 100 Trying, 180 Ringing, 200 OK, ACK (confirm), BYE (end), REGISTER (location).</li>
+        <li>Important headers: Via (routing), From/To (caller/callee), Contact (reachable URI), Call-ID (dialog), CSeq (sequence), SDP (media offer/answer in body).</li>
+      </ul>
+
+      <h2>Minimal Call Flow</h2>
+      <pre><code>Caller → INVITE → Callee
+Caller ← 100 Trying ← Callee
+Caller ← 180 Ringing ← Callee
+Caller ← 200 OK (with SDP) ← Callee
+Caller → ACK → Callee
+[Media over RTP]
+Caller → BYE → Callee
+Caller ← 200 OK ← Callee</code></pre>
+
+      <h2>Reading SIP in Wireshark</h2>
+      <ul>
+        <li>Filter: <code>sip</code></li>
+        <li>Follow a call: Right-click → Follow → TCP/UDP Stream</li>
+        <li>Expand SDP to see codec offers (m=audio, a=rtpmap)</li>
+      </ul>
+
+      <h2>Hands-on (15–20 min)</h2>
+      <ol>
+        <li>Capture a short softphone call in Wireshark</li>
+        <li>Identify the first INVITE and list:
+          <ul>
+            <li>Request-URI</li>
+            <li>From/To/Contact</li>
+            <li>Supported codecs in SDP</li>
+          </ul>
+        </li>
+        <li>Find the ACK; confirm Call-ID and CSeq progression</li>
+      </ol>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>What’s the purpose of ACK?</li>
+        <li>Which header tells intermediaries where to send replies?</li>
+        <li>Where do you see the media ports and codecs?</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261 — SIP: Session Initiation Protocol</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264 — Offer/Answer with SDP</a></li>
+        <li><a href="https://www.voip-info.org/sip-call-flows/" target="_blank" rel="noopener noreferrer">SIP Call Flows — VoIP-Info.org</a></li>
+        <li><a href="https://www.voip-info.org/sip-headers/" target="_blank" rel="noopener noreferrer">SIP Headers — VoIP-Info.org</a></li>
+        <li><a href="https://www.voip-info.org/sip-responses/" target="_blank" rel="noopener noreferrer">SIP Responses — VoIP-Info.org</a></li>
+        <li><a href="https://www.wireshark.org/docs/dfref/s/sip.html" target="_blank" rel="noopener noreferrer">Wireshark: SIP Display Filter Reference</a></li>
+      </ul>
+
+      <h2>🎥 Recommended Videos (Free & Short)</h2>
+      <ul>
+        <li>“SIP Call Flow Explained” — <a href="https://www.youtube.com/results?search_query=SIP+call+flow+explained" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“SIP Headers Explained” — <a href="https://www.youtube.com/results?search_query=SIP+headers+explained" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“SIP + SDP Offer/Answer” — <a href="https://www.youtube.com/results?search_query=SIP+SDP+offer+answer+explained" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“Wireshark SIP Analysis Tutorial” — <a href="https://www.youtube.com/results?search_query=Wireshark+SIP+analysis+tutorial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
+
+      <h2>🧾 Deliverable</h2>
+      <ul>
+        <li>File: <code>day4_invite_headers.png</code> (screenshot of INVITE headers) or <code>day4_sip_trace.pcapng</code></li>
+        <li>Notes: Request-URI, From/To/Contact, first offered codec in SDP, Via branch parameter, and CSeq numbers for INVITE and ACK.</li>
+        <li>Goal: Build fluency in reading SIP messages and mapping headers to call flow stages.</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 4 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What is SIP used for in VoIP?
+            <ul><li>Answer: Signaling to set up, modify, and tear down sessions (calls).</li></ul>
+          </li>
+          <li>List three core SIP requests involved in a basic call.
+            <ul><li>Answer: INVITE, ACK, BYE (also REGISTER for location).</li></ul>
+          </li>
+          <li>What header helps route replies back to the sender through intermediaries?
+            <ul><li>Answer: Via.</li></ul>
+          </li>
+          <li>Where are codecs and media ports advertised in SIP messages?
+            <ul><li>Answer: In the SDP body (m=audio, a=rtpmap, c= connection info).</li></ul>
+          </li>
+          <li>In a successful call setup, which response typically precedes 200 OK?
+            <ul><li>Answer: 180 Ringing (often after 100 Trying).</li></ul>
+          </li>
+          <li>What is the purpose of the ACK after a 200 OK to INVITE?
+            <ul><li>Answer: Confirms session establishment; completes the initial dialog handshake.</li></ul>
+          </li>
+          <li>Name two key identifiers for a SIP dialog.
+            <ul><li>Answer: Call-ID and CSeq (with From/To tags as dialog identifiers).</li></ul>
+          </li>
+          <li>Which message ends a call and what response confirms it?
+            <ul><li>Answer: BYE ends the call; 200 OK confirms.</li></ul>
+          </li>
+          <li>In Wireshark, which display filter shows only SIP?
+            <ul><li>Answer: <code>sip</code>.</li></ul>
+          </li>
+          <li>If media is negotiated but there is no audio, give two likely causes.
+            <ul><li>Answer: Codec mismatch or UDP/RTP blocked by firewall/NAT.</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 4 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+    <footer>
+      <nav class="nav-top">
+        <a href="./day-03.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-05.html">Next →</a>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>
+

@@ -59,3 +59,37 @@ PBX ──(T1/E1 PRI)── Telco switch  (multiple voice channels)
 - File: `day2_analog_digital_diagrams.png` or `.pdf`
 - Notes: 3 bullets on when to keep analog, who provides dial tone (FXS vs FXO), and when PRI is preferable to SIP trunking (e.g., legacy constraints, regulatory, last-mile reliability).
 - Goal: Visualize analog and digital call paths and when each is used.
+
+---
+
+## ✅ Quiz — Day 2 (10 Questions + Answers)
+
+1) What does an FXS port provide to the attached device?
+   - Answer: Battery power and dial tone (delivers analog line to the phone).
+
+2) Which interface would you use to connect a PBX analog card to the PSTN?
+   - Answer: FXO (receives battery and dial tone from the telco or FXS port).
+
+3) How many channels are in a T1 vs an E1?
+   - Answer: T1 has 24 channels (NA); E1 has 32 channels (EU).
+
+4) What is a trunk in telephony terms?
+   - Answer: A high-capacity link carrying multiple calls between systems.
+
+5) Which handles call setup and which carries media: SIP/ISDN vs RTP/TDM?
+   - Answer: SIP/ISDN handle setup (signaling); RTP/TDM carry the media.
+
+6) Give one reason sites still keep a few analog lines.
+   - Answer: Legacy devices (fax, door phones, alarms) or regulatory/emergency fallback.
+
+7) What modern technology commonly replaced T1/E1 trunks?
+   - Answer: SIP trunks over IP.
+
+8) In the visual, which side of the analog connection faces the phone?
+   - Answer: FXS → Phone.
+
+9) When bridging legacy analog to IP, what device is typically used?
+   - Answer: An Analog Telephone Adapter (ATA) or a media gateway.
+
+10) If you need 60 concurrent calls on-prem without SIP, how many T1s are required?
+   - Answer: Three T1s (3 × 24 = 72 channels, allowing for overhead/expansion).

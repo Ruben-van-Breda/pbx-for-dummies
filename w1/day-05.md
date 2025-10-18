@@ -58,3 +58,37 @@ exten => _9X.,n,Dial(PJSIP/trunk/${NUM})
 - Files: `day5_dialplan_snippet.conf` (your internal/outbound example) and optional `day5_call_flow.png` (bridge diagram)
 - Notes: 3 bullets on how your dialplan routes internal vs outbound calls and how failures are handled (e.g., `DIALSTATUS`, backup trunk)
 - Goal: Demonstrate a minimal, safe routing logic with clear patterns and failovers.
+
+---
+
+## ✅ Quiz — Day 5 (10 Questions + Answers)
+
+1) What does a registrar store after a REGISTER request?
+   - Answer: The binding of a user to one or more Contact URIs (locations).
+
+2) Why is a PBX often called a B2BUA?
+   - Answer: It creates and manages two separate call legs and bridges them.
+
+3) What is a dialplan?
+   - Answer: A ruleset defining how calls are routed based on patterns/context.
+
+4) In the Asterisk example, what does `_9X.` mean?
+   - Answer: Pattern: numbers starting with 9, followed by one digit and any digits.
+
+5) What does `${EXTEN:1}` do in the example?
+   - Answer: Strips the leading 9 from the dialed extension.
+
+6) Name one reason to add safeguards in outbound routing.
+   - Answer: Prevent accidental international calls; limit by time/caller; whitelist.
+
+7) Where do endpoint, AOR, and auth objects live for PJSIP in Asterisk?
+   - Answer: In `pjsip.conf` (referenced by the dialplan).
+
+8) Which application bridges calls in the example dialplan?
+   - Answer: `Dial()`.
+
+9) How can failures be detected in Asterisk call bridging?
+   - Answer: Using `DIALSTATUS` and handling failover logic.
+
+10) Give two items typically found in an internal context.
+   - Answer: Extension-to-endpoint mappings (e.g., 1000/1001), local feature codes.

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 2 — Day 10: SIP Trunking & Carriers</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-09.html">← Previous</a>
+        <a href="./index.html">Back to Week 2</a>
+        <a href="./day-11.html">Next →</a>
+      </nav>
+      <h1>Day 10 — SIP Trunking & Carriers</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Understand SIP trunks to PSTN</li>
+        <li>Configure a demo trunk and test calls</li>
+      </ul>
+
+      <h2>Concepts (Explained)</h2>
+      <ul>
+        <li><strong>DID</strong>: Direct Inward Dial number mapped to your PBX</li>
+        <li><strong>E.164</strong>: International numbering format (+country number)</li>
+        <li><strong>Registration vs IP-ACL trunks</strong>: PBX registers to provider vs provider allows your IP</li>
+      </ul>
+
+      <h2>Steps (20–30 min)</h2>
+      <ol>
+        <li>Choose a provider trial (e.g., Twilio Elastic SIP, Plivo, ClearlyIP)</li>
+        <li>Configure trunk in <code>pjsip.conf</code>:
+<pre><code>[trunk_primary]
+type=endpoint
+transport=transport-udp
+aors=trunk_primary
+auth=trunk_primary
+outbound_auth=trunk_primary
+context=from-trunk
+allow=ulaw,alaw
+
+[trunk_primary]
+type=auth
+auth_type=userpass
+username=YOUR_SIP_USERNAME
+password=YOUR_SIP_PASSWORD
+
+[trunk_primary]
+type=aor
+contact=sip:PROVIDER_SIP_DOMAIN_OR_IP</code></pre>
+        </li>
+        <li>Provider side: Point DID to your PBX public IP:5060 (or to your registrar user)</li>
+        <li>Inbound: Map DID in <code>from-trunk</code> to IVR or an extension</li>
+        <li>Outbound: Add dial pattern to use the trunk (from Day 9)</li>
+      </ol>
+
+      <h2>Validation</h2>
+      <ul>
+        <li><code>pjsip show registrations</code></li>
+        <li>Make inbound and outbound test calls</li>
+        <li>Check CLI for SIP 4xx/5xx and audio path</li>
+      </ul>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>Difference between registration and IP-based trunking?</li>
+        <li>Why normalize numbers to E.164?</li>
+      </ul>
+
+      <h2>Common Pitfalls</h2>
+      <ul>
+        <li>Auth vs IP trunks mismatch (403/404)</li>
+        <li>NAT and SIP ALG causing one-way/no audio or failed registration</li>
+        <li>Codec mismatch/transcoding overhead</li>
+        <li>Number formatting (require E.164)</li>
+        <li>Firewall: open SIP and provider RTP ranges</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://www.twilio.com/voice/sip-trunking" target="_blank" rel="noopener noreferrer">Twilio Elastic SIP Trunking</a></li>
+        <li><a href="https://www.plivo.com/sip-trunking/" target="_blank" rel="noopener noreferrer">Plivo SIP Trunking</a></li>
+        <li><a href="https://www.itu.int/rec/T-REC-E.164/en" target="_blank" rel="noopener noreferrer">E.164 Numbering — ITU</a></li>
+        <li><a href="https://www.voip-info.org/callerid/" target="_blank" rel="noopener noreferrer">Caller ID and Number Formatting</a></li>
+        <li><a href="https://wiki.asterisk.org/wiki/display/AST/PJSIP+Trunk+Configuration" target="_blank" rel="noopener noreferrer">Asterisk PJSIP Trunk Examples</a></li>
+      </ul>
+
+      <h2>Deliverable</h2>
+      <ul>
+        <li>Files: <code>day10_trunk_pjsip.conf</code>, <code>day10_inbound_outbound_tests.md</code></li>
+        <li>Notes: Provider chosen, trunk mode, normalized patterns, and test results</li>
+        <li>Goal: A functioning trunk with verified call flow end-to-end</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 10 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What is a DID?
+            <ul><li>Answer: A Direct Inward Dial number mapped to your PBX.</li></ul>
+          </li>
+          <li>What is E.164 formatting?
+            <ul><li>Answer: International format <code>+&lt;countrycode&gt;&lt;number&gt;</code>.</li></ul>
+          </li>
+          <li>Difference between registration and IP-ACL trunks?
+            <ul><li>Answer: Registration uses credentials; IP-ACL allows traffic from specified IPs.</li></ul>
+          </li>
+          <li>Where do you map an inbound DID in Asterisk?
+            <ul><li>Answer: In a context like <code>from-trunk</code> routing to IVR/extension.</li></ul>
+          </li>
+          <li>Why normalize outbound numbers?
+            <ul><li>Answer: To match provider expectations (E.164) and ensure routing success.</li></ul>
+          </li>
+          <li>Name two common causes of trunk failures seen in CLI.
+            <ul><li>Answer: NAT/SIP ALG issues and number formatting errors.</li></ul>
+          </li>
+          <li>Which codecs are safe defaults for many providers?
+            <ul><li>Answer: G.711 (ulaw/alaw).</li></ul>
+          </li>
+          <li>What command checks registration status?
+            <ul><li>Answer: <code>pjsip show registrations</code>.</li></ul>
+          </li>
+          <li>What’s a good outbound test after trunk config?
+            <ul><li>Answer: Place a normalized call and verify two-way audio.</li></ul>
+          </li>
+          <li>Why open provider RTP ranges on firewall?
+            <ul><li>Answer: So media can flow; otherwise SIP may work but audio fails.</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 10 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+  </main>
+</body>
+</html>
+

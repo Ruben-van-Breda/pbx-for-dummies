@@ -25,6 +25,13 @@
 - What does STUN provide that SIP alone does not?
 - Why can symmetric NATs be problematic?
 
+## Common Pitfalls
+- Missing/invalid STUN or TURN servers: Candidates never gather or fail; verify URLs and credentials.
+- Symmetric NAT/firewall: Peer-to-peer fails; expect TURN relay (added latency/cost).
+- ICE disabled or no trickle ICE: Slow negotiation or timeouts; enable trickle where possible.
+- UDP/RTP ports blocked: SIP works but no audio; open provider RTP ranges and test.
+- Wrong public IP in SDP: Use PBX/SBC external address settings or anchor media.
+
 ## 📚 Further Reading & References
 
 | Resource | Description |
@@ -48,3 +55,37 @@
 - File: `day8_ice_candidates.png` (diagram of host/reflexive/relayed) or annotated screenshot from Trickle ICE
 - Notes: When TURN is needed, which candidate pair succeeded, and why
 - Goal: Demonstrate understanding of NAT traversal strategies and when to anchor media.
+
+---
+
+## ✅ Quiz — Day 8 (10 Questions + Answers)
+
+1) What problem does NAT introduce for VoIP media?
+   - Answer: Private IP/ports are not reachable from the internet; SDP often advertises unroutable addresses.
+
+2) What does STUN help an endpoint discover?
+   - Answer: Its public IP and port mapping as seen by the STUN server.
+
+3) When is TURN required?
+   - Answer: When direct peer-to-peer connectivity fails (e.g., symmetric NAT/firewalls) and media must be relayed.
+
+4) What does ICE do during call setup?
+   - Answer: Gathers host/reflexive/relayed candidates and runs connectivity checks to select the best path.
+
+5) Name the three main ICE candidate types.
+   - Answer: Host, server-reflexive, and relayed.
+
+6) Why can symmetric NATs be problematic for VoIP?
+   - Answer: They map differently per destination, breaking incoming traffic unless relayed via TURN.
+
+7) What is trickle ICE?
+   - Answer: Incremental candidate gathering/signaling so checks start before all candidates are known.
+
+8) One-way audio occurs though SIP succeeds. Give two likely causes.
+   - Answer: RTP ports blocked by firewall or wrong public IP in SDP.
+
+9) Why do PBX/SBCs often anchor media?
+   - Answer: To hide/normalize endpoints behind NAT and ensure stable, routable RTP paths.
+
+10) What tradeoff does TURN introduce?
+   - Answer: Higher latency and relay bandwidth cost in exchange for reliable connectivity.

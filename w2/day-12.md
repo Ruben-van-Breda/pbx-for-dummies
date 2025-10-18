@@ -40,6 +40,13 @@ exten => t,1,Playback(vm-goodbye)
 - What happens on timeout in `WaitExten(5)`?
 - Where do voicemail PINs live?
 
+## Common Pitfalls
+- DTMF mode mismatch: Endpoint uses in-band while PBX expects RFC 4733 → menu not recognized.
+- Prompt recording levels: Too quiet or noisy prompts reduce DTMF success; normalize audio.
+- Timeout handling: No `t` or invalid option path → callers get stuck or hang up.
+- Mailbox quotas/paths: Voicemail fails to save due to permissions/quota; verify storage backend.
+- Time conditions: Missing business-hours logic routes callers to wrong destinations.
+
 ## 📚 Further Reading & References
 
 | Resource | Description |
@@ -61,3 +68,37 @@ exten => t,1,Playback(vm-goodbye)
 - Files: `day12_voicemail.conf`, `day12_ivr_extensions.conf`
 - Notes: IVR options, DTMF mode configured, timeout path, and voicemail test results
 - Goal: A basic but functional auto-attendant with voicemail fallback.
+
+---
+
+## ✅ Quiz — Day 12 (10 Questions + Answers)
+
+1) Where are voicemail mailboxes defined in Asterisk?
+   - Answer: In `voicemail.conf` under a voicemail context (e.g., `[default]`).
+
+2) Which dialplan application plays a prompt and waits for DTMF?
+   - Answer: `Background()` (plays prompt) and `WaitExten()` (waits for input).
+
+3) What does the `t` extension handle in an IVR?
+   - Answer: Timeout when no DTMF is received.
+
+4) Where do voicemail PINs live?
+   - Answer: In the mailbox definition (e.g., `1000 => 1234,...`).
+
+5) Give two common DTMF transmission methods.
+   - Answer: In-band audio and RFC 4733 (formerly RFC 2833) telephone events.
+
+6) Why normalize prompt recording levels?
+   - Answer: To ensure clear recognition and a consistent caller experience.
+
+7) How would you route to a user if option 0 is pressed?
+   - Answer: `exten => 0,1,Dial(PJSIP/1000,20)` with voicemail fallback.
+
+8) What should happen after voicemail is left?
+   - Answer: Play a goodbye and hang up; confirm storage path/quota.
+
+9) Why are time conditions important in IVRs?
+   - Answer: Different routing after-hours (voicemail, messages) vs business hours.
+
+10) What should be tested when validating IVR DTMF?
+   - Answer: Correct option mapping, timeout behavior, and audio levels.

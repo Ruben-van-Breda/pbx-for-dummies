@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 1 — Day 3: VoIP Basics — Codecs, Packets & Media</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-02.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-04.html">Next →</a>
+      </nav>
+      <h1>Day 3 — VoIP Basics: Codecs, Packets & Media</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Learn how voice is digitized and transmitted</li>
+        <li>Understand RTP/RTCP and codec negotiation</li>
+        <li>Recognize jitter, latency, and packet loss impacts</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li><strong>Codec</strong>: Algorithm that compresses audio. Common: G.711 (64 kbps, uncompressed), Opus (adaptive, modern), G.729 (compressed, licensed in some regions).</li>
+        <li><strong>RTP</strong>: Carries audio packets (media stream) with sequence numbers and timestamps.</li>
+        <li><strong>RTCP</strong>: Companion control protocol that reports quality (jitter, loss, round-trip time).</li>
+        <li><strong>Jitter buffer</strong>: Smooths packet timing variation; too small leads to choppiness, too big adds delay.</li>
+      </ul>
+
+      <h2>Call Flow Snapshot</h2>
+      <ol>
+        <li>Endpoints negotiate codecs in SIP (offer/answer, SDP)</li>
+        <li>Media flows directly between endpoints (or via PBX/SBC) over RTP/UDP</li>
+        <li>RTCP reports help diagnose quality issues</li>
+      </ol>
+
+      <h2>Practical Bitrates (rule of thumb)</h2>
+      <ul>
+        <li>G.711: ~87 kbps per direction including IP/UDP/RTP overhead</li>
+        <li>G.729: ~31–40 kbps per direction depending on packetization</li>
+        <li>Opus: Variable (6–40+ kbps), resilient to loss</li>
+      </ul>
+
+      <h2>Hands-on: Capture RTP (15–20 min)</h2>
+      <ol>
+        <li>Start Wireshark. Filter: <code>sip || rtp || rtcp</code></li>
+        <li>Make/receive a VoIP call (softphone to softphone or lab capture file)</li>
+        <li>Use Telephony → RTP → Streams → Analyze to inspect jitter and loss</li>
+        <li>Export audio and play it back to verify media path</li>
+      </ol>
+
+      <h2>Troubleshooting Hints</h2>
+      <ul>
+        <li>One-way audio: Usually NAT/firewall or wrong SDP address/port</li>
+        <li>No audio: Codec mismatch or blocked UDP</li>
+        <li>Choppy audio: Jitter buffer too small or network congestion</li>
+      </ul>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>What carries media: SIP or RTP?</li>
+        <li>Which protocol reports quality metrics?</li>
+        <li>Why might Opus survive poor Wi-Fi better than G.711?</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RTP (RFC 3550) — IETF</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc3551" target="_blank" rel="noopener noreferrer">RTP Profile (RFC 3551) — IETF</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc4566" target="_blank" rel="noopener noreferrer">SDP (RFC 4566) — IETF</a></li>
+        <li><a href="https://www.voip-info.org/rtp/" target="_blank" rel="noopener noreferrer">RTP basics — VoIP-Info.org</a></li>
+        <li><a href="https://www.voip-info.org/codecs/" target="_blank" rel="noopener noreferrer">Codecs overview — VoIP-Info.org</a></li>
+        <li><a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus codec — opus-codec.org</a></li>
+        <li><a href="https://www.wireshark.org/docs/wsug_html_chunked/ChTelRTP.html" target="_blank" rel="noopener noreferrer">Wireshark: Analyze RTP</a></li>
+      </ul>
+
+      <h2>🎥 Recommended Videos (Free & Short)</h2>
+      <ul>
+        <li>“RTP and RTCP Explained” — PowerCert Animated Videos — <a href="https://www.youtube.com/results?search_query=PowerCert+RTP+RTCP+explained" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“VoIP Codecs Explained (G.711 vs Opus vs G.729)” — <a href="https://www.youtube.com/results?search_query=VoIP+codecs+explained+G.711+Opus+G.729" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“Wireshark RTP Analysis Tutorial” — <a href="https://www.youtube.com/results?search_query=Wireshark+RTP+analysis+tutorial" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
+
+      <h2>🧾 Deliverable</h2>
+      <ul>
+        <li>File: <code>day3_rtp_analysis.png</code> (RTP Streams analysis screenshot); optional: <code>day3_call_capture.pcapng</code></li>
+        <li>Notes: 3–5 bullets including: chosen codec and packetization (ptime), average jitter/loss from analysis, any RTCP-reported RTT, and whether media was direct or anchored by the PBX/SBC.</li>
+        <li>Goal: Validate codec negotiation and assess real call quality with measurable metrics.</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 3 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What does a codec do in VoIP?
+            <ul><li>Answer: Compresses/encodes audio for transmission (and decodes on receive).</li></ul>
+          </li>
+          <li>Name one uncompressed and one modern adaptive codec from the lesson.
+            <ul><li>Answer: G.711 (uncompressed), Opus (adaptive).</li></ul>
+          </li>
+          <li>Which protocol carries the media stream and which reports quality?
+            <ul><li>Answer: RTP carries media; RTCP reports quality (jitter, loss, RTT).</li></ul>
+          </li>
+          <li>What is the purpose of a jitter buffer?
+            <ul><li>Answer: Smooth variation in packet arrival times; avoid choppiness vs added delay.</li></ul>
+          </li>
+          <li>Roughly how much bandwidth does G.711 use per direction including overhead?
+            <ul><li>Answer: ~87 kbps per direction.</li></ul>
+          </li>
+          <li>In SIP, where is codec negotiation performed?
+            <ul><li>Answer: In the SDP offer/answer exchange.</li></ul>
+          </li>
+          <li>A call has one-way audio. What are two common causes?
+            <ul><li>Answer: NAT/firewall issues or wrong SDP address/port.</li></ul>
+          </li>
+          <li>What Wireshark filter would you use to view both signaling and media?
+            <ul><li>Answer: <code>sip || rtp || rtcp</code>.</li></ul>
+          </li>
+          <li>Why might Opus survive poor Wi‑Fi better than G.711?
+            <ul><li>Answer: Opus adapts bitrate/robustness and tolerates loss better.</li></ul>
+          </li>
+          <li>If packetization increases (larger ptime), what's a tradeoff?
+            <ul><li>Answer: Fewer packets (lower overhead) but more latency and loss impact per packet.</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 3 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+    <footer>
+      <nav class="nav-top">
+        <a href="./day-02.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-04.html">Next →</a>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>
+

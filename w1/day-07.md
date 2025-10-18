@@ -103,3 +103,37 @@ dialplan reload
 - Files: `day7_users_pjsip.conf` (user sections), `day7_extensions.conf` (internal context)
 - Screenshot: Both softphones registered; Asterisk CLI showing call setup and teardown
 - Goal: A working lab PBX with two extensions placing a successful call.
+
+---
+
+## ✅ Quiz — Day 7 (10 Questions + Answers)
+
+1) Which Docker command runs the latest Asterisk image with host networking?
+   - Answer: `docker run -d --name asterisk --network host ghcr.io/asterisk/asterisk:latest`.
+
+2) Where is `pjsip.conf` located inside the container?
+   - Answer: `/etc/asterisk/pjsip.conf`.
+
+3) What three PJSIP object types are configured per user?
+   - Answer: `endpoint`, `auth`, and `aor`.
+
+4) Which dialplan context is used in the example and what does it do?
+   - Answer: `internal`; routes extension numbers to endpoints (1000/1001).
+
+5) How do you reload PJSIP configuration from the Asterisk CLI?
+   - Answer: `pjsip reload`.
+
+6) What is a quick way to see if softphones are registered?
+   - Answer: `pjsip show aor 1000` (and `pjsip show endpoints`).
+
+7) Which codecs are allowed in the example endpoint configuration?
+   - Answer: `ulaw`, `alaw`, `opus`.
+
+8) What’s a likely cause of no audio between two local endpoints?
+   - Answer: Codec mismatch or firewall/UDP blocking (even locally with NAT).
+
+9) How do you enter the Asterisk CLI from the shell?
+   - Answer: `asterisk -rvvvvv`.
+
+10) What should be captured as proof of success for this lab?
+   - Answer: Screenshot showing both softphones registered and a call setup/tear down in CLI.

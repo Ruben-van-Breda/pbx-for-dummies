@@ -60,3 +60,37 @@ Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ 
 - File: `day1_pbx_topology.png` or `.pdf`
 - Notes: 3 bullets explaining SIP trunk usage
 - Goal: Visualize your understanding of how a PBX routes internal vs external calls.
+
+---
+
+## ✅ Quiz — Day 1 (10 Questions + Answers)
+
+1) What does PBX stand for, and what is its primary role?
+   - Answer: Private Branch Exchange; it routes internal calls and connects to external networks.
+
+2) Which global network do traditional phone calls traverse outside an organization?
+   - Answer: The Public Switched Telephone Network (PSTN).
+
+3) What is an IP-PBX, and how does it differ from a traditional PBX?
+   - Answer: A software-based PBX that runs over IP networks; unlike traditional hardware PBXs, it uses standard servers and IP signaling/media.
+
+4) Which signaling protocol is commonly used to set up, modify, and tear down VoIP calls?
+   - Answer: SIP (Session Initiation Protocol).
+
+5) In the mental model diagram, when would a call go from the PBX to the SIP trunk rather than stay internal?
+   - Answer: When the destination is outside the organization (e.g., to the PSTN/external numbers).
+
+6) Name two ways VoIP disrupted traditional PBXs.
+   - Answer: Shifted from proprietary hardware to software on commodity servers; reduced costs and enabled flexible integrations/APIs and remote work.
+
+7) What do UCaaS/CPaaS providers abstract for customers in cloud telephony?
+   - Answer: Carrier complexity (e.g., trunks, scaling, routing, compliance) via cloud services and APIs.
+
+8) Give two typical internal PBX features mentioned in Day 1.
+   - Answer: Voicemail and IVR (also queues).
+
+9) In a basic PBX topology, list four components you should include.
+   - Answer: Two internal extensions (e.g., 1000, 1001), the PBX, a SIP trunk to a carrier, and an external PSTN destination.
+
+10) Why is SIP specifically called a signaling protocol in VoIP?
+   - Answer: Because it handles call setup/teardown and session control, not the actual media (which is typically carried via RTP).

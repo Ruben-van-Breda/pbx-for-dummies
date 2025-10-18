@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 2 — Day 12: PBX Features & IVRs</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-11.html">← Previous</a>
+        <a href="./index.html">Back to Week 2</a>
+        <a href="./day-13.html">Next →</a>
+      </nav>
+      <h1>Day 12 — PBX Features & IVRs</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Enable voicemail for a user</li>
+        <li>Build a simple IVR menu</li>
+      </ul>
+
+      <h2>Concepts (Explained)</h2>
+      <ul>
+        <li>Voicemail context: Mailbox definitions and storage</li>
+        <li>IVR (Auto-attendant): Menu that routes callers by DTMF input</li>
+        <li>Time conditions: Different behavior based on business hours</li>
+      </ul>
+
+      <h2>Steps (20–30 min)</h2>
+      <ol>
+        <li>Configure voicemail (Asterisk <code>voicemail.conf</code> example):
+<pre><code>[default]
+1000 => 1234,User 1000,user1000@example.com</code></pre>
+        </li>
+        <li>Reference voicemail in dialplan:
+<pre><code>[inbound]
+; fall through to IVR
+
+[ivr-main]
+exten => s,1,Answer()
+ same => n,Background(custom/welcome)
+ same => n,WaitExten(5)
+
+exten => 1,1,Goto(sales,s,1)
+exten => 2,1,Goto(support,s,1)
+exten => 0,1,Dial(PJSIP/1000,20)
+ same => n,Voicemail(1000@default,u)
+ same => n,Hangup()
+
+exten => t,1,Playback(vm-goodbye)
+ same => n,Hangup()</code></pre>
+        </li>
+        <li>Record prompts (or use defaults) and test DTMF</li>
+      </ol>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>What happens on timeout in <code>WaitExten(5)</code>?</li>
+        <li>Where do voicemail PINs live?</li>
+      </ul>
+
+      <h2>Common Pitfalls</h2>
+      <ul>
+        <li>DTMF mode mismatch</li>
+        <li>Prompt recording levels</li>
+        <li>Timeout handling (missing <code>t</code> or invalid option path)</li>
+        <li>Mailbox quotas/permissions</li>
+        <li>Business-hours conditions missing</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://wiki.asterisk.org/wiki/display/AST/Voicemail" target="_blank" rel="noopener noreferrer">Asterisk Voicemail</a></li>
+        <li><a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+Application+List" target="_blank" rel="noopener noreferrer">Background(), WaitExten(), Voicemail()</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc4733" target="_blank" rel="noopener noreferrer">DTMF — RFC 4733</a></li>
+        <li><a href="https://www.voip-info.org/ivr/" target="_blank" rel="noopener noreferrer">IVR Design Tips</a></li>
+      </ul>
+
+      <h2>Deliverable</h2>
+      <ul>
+        <li>Files: <code>day12_voicemail.conf</code>, <code>day12_ivr_extensions.conf</code></li>
+        <li>Notes: IVR options, DTMF mode, timeout path, and voicemail test results</li>
+        <li>Goal: A basic but functional auto-attendant with voicemail fallback</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 12 (10 Questions + Answers)</h2>
+        <ol>
+          <li>Where are voicemail mailboxes defined in Asterisk?
+            <ul><li>Answer: In <code>voicemail.conf</code> under a voicemail context.</li></ul>
+          </li>
+          <li>Which dialplan application plays a prompt and waits for DTMF?
+            <ul><li>Answer: <code>Background()</code> and <code>WaitExten()</code>.</li></ul>
+          </li>
+          <li>What does the <code>t</code> extension handle in an IVR?
+            <ul><li>Answer: Timeout when no DTMF is received.</li></ul>
+          </li>
+          <li>Where do voicemail PINs live?
+            <ul><li>Answer: In the mailbox definition (e.g., <code>1000 =&gt; 1234,...</code>).</li></ul>
+          </li>
+          <li>Give two common DTMF transmission methods.
+            <ul><li>Answer: In-band and RFC 4733 telephone events.</li></ul>
+          </li>
+          <li>Why normalize prompt recording levels?
+            <ul><li>Answer: For clear recognition and consistent experience.</li></ul>
+          </li>
+          <li>How would you route to a user if option 0 is pressed?
+            <ul><li>Answer: <code>Dial(PJSIP/1000,20)</code> with voicemail fallback.</li></ul>
+          </li>
+          <li>What should happen after voicemail is left?
+            <ul><li>Answer: Play goodbye and hang up; confirm storage path/quota.</li></ul>
+          </li>
+          <li>Why are time conditions important in IVRs?
+            <ul><li>Answer: Different routing after-hours vs business hours.</li></ul>
+          </li>
+          <li>What should be tested when validating IVR DTMF?
+            <ul><li>Answer: Option mapping, timeout behavior, audio levels.</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 12 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+  </main>
+</body>
+</html>
+

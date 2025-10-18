@@ -61,3 +61,37 @@
 - File: `day3_rtp_analysis.png` (RTP Streams analysis screenshot); optional: `day3_call_capture.pcapng`
 - Notes: 3–5 bullets including: chosen codec and packetization (ptime), average jitter/loss from analysis, any RTCP-reported RTT, and whether media was direct or anchored by the PBX/SBC.
 - Goal: Validate codec negotiation and assess real call quality with measurable metrics.
+
+---
+
+## ✅ Quiz — Day 3 (10 Questions + Answers)
+
+1) What does a codec do in VoIP?
+   - Answer: Compresses/encodes audio for transmission (and decodes on receive).
+
+2) Name one uncompressed and one modern adaptive codec from the lesson.
+   - Answer: G.711 (uncompressed), Opus (adaptive).
+
+3) Which protocol carries the media stream and which reports quality?
+   - Answer: RTP carries media; RTCP reports quality (jitter, loss, RTT).
+
+4) What is the purpose of a jitter buffer?
+   - Answer: Smooth variation in packet arrival times; avoid choppiness vs added delay.
+
+5) Roughly how much bandwidth does G.711 use per direction including overhead?
+   - Answer: ~87 kbps per direction.
+
+6) In SIP, where is codec negotiation performed?
+   - Answer: In the SDP offer/answer exchange.
+
+7) A call has one-way audio. What are two common causes?
+   - Answer: NAT/firewall issues or wrong SDP address/port.
+
+8) What Wireshark filter would you use to view both signaling and media?
+   - Answer: `sip || rtp || rtcp`.
+
+9) Why might Opus survive poor Wi‑Fi better than G.711?
+   - Answer: Opus adapts bitrate/robustness and tolerates loss better.
+
+10) If packetization increases (larger ptime), what's a tradeoff?
+   - Answer: Fewer packets (lower overhead) but more latency and loss impact per packet.

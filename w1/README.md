@@ -31,6 +31,10 @@ Welcome to Week 1 of PBX & VoIP Fundamentals. This week builds a strong conceptu
 - Day 7: Lab 1 — Install Your First PBX
   - See: [Day 7](./day-07.md)
 
+## HTML site
+- Open the Week 1 site: `w1/site/index.html`
+- Each lesson page: `w1/site/day-01.html` … `day-07.html`
+
 ## Outcome for Week 1
 By the end of this week you will be able to:
 - Explain the difference between PSTN, PBX, and IP-PBX

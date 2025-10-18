@@ -36,6 +36,14 @@ media_encryption=sdes
 - Why doesn’t TLS alone secure audio?
 - What benefits does an SBC add beyond TLS/SRTP?
 
+## Common Pitfalls
+- Certificate issues: Wrong CN/SAN or expired cert → softphones reject TLS; match FQDN and time-sync servers.
+- TLS versions/ciphers: Client requires TLS 1.2/1.3; align method/cipher suites on both ends.
+- SIPS vs SIP over TLS: Some clients expect `sips:` scheme; ensure transport and URIs match.
+- SRTP mode mismatch: Endpoint uses DTLS-SRTP while PBX expects SDES (or vice versa) → no media.
+- NAT over TLS: 5061 blocked or wrong external address; open firewall and set correct external signaling.
+- SBC headers: Topology hiding or header normalization can break auth; whitelist headers and test.
+
 ## 📚 Further Reading & References
 
 | Resource | Description |
@@ -58,3 +66,37 @@ media_encryption=sdes
 - Files: `day11_pjsip_tls.conf` (transport and endpoint snippets)
 - Screenshot: Wireshark showing TLS handshake and no decodable RTP payload
 - Goal: Demonstrate encrypted signaling and media in a simple lab setup.
+
+---
+
+## ✅ Quiz — Day 11 (10 Questions + Answers)
+
+1) What does TLS secure in SIP and what port is commonly used?
+   - Answer: Signaling (not media) over TCP; commonly 5061 for TLS.
+
+2) How is media encrypted in VoIP?
+   - Answer: SRTP (often negotiated via SDES or DTLS-SRTP in SDP).
+
+3) Name two roles of an SBC.
+   - Answer: Topology hiding/NAT traversal and policy/QoS/security enforcement.
+
+4) Why doesn't TLS alone secure audio?
+   - Answer: It encrypts signaling only; media flows over RTP unless SRTP is used.
+
+5) What two files are referenced for TLS keys in the example transport?
+   - Answer: `asterisk.pem` (cert) and `asterisk.key` (private key).
+
+6) Which SRTP mode did the example enable on endpoints?
+   - Answer: SDES (`media_encryption=sdes`).
+
+7) Give one Wireshark indicator that SRTP is active.
+   - Answer: RTP payload not decodable; only packet sizes/timing visible.
+
+8) A softphone rejects TLS due to CN/SAN mismatch. Fix?
+   - Answer: Use a cert with correct FQDN in SAN and ensure time sync.
+
+9) What TLS versions are typically required by modern clients?
+   - Answer: TLS 1.2 or 1.3.
+
+10) When should you consider an SBC?
+   - Answer: For internet-facing trunks/remote users to handle security, NAT, and policy.

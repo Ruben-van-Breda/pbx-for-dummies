@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 1 — Day 1: The Big Picture — What is a PBX?</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./index.html">← Back to Week 1</a>
+        <div>
+          <a href="./day-02.html">Next →</a>
+        </div>
+      </nav>
+      <h1>Day 1 — The Big Picture: What is a PBX?</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Understand the role of a PBX in telephony systems</li>
+        <li>Differentiate PSTN, PBX, and IP-PBX</li>
+        <li>See how VoIP disrupted traditional PBXs</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li><strong>PBX (Private Branch Exchange)</strong>: The private phone system inside an organization. Routes internal calls and connects to external networks.</li>
+        <li><strong>PSTN (Public Switched Telephone Network)</strong>: The global, circuit-switched telephone network.</li>
+        <li><strong>IP-PBX</strong>: A PBX implemented in software that uses IP networking (e.g., Asterisk, FreeSWITCH).</li>
+        <li><strong>SIP</strong>: Signaling protocol used to set up, modify, and tear down calls in IP telephony.</li>
+      </ul>
+
+      <h2>Mental Model</h2>
+      <p>A PBX is like your company’s internal air traffic control for calls. It knows who is calling, where to route the call, how to handle external lines, and how to apply features (voicemail, IVR, queues).</p>
+      <pre><code>Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ PSTN ─▶ Destination
+              ▲         │
+              └─────────┴── Internal extensions, voicemail, IVR, queues</code></pre>
+
+      <h2>What VoIP Changed</h2>
+      <ul>
+        <li>Switched from proprietary hardware to software running on commodity servers</li>
+        <li>Reduced cost and increased flexibility (APIs, integrations, remote work)</li>
+        <li>Enabled cloud telephony: UCaaS/CPaaS providers abstract carrier complexity</li>
+      </ul>
+
+      <h2>Hands-on (10–15 min)</h2>
+      <ol>
+        <li>Sketch a basic PBX topology that includes:
+          <ul>
+            <li>Two internal extensions (e.g., 1000, 1001)</li>
+            <li>The PBX</li>
+            <li>A SIP trunk to a carrier</li>
+            <li>An external destination on the PSTN</li>
+          </ul>
+        </li>
+        <li>Write 3 bullets on when a PBX uses the SIP trunk vs an internal route.</li>
+      </ol>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>When do you need a SIP trunk?</li>
+        <li>What’s the difference between PBX and IP-PBX?</li>
+        <li>Which protocol sets up calls in VoIP?</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://www.voip-info.org/pbx/" target="_blank" rel="noopener noreferrer">What is a PBX? — VoIP-Info.org</a>: Classic overview of PBX types and how they evolved to IP.</li>
+        <li><a href="https://www.asterisk.org/asterisk/" target="_blank" rel="noopener noreferrer">Asterisk Overview — asterisk.org</a>: Official introduction to Asterisk as a leading open-source IP-PBX.</li>
+        <li><a href="https://freeswitch.com" target="_blank" rel="noopener noreferrer">FreeSWITCH Project</a>: Another open-source PBX with scalable architecture.</li>
+        <li><a href="https://www.voip-info.org/sip/" target="_blank" rel="noopener noreferrer">VoIP-Info: What is SIP?</a>: Explains SIP message flow and role in VoIP.</li>
+        <li>Cisco — Understanding VoIP Basics</li>
+      </ul>
+
+      <h2>🎥 Recommended Videos (Free & Short)</h2>
+      <ul>
+        <li>“What is a PBX? (Traditional vs VoIP)” — NetworkChuck — <a href="https://www.youtube.com/results?search_query=NetworkChuck+What+is+a+PBX" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“PBX, IP-PBX, SIP Explained Simply” — PowerCert Animated Videos — <a href="https://www.youtube.com/results?search_query=PowerCert+PBX+IP-PBX+SIP" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“How VoIP Works” — TechQuickie — <a href="https://www.youtube.com/results?search_query=TechQuickie+How+VoIP+Works" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
+
+      <h2>🧾 Deliverable</h2>
+      <ul>
+        <li>File: <code>day1_pbx_topology.png</code> or <code>.pdf</code></li>
+        <li>Notes: 3 bullets explaining SIP trunk usage</li>
+        <li>Goal: Visualize your understanding of how a PBX routes internal vs external calls.</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 1 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What does PBX stand for, and what is its primary role?
+            <ul><li>Answer: Private Branch Exchange; it routes internal calls and connects to external networks.</li></ul>
+          </li>
+          <li>Which global network do traditional phone calls traverse outside an organization?
+            <ul><li>Answer: The Public Switched Telephone Network (PSTN).</li></ul>
+          </li>
+          <li>What is an IP-PBX, and how does it differ from a traditional PBX?
+            <ul><li>Answer: A software-based PBX that runs over IP networks; unlike traditional hardware PBXs, it uses standard servers and IP signaling/media.</li></ul>
+          </li>
+          <li>Which signaling protocol is commonly used to set up, modify, and tear down VoIP calls?
+            <ul><li>Answer: SIP (Session Initiation Protocol).</li></ul>
+          </li>
+          <li>In the mental model diagram, when would a call go from the PBX to the SIP trunk rather than stay internal?
+            <ul><li>Answer: When the destination is outside the organization (e.g., to the PSTN/external numbers).</li></ul>
+          </li>
+          <li>Name two ways VoIP disrupted traditional PBXs.
+            <ul><li>Answer: Shifted from proprietary hardware to software on commodity servers; reduced costs and enabled flexible integrations/APIs and remote work.</li></ul>
+          </li>
+          <li>What do UCaaS/CPaaS providers abstract for customers in cloud telephony?
+            <ul><li>Answer: Carrier complexity (e.g., trunks, scaling, routing, compliance) via cloud services and APIs.</li></ul>
+          </li>
+          <li>Give two typical internal PBX features mentioned in Day 1.
+            <ul><li>Answer: Voicemail and IVR (also queues).</li></ul>
+          </li>
+          <li>In a basic PBX topology, list four components you should include.
+            <ul><li>Answer: Two internal extensions (e.g., 1000, 1001), the PBX, a SIP trunk to a carrier, and an external PSTN destination.</li></ul>
+          </li>
+          <li>Why is SIP specifically called a signaling protocol in VoIP?
+            <ul><li>Answer: Because it handles call setup/teardown and session control, not the actual media (which is typically carried via RTP).</li></ul>
+          </li>
+        </ol>
+      </div>
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 1 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        // Extract questions/answers from the hidden quiz list
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          // Try to capture the question text (the LI's own text before nested UL)
+          li.childNodes.forEach(function(node){
+            if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; }
+          });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0;
+        var showingAnswer = false;
+        var notes = qa.map(function(){ return ''; });
+
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){
+            labelEl.textContent = 'Answer';
+            textEl.textContent = item.a || '(No answer provided)';
+          } else {
+            labelEl.textContent = 'Question';
+            textEl.textContent = item.q;
+          }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+
+        function openModal(){
+          idx = 0; showingAnswer = false; render();
+          modal.removeAttribute('hidden');
+        }
+        function closeModal(){
+          // Save current note before closing
+          if(noteEl){ notes[idx] = noteEl.value; }
+          modal.setAttribute('hidden','');
+        }
+
+        function next(){
+          if(!qa.length) return;
+          if(noteEl){ notes[idx] = noteEl.value; }
+          if(!showingAnswer){
+            showingAnswer = true; render();
+          } else {
+            showingAnswer = false; idx = (idx + 1) % qa.length; render();
+          }
+        }
+
+        function back(){
+          if(!qa.length) return;
+          if(noteEl){ notes[idx] = noteEl.value; }
+          if(showingAnswer){
+            showingAnswer = false; render();
+          } else {
+            idx = (idx - 1 + qa.length) % qa.length; showingAnswer = false; render();
+          }
+        }
+
+        if(startBtn){ startBtn.addEventListener('click', openModal); }
+        if(closeBtn){ closeBtn.addEventListener('click', closeModal); }
+        if(nextBtn){ nextBtn.addEventListener('click', next); }
+        if(backBtn){ backBtn.addEventListener('click', back); }
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key === 'Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+    <footer>
+      <nav class="nav-top">
+        <a href="./index.html">← Back to Week 1</a>
+        <div>
+          <a href="./day-02.html">Next →</a>
+        </div>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>
+

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 2 — Day 14: PBX in 2025 — Cloud, UCaaS & WebRTC</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-13.html">← Previous</a>
+        <a href="./index.html">Back to Week 2</a>
+      </nav>
+      <h1>Day 14 — PBX in 2025: Cloud, UCaaS & WebRTC</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Understand modern PBX evolution</li>
+        <li>Compare on-prem vs cloud approaches</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li><strong>UCaaS</strong>: Hosted PBX + collaboration</li>
+        <li><strong>CPaaS</strong>: APIs for calls/messaging</li>
+        <li><strong>SBC-aaS</strong>: Managed SBC services at the edge</li>
+        <li><strong>WebRTC</strong>: Browser-native media; integrates with SIP via gateways or SIP over WebSocket</li>
+      </ul>
+
+      <h2>Integration Patterns</h2>
+      <ul>
+        <li>SIP trunk to UCaaS/CPaaS</li>
+        <li>SIP over WebSocket (SIP.js) to PBX/SBC with WSS and ICE</li>
+        <li>Media gateways between WebRTC and SIP/RTP</li>
+      </ul>
+
+      <h2>Hands-on (optional)</h2>
+      <ul>
+        <li>Research SIP.js registration over WSS and ICE candidates</li>
+        <li>Sketch an architecture connecting a browser client to your PBX</li>
+      </ul>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>When choose UCaaS vs self-host PBX?</li>
+        <li>Role of a WebRTC gateway or SBC?</li>
+      </ul>
+
+      <h2>Common Pitfalls</h2>
+      <ul>
+        <li>HTTPS/WSS and certs — browsers require valid certs</li>
+        <li>Permissions/autoplay issues</li>
+        <li>ICE servers unreachable — corporate firewalls</li>
+        <li>Codec/gateway mismatch (Opus ↔ G.711)</li>
+        <li>CORS/WebSocket upgrades blocked</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://sipjs.com" target="_blank" rel="noopener noreferrer">SIP.js</a></li>
+        <li><a href="https://wiki.asterisk.org/wiki/display/AST/WebRTC" target="_blank" rel="noopener noreferrer">Asterisk & WebRTC</a></li>
+        <li><a href="https://www.twilio.com/voice" target="_blank" rel="noopener noreferrer">Twilio Programmable Voice</a></li>
+        <li><a href="https://explore.zoom.us/en/zoom-phone/" target="_blank" rel="noopener noreferrer">Zoom Phone / UCaaS Overview</a></li>
+        <li><a href="https://www.plivo.com/voice/" target="_blank" rel="noopener noreferrer">Plivo Voice API</a></li>
+        <li>Industry Example: <a href="https://www.siperb.com/" target="_blank" rel="noopener noreferrer">Siperb</a> — WebRTC softphone + proxy (see KB)</li>
+      </ul>
+
+      <h2>Deliverable</h2>
+      <ul>
+        <li>File: <code>day14_webrtc_pbx_architecture.png</code></li>
+        <li>Notes: WSS signaling, DTLS-SRTP media, SBC/gateway placement</li>
+        <li>Goal: Clear WebRTC↔PBX/CPaaS architecture</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 14 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What is UCaaS?
+            <ul><li>Answer: Hosted PBX + collaboration tools.</li></ul>
+          </li>
+          <li>What is CPaaS?
+            <ul><li>Answer: APIs for voice/messaging/video.</li></ul>
+          </li>
+          <li>How does WebRTC integrate with SIP systems?
+            <ul><li>Answer: Via gateways or SIP over WebSocket with ICE/TURN.</li></ul>
+          </li>
+          <li>Why are valid certs required for browser media?
+            <ul><li>Answer: Browsers require HTTPS/WSS and valid certs for devices.</li></ul>
+          </li>
+          <li>Role of an SBC or SBC-aaS?
+            <ul><li>Answer: Security, NAT traversal, topology hiding, policy.</li></ul>
+          </li>
+          <li>Why plan for transcoding with WebRTC?
+            <ul><li>Answer: WebRTC prefers Opus; SIP endpoints often G.711.</li></ul>
+          </li>
+          <li>Typical pitfalls enabling SIP over WebSocket?
+            <ul><li>Answer: CORS misconfig, WSS upgrades, certificate issues.</li></ul>
+          </li>
+          <li>Why might ICE servers be unreachable?
+            <ul><li>Answer: Corporate firewalls block STUN/TURN.</li></ul>
+          </li>
+          <li>When choose UCaaS over self-hosted PBX?
+            <ul><li>Answer: Faster rollout, managed ops, integrated collaboration.</li></ul>
+          </li>
+          <li>What should your architecture diagram highlight?
+            <ul><li>Answer: WSS, ICE/TURN, DTLS-SRTP, SBC/gateway placement.</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 14 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+  </main>
+</body>
+</html>
+

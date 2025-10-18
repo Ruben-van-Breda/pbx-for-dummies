@@ -34,6 +34,13 @@ exten => _9NXXNXXXXXX,1,Set(NUM=${EXTEN:1})
 - What does `_9NXXNXXXXXX` match?
 - Where would you implement least-cost routing?
 
+## Common Pitfalls
+- Overlapping/ambiguous patterns: Unexpected matches; prefer specific patterns before broad ones.
+- Route loops: Goto between contexts without termination conditions; ensure clear end states.
+- Missing normalization: Carriers reject non‑E.164 numbers; normalize on outbound and map inbound DIDs.
+- Emergency/Special numbers: Pattern blocks critical calls; add explicit exceptions and least‑restrictive routes.
+- No failover/timeouts: Dial without alternate trunk or timeout → long silence for callers; add failbacks.
+
 ## 📚 Further Reading & References
 
 | Resource | Description |
@@ -56,3 +63,37 @@ exten => _9NXXNXXXXXX,1,Set(NUM=${EXTEN:1})
 - Files: `day9_inbound_outbound.conf` with one LCR failover example
 - Notes: Pattern rationale, normalization to E.164, and a brief failover test log
 - Goal: Reliable inbound and outbound call routing with clear, maintainable patterns.
+
+---
+
+## ✅ Quiz — Day 9 (10 Questions + Answers)
+
+1) What does the pattern `_9NXXNXXXXXX` match?
+   - Answer: 9 followed by a 10-digit NANP number (1 digit N + 2 digit XX + 7 digit XXXXXXX).
+
+2) Where would you implement Least Cost Routing (LCR)?
+   - Answer: In outbound dialplan logic choosing among multiple trunks.
+
+3) What’s a common reason to normalize numbers to E.164?
+   - Answer: Provider requirements and consistency across routes and carriers.
+
+4) Give an example failover strategy when a trunk fails.
+   - Answer: Attempt trunk_backup if `DIALSTATUS` not `ANSWER` after trunk_primary.
+
+5) Why are overlapping/ambiguous patterns risky?
+   - Answer: They cause unexpected matches; specific patterns should precede broader ones.
+
+6) How can you block international calls by default?
+   - Answer: Omit matching patterns or explicitly reject, allow only known prefixes.
+
+7) What should inbound routes typically match?
+   - Answer: The DID format delivered by the carrier (e.g., E.164) mapped to contexts.
+
+8) Name a place to send inbound calls before an agent.
+   - Answer: IVR or queue context.
+
+9) What is a route loop and how to avoid it?
+   - Answer: Goto cycles among contexts without termination; ensure end states and conditions.
+
+10) What should you log in a failover test?
+   - Answer: Initial route, failure reason/status code, alternate trunk attempt, and final result.

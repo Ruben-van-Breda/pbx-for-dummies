@@ -1,0 +1,41 @@
+/* Minimal, readable, responsive styles for Week 1 site */
+:root{--bg:#0b0d10;--panel:#12161b;--text:#e7edf3;--muted:#9fb0bf;--link:#8cd3ff;--card:#1a2027;--accent:#30a7ff}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+.site-header,.site-footer{padding:24px 16px;text-align:center;background:linear-gradient(180deg,rgba(48,167,255,.15),rgba(0,0,0,0));border-bottom:1px solid #223}
+.site-footer{border-top:1px solid #223;border-bottom:none;color:var(--muted)}
+.subtitle{color:var(--muted);margin-top:-6px}
+main{max-width:1000px;margin:0 auto;padding:24px 16px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{display:block;padding:16px;background:var(--card);border:1px solid #2a323c;border-radius:12px;color:var(--text);text-decoration:none;transition:transform .08s ease, border-color .2s}
+.card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.card h2{margin:0 0 8px 0;font-size:1.1rem}
+.card p{margin:0;color:var(--muted)}
+.tips{background:var(--panel);border:1px solid #2a323c;border-radius:12px;padding:16px}
+.tips h3{margin-top:0}
+.small{color:var(--muted);font-size:.9rem}
+a{color:var(--link)}
+
+/* Lesson layout */
+.lesson{max-width:860px;margin:0 auto}
+.lesson header{margin:12px 0 8px 0}
+.lesson .nav-top{display:flex;justify-content:space-between;gap:8px;margin:12px 0}
+.lesson .nav-top a{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;text-decoration:none;color:var(--text)}
+.lesson .content{background:var(--panel);border:1px solid #2a323c;border-radius:12px;padding:16px}
+.lesson .content pre{background:#0f1318;border:1px solid #2a323c;border-radius:8px;padding:12px;overflow:auto;white-space:pre-wrap}
+.lesson .content code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+.lesson table{width:100%;border-collapse:collapse}
+.lesson th,.lesson td{border:1px solid #2a323c;padding:6px 8px}
+.lesson th{background:#0f1318}
+.lesson h2,.lesson h3{border-left:3px solid var(--accent);padding-left:8px}
+.lesson footer{margin-top:16px;color:var(--muted);text-align:center}
+
+/* Quiz controls */
+.quiz-controls{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:12px 0}
+.quiz-controls #start-quiz{appearance:none;border:1px solid #2a323c;border-radius:999px;padding:10px 14px;color:var(--text);cursor:pointer;font-weight:600;letter-spacing:.2px;
+  background:linear-gradient(180deg,rgba(48,167,255,.25),rgba(48,167,255,.05));
+  box-shadow:0 4px 12px rgba(48,167,255,.15), inset 0 0 0 1px rgba(255,255,255,.04);
+  transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease}
+.quiz-controls #start-quiz:hover{transform:translateY(-1px);border-color:var(--accent);box-shadow:0 6px 16px rgba(48,167,255,.20), inset 0 0 0 1px rgba(255,255,255,.06)}
+.quiz-controls #start-quiz::before{content:"🧠 ";}
+

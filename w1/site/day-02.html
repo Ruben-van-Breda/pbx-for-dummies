@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 1 — Day 2: Telephony 101 — From Analog to Digital</title>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./day-01.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-03.html">Next →</a>
+      </nav>
+      <h1>Day 2 — Telephony 101: From Analog to Digital</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Understand analog vs digital lines and signaling</li>
+        <li>Learn FXS/FXO, T1/E1, and trunking</li>
+        <li>Distinguish call setup from media transport</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li><strong>FXS (Foreign eXchange Station)</strong>: Port that delivers analog line to a phone (provides battery and dial tone).</li>
+        <li><strong>FXO (Foreign eXchange Office)</strong>: Port that connects a device to the PSTN or FXS port (receives battery and dial tone).</li>
+        <li><strong>T1/E1 (Digital trunks)</strong>: Bundles of digital channels (T1=24 ch in NA; E1=32 ch in EU), used before SIP trunks became common.</li>
+        <li><strong>Trunk</strong>: A high-capacity link carrying multiple calls between systems.</li>
+        <li><strong>Call setup vs transport</strong>: Setup is signaling (e.g., SIP/ISDN); transport is voice frames (e.g., RTP/TDM).</li>
+      </ul>
+
+      <h2>Visual</h2>
+      <pre><code>Analog phone ──(FXS)── PBX FXO card ── PSTN
+
+PBX ──(T1/E1 PRI)── Telco switch  (multiple voice channels)</code></pre>
+
+      <h2>Modern Context</h2>
+      <ul>
+        <li>Many deployments replaced T1/E1 with SIP trunks over IP</li>
+        <li>Gateways still exist to bridge legacy sites or analog endpoints to IP</li>
+      </ul>
+
+      <h2>Hands-on (10–15 min)</h2>
+      <ol>
+        <li>Watch a quick explainer on analog vs VoIP.</li>
+        <li>Draw two mini-diagrams:
+          <ul>
+            <li>FXS→Phone and FXO→PSTN</li>
+            <li>PBX→PRI→Telco</li>
+          </ul>
+        </li>
+        <li>Note when you’d still need analog (fax lines, door phones, legacy alarms).</li>
+      </ol>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>Which side provides battery and dial tone: FXS or FXO?</li>
+        <li>How many channels in T1 vs E1?</li>
+        <li>Why do some sites still keep a few analog lines?</li>
+      </ul>
+
+      <h2>📚 Further Reading & References</h2>
+      <ul>
+        <li><a href="https://www.voip-info.org/fxs-fxo/" target="_blank" rel="noopener noreferrer">FXS/FXO — VoIP-Info.org</a></li>
+        <li><a href="https://www.voip-info.org/pri/" target="_blank" rel="noopener noreferrer">Primary Rate Interface (PRI) — VoIP-Info.org</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Plain_old_telephone_service" target="_blank" rel="noopener noreferrer">Plain Old Telephone Service (POTS) — Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Primary_Rate_Interface" target="_blank" rel="noopener noreferrer">Primary Rate Interface — Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/T-carrier" target="_blank" rel="noopener noreferrer">T-carrier — Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/E-carrier" target="_blank" rel="noopener noreferrer">E-carrier — Wikipedia</a></li>
+        <li><a href="https://www.voip-info.org/ata/" target="_blank" rel="noopener noreferrer">Analog Telephone Adapter (ATA) — VoIP-Info.org</a></li>
+      </ul>
+
+      <h2>🎥 Recommended Videos (Free & Short)</h2>
+      <ul>
+        <li>“FXS vs FXO Explained” — PowerCert Animated Videos — <a href="https://www.youtube.com/results?search_query=PowerCert+FXS+FXO" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“Analog vs VoIP Explained” — <a href="https://www.youtube.com/results?search_query=Analog+vs+VoIP+explained" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+        <li>“PRI vs SIP Trunking” — <a href="https://www.youtube.com/results?search_query=PRI+vs+SIP+trunking" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+      </ul>
+
+      <h2>🧾 Deliverable</h2>
+      <ul>
+        <li>File: <code>day2_analog_digital_diagrams.png</code> or <code>.pdf</code></li>
+        <li>Notes: 3 bullets on when to keep analog, who provides dial tone (FXS vs FXO), and when PRI is preferable to SIP trunking (e.g., legacy constraints, regulatory, last-mile reliability).</li>
+        <li>Goal: Visualize analog and digital call paths and when each is used.</li>
+      </ul>
+
+      <hr />
+
+      <div class="quiz-controls">
+        <button id="start-quiz" type="button">Start Quiz</button>
+      </div>
+      <div id="quiz" hidden>
+        <h2>✅ Quiz — Day 2 (10 Questions + Answers)</h2>
+        <ol>
+          <li>What does an FXS port provide to the attached device?
+            <ul><li>Answer: Battery power and dial tone (delivers analog line to the phone).</li></ul>
+          </li>
+          <li>Which interface would you use to connect a PBX analog card to the PSTN?
+            <ul><li>Answer: FXO (receives battery and dial tone from the telco or FXS port).</li></ul>
+          </li>
+          <li>How many channels are in a T1 vs an E1?
+            <ul><li>Answer: T1 has 24 channels (NA); E1 has 32 channels (EU).</li></ul>
+          </li>
+          <li>What is a trunk in telephony terms?
+            <ul><li>Answer: A high-capacity link carrying multiple calls between systems.</li></ul>
+          </li>
+          <li>Which handles call setup and which carries media: SIP/ISDN vs RTP/TDM?
+            <ul><li>Answer: SIP/ISDN handle setup (signaling); RTP/TDM carry the media.</li></ul>
+          </li>
+          <li>Give one reason sites still keep a few analog lines.
+            <ul><li>Answer: Legacy devices (fax, door phones, alarms) or regulatory/emergency fallback.</li></ul>
+          </li>
+          <li>What modern technology commonly replaced T1/E1 trunks?
+            <ul><li>Answer: SIP trunks over IP.</li></ul>
+          </li>
+          <li>In the visual, which side of the analog connection faces the phone?
+            <ul><li>Answer: FXS → Phone.</li></ul>
+          </li>
+          <li>When bridging legacy analog to IP, what device is typically used?
+            <ul><li>Answer: An Analog Telephone Adapter (ATA) or a media gateway.</li></ul>
+          </li>
+          <li>If you need 60 concurrent calls on-prem without SIP, how many T1s are required?
+            <ul><li>Answer: Three T1s (3 × 24 = 72 channels, allowing for overhead/expansion).</li></ul>
+          </li>
+        </ol>
+      </div>
+
+      <style>
+      .quiz-modal[hidden]{display:none}
+      .quiz-modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:999}
+      .quiz-modal .overlay{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+      .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+      .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+      .quiz-modal header h3{margin:0}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
+      .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
+      .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+      .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
+      </style>
+
+      <div id="quiz-modal" class="quiz-modal" hidden>
+        <div class="overlay" data-close="1"></div>
+        <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+          <header>
+            <h3 id="quiz-title">Day 2 — Quiz</h3>
+            <button id="quiz-close" type="button" aria-label="Close">✕</button>
+          </header>
+          <div class="flashcard">
+            <div id="flashcard-label" class="label">Question</div>
+            <div id="flashcard-text" class="text"></div>
+          </div>
+          <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
+          <footer>
+            <button id="quiz-back" type="button">Back</button>
+            <button id="quiz-next" type="button">Next</button>
+          </footer>
+        </div>
+      </div>
+
+      <script>
+      (function(){
+        var quizContainer = document.getElementById('quiz');
+        var startBtn = document.getElementById('start-quiz');
+        var modal = document.getElementById('quiz-modal');
+        var closeBtn = document.getElementById('quiz-close');
+        var nextBtn = document.getElementById('quiz-next');
+        var backBtn = document.getElementById('quiz-back');
+        var labelEl = document.getElementById('flashcard-label');
+        var textEl = document.getElementById('flashcard-text');
+        var noteEl = document.getElementById('quiz-note');
+
+        if(!quizContainer) return;
+
+        var qa = [];
+        var items = quizContainer.querySelectorAll('ol > li');
+        items.forEach(function(li){
+          var q = '';
+          li.childNodes.forEach(function(node){ if(node.nodeType === Node.TEXT_NODE){ q += node.textContent; } });
+          q = (q||'').trim().replace(/^\d+\)\s*/, '');
+          var aEl = li.querySelector('ul li');
+          var a = aEl ? aEl.textContent.replace(/^Answer:\s*/,'').trim() : '';
+          if(q){ qa.push({q:q, a:a}); }
+        });
+
+        var idx = 0; var showingAnswer = false; var notes = qa.map(function(){return '';});
+        function render(){
+          if(!qa.length) return;
+          var item = qa[idx];
+          if(showingAnswer){ labelEl.textContent = 'Answer'; textEl.textContent = item.a || '(No answer provided)'; }
+          else { labelEl.textContent = 'Question'; textEl.textContent = item.q; }
+          if(noteEl){ noteEl.value = notes[idx] || ''; }
+        }
+        function openModal(){ idx=0; showingAnswer=false; render(); modal.removeAttribute('hidden'); }
+        function closeModal(){ if(noteEl){ notes[idx]=noteEl.value; } modal.setAttribute('hidden',''); }
+        function next(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(!showingAnswer){ showingAnswer=true; render(); } else { showingAnswer=false; idx=(idx+1)%qa.length; render(); } }
+        function back(){ if(!qa.length) return; if(noteEl){ notes[idx]=noteEl.value; }
+          if(showingAnswer){ showingAnswer=false; render(); } else { idx=(idx-1+qa.length)%qa.length; showingAnswer=false; render(); } }
+        if(startBtn) startBtn.addEventListener('click', openModal);
+        if(closeBtn) closeBtn.addEventListener('click', closeModal);
+        if(nextBtn) nextBtn.addEventListener('click', next);
+        if(backBtn) backBtn.addEventListener('click', back);
+        modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
+        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key==='Escape') closeModal(); });
+      })();
+      </script>
+    </section>
+    <footer>
+      <nav class="nav-top">
+        <a href="./day-01.html">← Previous</a>
+        <a href="./index.html">Back to Week 1</a>
+        <a href="./day-03.html">Next →</a>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>
+

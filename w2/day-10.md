@@ -74,3 +74,37 @@ contact=sip:PROVIDER_SIP_DOMAIN_OR_IP
 - Files: `day10_trunk_pjsip.conf`, `day10_inbound_outbound_tests.md`
 - Notes: Provider chosen, registration/IP-ACL mode, normalized dial patterns, and results of inbound/outbound tests
 - Goal: A functioning trunk with clear dialing and verified call flow end-to-end.
+
+---
+
+## ✅ Quiz — Day 10 (10 Questions + Answers)
+
+1) What is a DID?
+   - Answer: A Direct Inward Dial number mapped to your PBX for inbound calls.
+
+2) What is E.164 formatting?
+   - Answer: International format: `+<countrycode><number>`.
+
+3) Difference between registration and IP-ACL trunks?
+   - Answer: Registration authenticates with credentials; IP-ACL allows traffic from specified IPs.
+
+4) Where do you map an inbound DID in Asterisk?
+   - Answer: In a context like `from-trunk` routing to IVR/extension.
+
+5) Why normalize outbound numbers?
+   - Answer: To match provider expectations (E.164) and ensure routing success.
+
+6) Name two common causes of trunk failures seen in CLI.
+   - Answer: NAT/SIP ALG issues and number formatting errors (4xx/5xx responses).
+
+7) Which codecs are safe defaults for many providers?
+   - Answer: G.711 (ulaw/alaw).
+
+8) What command checks registration status?
+   - Answer: `pjsip show registrations`.
+
+9) What’s a good outbound test after trunk config?
+   - Answer: Place a call using normalized pattern and check audio both ways.
+
+10) Why open provider RTP ranges on firewall?
+   - Answer: So media can flow; SIP may work otherwise but audio will fail.

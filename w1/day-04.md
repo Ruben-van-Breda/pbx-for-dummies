@@ -63,3 +63,37 @@ Caller ← 200 OK ← Callee
 - File: `day4_invite_headers.png` (screenshot of INVITE headers) or `day4_sip_trace.pcapng`
 - Notes: Request-URI, From/To/Contact, first offered codec in SDP, Via branch parameter, and CSeq numbers for INVITE and ACK.
 - Goal: Build fluency in reading SIP messages and mapping headers to call flow stages.
+
+---
+
+## ✅ Quiz — Day 4 (10 Questions + Answers)
+
+1) What is SIP used for in VoIP?
+   - Answer: Signaling to set up, modify, and tear down sessions (calls).
+
+2) List three core SIP requests involved in a basic call.
+   - Answer: INVITE, ACK, BYE (also REGISTER for location).
+
+3) What header helps route replies back to the sender through intermediaries?
+   - Answer: Via.
+
+4) Where are codecs and media ports advertised in SIP messages?
+   - Answer: In the SDP body (m=audio, a=rtpmap, c= connection info).
+
+5) In a successful call setup, which response typically precedes 200 OK?
+   - Answer: 180 Ringing (often after 100 Trying).
+
+6) What is the purpose of the ACK after a 200 OK to INVITE?
+   - Answer: Confirms session establishment; completes the initial dialog handshake.
+
+7) Name two key identifiers for a SIP dialog.
+   - Answer: Call-ID and CSeq (with From/To tags as dialog identifiers).
+
+8) Which message ends a call and what response confirms it?
+   - Answer: BYE ends the call; 200 OK confirms.
+
+9) In Wireshark, which display filter shows only SIP?
+   - Answer: `sip`.
+
+10) If media is negotiated but there is no audio, give two likely causes.
+   - Answer: Codec mismatch or UDP/RTP blocked by firewall/NAT.
