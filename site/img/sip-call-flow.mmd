@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    participant UAC as SIP Client (UAC)
+    participant Proxy as SIP Proxy/SBC
+    participant UAS as SIP Server (UAS)
+
+    Note over UAC,Proxy: Optional registration
+    UAC->>Proxy: REGISTER
+    Proxy-->>UAC: 401 Unauthorized (challenge)
+    UAC->>Proxy: REGISTER (with Authorization)
+    Proxy-->>UAC: 200 OK
+
+    Note over UAC,UAS: Basic call setup (offer/answer)
+    UAC->>Proxy: INVITE (SDP offer)
+    Proxy->>UAS: INVITE (SDP offer)
+    UAS-->>Proxy: 100 Trying
+    Proxy-->>UAC: 100 Trying
+    UAS-->>Proxy: 180 Ringing
+    Proxy-->>UAC: 180 Ringing
+    UAS-->>Proxy: 200 OK (SDP answer)
+    Proxy-->>UAC: 200 OK (SDP answer)
+    UAC->>Proxy: ACK
+    Proxy->>UAS: ACK
+
+    rect rgb(245,245,245)
+    Note over UAC,UAS: RTP media (audio) flows
+    end
+
+    Note over UAC,UAS: Call teardown
+    UAC->>Proxy: BYE
+    Proxy->>UAS: BYE
+    UAS-->>Proxy: 200 OK
+    Proxy-->>UAC: 200 OK
+
+    alt Redirect/Forking example
+    UAS-->>Proxy: 302 Moved Temporarily
+    Proxy-->>UAC: 302 Moved Temporarily
+    UAC->>Proxy: INVITE (to new target)
+    end

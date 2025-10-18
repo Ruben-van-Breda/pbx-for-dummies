@@ -11,7 +11,7 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 **Outcome:** Set up and manage a simple working PBX (Asterisk) and understand modern cloud telephony systems
 
 ---
-
+<video controls src="Demystifying_the_PBX.mp4" title="Title"></video>
 ## 📘 Week 1 — PBX & Telephony Foundations
 
 <details>
