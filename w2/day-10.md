@@ -45,5 +45,32 @@ contact=sip:PROVIDER_SIP_DOMAIN_OR_IP
 - Difference between registration and IP-based trunking?
 - Why normalize numbers to E.164?
 
+## Common Pitfalls
+- Auth vs IP trunks: Using registration on a provider expecting static IP (or vice versa) leads to 403/404 failures.
+- NAT and SIP ALG: One-way/no audio or failed registration; disable SIP ALG and set correct external IP/ports.
+- Codec mismatch/transcoding: Provider only supports G.711; avoid unnecessary transcoding and confirm codec lists.
+- Number formatting: Provider requires E.164 (+1...), normalize outbound and match inbound DID format exactly.
+- Firewall/RTP ranges: Open SIP (UDP 5060/5061) and the provider’s RTP UDP range; confirm media path.
+
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Twilio Elastic SIP Trunking](https://www.twilio.com/voice/sip-trunking) | Example provider docs and onboarding. |
+| [Plivo SIP Trunking](https://www.plivo.com/sip-trunking/) | Alternative CPaaS trunk. |
+| [E.164 Numbering — ITU](https://www.itu.int/rec/T-REC-E.164/en) | Official numbering plan reference. |
+| [Caller ID and Number Formatting](https://www.voip-info.org/callerid/) | Considerations for CLI/CNAM and formatting. |
+| [Asterisk PJSIP Trunk Examples](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Trunk+Configuration) | Reference patterns and options. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Set up a SIP Trunk (Asterisk/FreePBX)” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=setup+SIP+trunk+Asterisk) |
+| “E.164 Explained” | ~5–8 min | [YouTube](https://www.youtube.com/results?search_query=E.164+explained) |
+| “Troubleshooting SIP Trunks” | ~7–12 min | [YouTube](https://www.youtube.com/results?search_query=troubleshooting+SIP+trunk) |
+
 ## Deliverable
-- Working trunk config + successful inbound and outbound call test notes.
+- Files: `day10_trunk_pjsip.conf`, `day10_inbound_outbound_tests.md`
+- Notes: Provider chosen, registration/IP-ACL mode, normalized dial patterns, and results of inbound/outbound tests
+- Goal: A functioning trunk with clear dialing and verified call flow end-to-end.

@@ -36,5 +36,25 @@ media_encryption=sdes
 - Why doesn’t TLS alone secure audio?
 - What benefits does an SBC add beyond TLS/SRTP?
 
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [RFC 5246/8446 — TLS 1.2/1.3](https://www.rfc-editor.org/rfc/rfc8446) | Transport Layer Security protocol specs (1.3). |
+| [RFC 3711 — SRTP](https://www.rfc-editor.org/rfc/rfc3711) | Secure RTP specification. |
+| [DTLS-SRTP — RFC 5764](https://www.rfc-editor.org/rfc/rfc5764) | How SRTP keys are negotiated over DTLS. |
+| [Asterisk Secure Calling (TLS/SRTP)](https://wiki.asterisk.org/wiki/display/AST/Secure+Calling) | Asterisk-specific setup and considerations. |
+| [What is an SBC? — Vendor-neutral explainer](https://www.voip-info.org/sbc/) | Roles SBCs play in VoIP deployments. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “TLS vs SRTP Explained” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=TLS+vs+SRTP+explained) |
+| “Secure SIP with TLS/SRTP in Asterisk” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+TLS+SRTP+setup) |
+| “What is an SBC?” | ~5–8 min | [YouTube](https://www.youtube.com/results?search_query=What+is+an+SBC+VoIP) |
+
 ## Deliverable
-- Screenshot of TLS transport active and a successful SRTP call.
+- Files: `day11_pjsip_tls.conf` (transport and endpoint snippets)
+- Screenshot: Wireshark showing TLS handshake and no decodable RTP payload
+- Goal: Demonstrate encrypted signaling and media in a simple lab setup.

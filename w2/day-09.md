@@ -34,8 +34,25 @@ exten => _9NXXNXXXXXX,1,Set(NUM=${EXTEN:1})
 - What does `_9NXXNXXXXXX` match?
 - Where would you implement least-cost routing?
 
-## Further Reading
-- Dialplan patterns — `https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching`
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Pattern Matching — Asterisk](https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching) | Pattern syntax (`_`, ranges, `.`) for dialplan routes. |
+| [Dialplan Hints and Extensions](https://wiki.asterisk.org/wiki/display/AST/Extensions+and+Contexts) | How contexts and extensions are structured. |
+| [Application: Goto()](https://wiki.asterisk.org/wiki/display/AST/Application_Goto) | Control call flow across priorities and contexts. |
+| [Least Cost Routing (LCR) basics](https://www.voip-info.org/least-cost-routing/) | Concepts and strategies for trunk selection. |
+| [Number Normalization (E.164)](https://www.voip-info.org/e-164/) | Why to normalize and how to handle country codes. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Asterisk Dialplan Pattern Matching” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+dialplan+pattern+matching) |
+| “Inbound vs Outbound Routing in Asterisk/FreePBX” | ~7–12 min | [YouTube](https://www.youtube.com/results?search_query=inbound+outbound+routing+Asterisk) |
+| “Least Cost Routing Explained” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=least+cost+routing+VoIP) |
 
 ## Deliverable
-- A draft inbound/outbound dialplan with one backup trunk.
+- Files: `day9_inbound_outbound.conf` with one LCR failover example
+- Notes: Pattern rationale, normalization to E.164, and a brief failover test log
+- Goal: Reliable inbound and outbound call routing with clear, maintainable patterns.

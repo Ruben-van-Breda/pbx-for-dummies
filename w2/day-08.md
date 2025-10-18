@@ -25,9 +25,26 @@
 - What does STUN provide that SIP alone does not?
 - Why can symmetric NATs be problematic?
 
-## Further Reading
-- ICE overview — `https://webrtc.org/getting-started/ice`
-- NAT traversal basics — `https://www.voip-info.org/nat/`
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Interactive Connectivity Establishment (ICE) — WebRTC](https://webrtc.org/getting-started/ice) | Clear overview of ICE and candidate types. |
+| [STUN & TURN — MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity) | How STUN/TURN are used in WebRTC connectivity. |
+| [RFC 5389 — STUN](https://www.rfc-editor.org/rfc/rfc5389) | Session Traversal Utilities for NAT (STUN) spec. |
+| [RFC 5766 — TURN](https://www.rfc-editor.org/rfc/rfc5766) | Traversal Using Relays around NAT spec. |
+| [RFC 8445 — ICE](https://www.rfc-editor.org/rfc/rfc8445) | Updated ICE specification. |
+| [Asterisk & NAT](https://wiki.asterisk.org/wiki/display/AST/Asterisk+SIP+NAT+support) | NAT support considerations for Asterisk deployments. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “STUN, TURN, ICE Explained” | ~7–12 min | [YouTube](https://www.youtube.com/results?search_query=STUN+TURN+ICE+explained) |
+| “WebRTC ICE Candidates Tutorial” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=WebRTC+ICE+candidates+tutorial) |
+| “NAT Traversal for VoIP” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=NAT+traversal+for+VoIP) |
 
 ## Deliverable
-- A one-page note with your candidate diagram and when you’d deploy TURN.
+- File: `day8_ice_candidates.png` (diagram of host/reflexive/relayed) or annotated screenshot from Trickle ICE
+- Notes: When TURN is needed, which candidate pair succeeded, and why
+- Goal: Demonstrate understanding of NAT traversal strategies and when to anchor media.

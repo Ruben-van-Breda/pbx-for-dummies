@@ -23,5 +23,24 @@ core set verbose 5
 - Where would you look first for one-way audio?
 - Which SIP response classes indicate client vs server errors?
 
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Wireshark: VoIP Analysis](https://www.wireshark.org/docs/wsug_html_chunked/ChTel.html) | Telephony tools, VoIP calls view, and flow sequence. |
+| [Asterisk CLI Reference](https://wiki.asterisk.org/wiki/display/AST/Asterisk+CLI) | Useful debugging commands and verbosity levels. |
+| [Asterisk CDRs](https://wiki.asterisk.org/wiki/display/AST/Call+Detail+Records) | CDR configuration and storage backends. |
+| [One-way Audio Troubleshooting](https://www.voip-info.org/one-way-audio/) | Common causes (NAT, codecs, SDP) and fixes. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Troubleshoot VoIP with Wireshark” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=Troubleshoot+VoIP+with+Wireshark) |
+| “Asterisk Debugging Tips” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+debugging+tips) |
+| “Call Detail Records (CDR) Explained” | ~5–8 min | [YouTube](https://www.youtube.com/results?search_query=Call+Detail+Records+explained) |
+
 ## Deliverable
-- A short troubleshooting log with one example issue and resolution.
+- Files: `day13_troubleshooting_log.md`, optional `day13_call_capture.pcapng`
+- Notes: Root cause identified for one issue (e.g., NAT, codec mismatch) and steps to resolve
+- Goal: Develop a repeatable approach to isolate signaling vs media problems.

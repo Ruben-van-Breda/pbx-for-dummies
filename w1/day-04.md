@@ -39,9 +39,27 @@ Caller ← 200 OK ← Callee
 - Which header tells intermediaries where to send replies?
 - Where do you see the media ports and codecs?
 
-## Further Reading
-- RFC 3261 (skim Sections 1–10) — `https://www.rfc-editor.org/rfc/rfc3261`
-- SIP call flows — `https://www.voip-info.org/sip-call-flows/`
+## 📚 Further Reading & References
 
-## Deliverable
-- A short note with the INVITE’s Request-URI, Contact, and first offered codec.
+| Resource | Description |
+|---|---|
+| [RFC 3261 — SIP: Session Initiation Protocol](https://www.rfc-editor.org/rfc/rfc3261) | Authoritative SIP specification (skim Sections 1–10 today). |
+| [RFC 3264 — Offer/Answer with SDP](https://www.rfc-editor.org/rfc/rfc3264) | How endpoints negotiate media (SDP) during SIP calls. |
+| [SIP Call Flows — VoIP-Info.org](https://www.voip-info.org/sip-call-flows/) | Common call flow examples and ladder diagrams. |
+| [SIP Headers — VoIP-Info.org](https://www.voip-info.org/sip-headers/) | Concise explanations of major SIP headers. |
+| [SIP Responses — VoIP-Info.org](https://www.voip-info.org/sip-responses/) | Status code classes and meanings (1xx–6xx). |
+| [Wireshark: SIP Display Filter Reference](https://www.wireshark.org/docs/dfref/s/sip.html) | Filter fields and how Wireshark parses SIP. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “SIP Call Flow Explained” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=SIP+call+flow+explained) |
+| “SIP Headers Explained” | ~7–10 min | [YouTube](https://www.youtube.com/results?search_query=SIP+headers+explained) |
+| “SIP + SDP Offer/Answer” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=SIP+SDP+offer+answer+explained) |
+| “Wireshark SIP Analysis Tutorial” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=Wireshark+SIP+analysis+tutorial) |
+
+## 🧾 Deliverable
+- File: `day4_invite_headers.png` (screenshot of INVITE headers) or `day4_sip_trace.pcapng`
+- Notes: Request-URI, From/To/Contact, first offered codec in SDP, Via branch parameter, and CSeq numbers for INVITE and ACK.
+- Goal: Build fluency in reading SIP messages and mapping headers to call flow stages.

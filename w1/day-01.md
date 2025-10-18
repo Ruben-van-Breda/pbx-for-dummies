@@ -38,9 +38,25 @@ Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ 
 - What’s the difference between PBX and IP-PBX?
 - Which protocol sets up calls in VoIP?
 
-## Further Reading
-- What is a PBX? — `https://www.voip-info.org/pbx/`
-- Asterisk overview — `https://www.asterisk.org/asterisk/`
+## 📚 Further Reading & References
 
-## Deliverable
-- Save your topology sketch (PNG/PDF or photo) alongside your notes.
+| Resource | Description |
+|---|---|
+| [What is a PBX? — VoIP-Info.org](https://www.voip-info.org/pbx/) | Classic overview of PBX types and how they evolved to IP. |
+| [Asterisk Overview — asterisk.org](https://www.asterisk.org/asterisk/) | Official introduction to Asterisk as a leading open-source IP-PBX. |
+| [FreeSWITCH Project](https://freeswitch.com) | Another open-source PBX with scalable architecture. |
+| [VoIP-Info: What is SIP?](https://www.voip-info.org/sip/) | Explains SIP message flow and role in VoIP. |
+| Cisco — Understanding VoIP Basics | Cisco’s modern VoIP architecture overview. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “What is a PBX? (Traditional vs VoIP)” — NetworkChuck | 9 min | [YouTube](https://www.youtube.com/results?search_query=NetworkChuck+What+is+a+PBX) |
+| “PBX, IP-PBX, SIP Explained Simply” — PowerCert Animated Videos | 8 min | [YouTube](https://www.youtube.com/results?search_query=PowerCert+PBX+IP-PBX+SIP) |
+| “How VoIP Works” — TechQuickie | 6 min | [YouTube](https://www.youtube.com/results?search_query=TechQuickie+How+VoIP+Works) |
+
+## 🧾 Deliverable
+- File: `day1_pbx_topology.png` or `.pdf`
+- Notes: 3 bullets explaining SIP trunk usage
+- Goal: Visualize your understanding of how a PBX routes internal vs external calls.

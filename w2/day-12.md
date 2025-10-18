@@ -40,5 +40,24 @@ exten => t,1,Playback(vm-goodbye)
 - What happens on timeout in `WaitExten(5)`?
 - Where do voicemail PINs live?
 
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Asterisk Voicemail](https://wiki.asterisk.org/wiki/display/AST/Voicemail) | Voicemail configuration, options, storage backends. |
+| [Asterisk Applications: Background(), WaitExten(), Voicemail()](https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+Application+List) | Reference for apps used in simple IVRs. |
+| [DTMF — RFC 4733](https://www.rfc-editor.org/rfc/rfc4733) | RTP payload for telephone events (RFC 2833/4733). |
+| [IVR Design Tips](https://www.voip-info.org/ivr/) | Best practices for simple, usable menus. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Create a Simple IVR in Asterisk” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=Create+simple+IVR+in+Asterisk) |
+| “Asterisk Voicemail Setup” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+voicemail+setup) |
+| “DTMF in VoIP (RFC 2833/4733)” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=DTMF+RFC+2833+4733) |
+
 ## Deliverable
-- Working IVR with options 1, 2, and operator (0) → voicemail fallback.
+- Files: `day12_voicemail.conf`, `day12_ivr_extensions.conf`
+- Notes: IVR options, DTMF mode configured, timeout path, and voicemail test results
+- Goal: A basic but functional auto-attendant with voicemail fallback.

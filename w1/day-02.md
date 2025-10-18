@@ -35,9 +35,27 @@ PBX ──(T1/E1 PRI)── Telco switch  (multiple voice channels)
 - How many channels in T1 vs E1?
 - Why do some sites still keep a few analog lines?
 
-## Further Reading
-- FXS/FXO primer — `https://www.voip-info.org/fxs-fxo/`
-- PRI basics — `https://www.voip-info.org/pri/`
+## 📚 Further Reading & References
 
-## Deliverable
-- Two annotated sketches and 3 bullets on when to keep analog.
+| Resource | Description |
+|---|---|
+| [FXS/FXO — VoIP-Info.org](https://www.voip-info.org/fxs-fxo/) | Clear primer on analog interfaces and typical use cases. |
+| [Primary Rate Interface (PRI) — VoIP-Info.org](https://www.voip-info.org/pri/) | Overview of PRI signaling and channelization. |
+| [Plain Old Telephone Service (POTS) — Wikipedia](https://en.wikipedia.org/wiki/Plain_old_telephone_service) | Background on analog telephony, tip/ring, battery. |
+| [Primary Rate Interface — Wikipedia](https://en.wikipedia.org/wiki/Primary_Rate_Interface) | Standards and regional differences (T1 vs E1). |
+| [T-carrier — Wikipedia](https://en.wikipedia.org/wiki/T-carrier) | History and specs for T1 lines. |
+| [E-carrier — Wikipedia](https://en.wikipedia.org/wiki/E-carrier) | History and specs for E1 lines. |
+| [Analog Telephone Adapter (ATA) — VoIP-Info.org](https://www.voip-info.org/ata/) | How ATAs bridge analog devices to IP networks. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “FXS vs FXO Explained” — PowerCert Animated Videos | ~8 min | [YouTube](https://www.youtube.com/results?search_query=PowerCert+FXS+FXO) |
+| “Analog vs VoIP Explained” | ~9 min | [YouTube](https://www.youtube.com/results?search_query=Analog+vs+VoIP+explained) |
+| “PRI vs SIP Trunking” | ~7–10 min | [YouTube](https://www.youtube.com/results?search_query=PRI+vs+SIP+trunking) |
+
+## 🧾 Deliverable
+- File: `day2_analog_digital_diagrams.png` or `.pdf`
+- Notes: 3 bullets on when to keep analog, who provides dial tone (FXS vs FXO), and when PRI is preferable to SIP trunking (e.g., legacy constraints, regulatory, last-mile reliability).
+- Goal: Visualize analog and digital call paths and when each is used.

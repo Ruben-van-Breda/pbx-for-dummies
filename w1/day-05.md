@@ -35,8 +35,26 @@ exten => _9X.,n,Dial(PJSIP/trunk/${NUM})
 - Why is PBX called a B2BUA?
 - What’s the meaning of `_9X.` in Asterisk pattern matching?
 
-## Further Reading
-- Asterisk Dialplan — `https://wiki.asterisk.org/wiki/display/AST/Dialplan`
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Asterisk Dialplan](https://wiki.asterisk.org/wiki/display/AST/Dialplan) | Official docs for dialplan concepts, priorities, and contexts. |
+| [Asterisk Pattern Matching](https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching) | How `_X`, `.` and character classes work in extensions. |
+| [Application: Dial()](https://wiki.asterisk.org/wiki/display/AST/Application_Dial) | Behavior, options, DIALSTATUS handling for bridging calls. |
+| [Back-to-Back User Agent — Wikipedia](https://en.wikipedia.org/wiki/Back-to-back_user_agent) | What a B2BUA is and how it differs from a SIP proxy. |
+| [SIP (RFC 3261)](https://www.rfc-editor.org/rfc/rfc3261) | Registrar role and SIP dialog basics (reference). |
+| [PJSIP Configuration — Asterisk](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration) | Endpoint, AOR, auth, and transport objects used by the dialplan. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Asterisk Dialplan Basics” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+dialplan+basics) |
+| “PJSIP Setup in Asterisk (Endpoints, AOR, Auth)” | ~7–12 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+PJSIP+configuration+endpoints+aor+auth) |
+| “B2BUA vs Proxy (SIP Architecture)” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=B2BUA+vs+SIP+proxy) |
 
 ## Deliverable
-- A short draft dialplan snippet for internal and outbound calls.
+- Files: `day5_dialplan_snippet.conf` (your internal/outbound example) and optional `day5_call_flow.png` (bridge diagram)
+- Notes: 3 bullets on how your dialplan routes internal vs outbound calls and how failures are handled (e.g., `DIALSTATUS`, backup trunk)
+- Goal: Demonstrate a minimal, safe routing logic with clear patterns and failovers.

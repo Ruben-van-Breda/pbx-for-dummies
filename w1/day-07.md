@@ -81,5 +81,25 @@ dialplan reload
 - See endpoints: `pjsip show endpoints`
 - Enable SIP debug: `pjsip set logger on`
 
+## 📚 Further Reading & References
+
+| Resource | Description |
+|---|---|
+| [Asterisk Docker Image](https://github.com/asterisk/asterisk/tree/master/contrib/docker) | Official container resources and guidance. |
+| [Asterisk PJSIP Configuration](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration) | Endpoint/AOR/Auth/Transport reference. |
+| [Asterisk Dialplan Basics](https://wiki.asterisk.org/wiki/display/AST/Asterisk+Dialplan) | Core dialplan concepts and examples. |
+| [Zoiper Setup](https://www.zoiper.com/en/support/home/article/38/Zoiper3+configuration+%28SIP-IAX%29) | Configure Zoiper with SIP accounts. |
+| [Linphone Desktop](https://www.linphone.org) | Open-source softphone downloads and docs. |
+
+### 🎥 Recommended Videos (Free & Short)
+
+| Video | Length | Link |
+|---|---|---|
+| “Install Asterisk in Docker” | ~6–10 min | [YouTube](https://www.youtube.com/results?search_query=Install+Asterisk+in+Docker) |
+| “Asterisk PJSIP Users in 10 Minutes” | ~8–12 min | [YouTube](https://www.youtube.com/results?search_query=Asterisk+PJSIP+users) |
+| “Zoiper/Linphone Setup Quickstart” | ~5–8 min | [YouTube](https://www.youtube.com/results?search_query=Zoiper+Linphone+SIP+setup) |
+
 ## Deliverable
-- Screenshot of both phones registered and a successful call log in Asterisk CLI.
+- Files: `day7_users_pjsip.conf` (user sections), `day7_extensions.conf` (internal context)
+- Screenshot: Both softphones registered; Asterisk CLI showing call setup and teardown
+- Goal: A working lab PBX with two extensions placing a successful call.
