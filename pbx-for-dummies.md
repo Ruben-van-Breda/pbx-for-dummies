@@ -31,6 +31,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 - [ ] Sketch a basic PBX topology (phones → PBX → PSTN)  
 - [ ] Read: “What is a PBX?” on VoIP-Info.org  
 
+See the expanded lesson: [Week 1 Day 1](./w1/day-01.md)
+
 </details>
 
 ---
@@ -50,6 +52,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 ### ✅ Tasks
 - [ ] Watch 10-min YouTube: “Analog vs VoIP Explained”  
 - [ ] Draw an analog trunk diagram  
+
+See the expanded lesson: [Week 1 Day 2](./w1/day-02.md)
+
 </details>
 
 ---
@@ -68,6 +73,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Capture a VoIP call in Wireshark and inspect RTP  
+
+See the expanded lesson: [Week 1 Day 3](./w1/day-03.md)
+
 </details>
 
 ---
@@ -87,6 +95,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 ### ✅ Tasks
 - [ ] Read RFC 3261 sections 1–10 (skim)  
 - [ ] Trace a SIP call in Wireshark  
+
+See the expanded lesson: [Week 1 Day 4](./w1/day-04.md)
+
 </details>
 
 ---
@@ -105,6 +116,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Review an example Asterisk dialplan file (`extensions.conf`)  
+
+See the expanded lesson: [Week 1 Day 5](./w1/day-05.md)
+
 </details>
 
 ---
@@ -122,6 +136,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Read: “Asterisk vs FreeSWITCH comparison”  
+
+See the expanded lesson: [Week 1 Day 6](./w1/day-06.md)
+
 </details>
 
 ---
@@ -137,6 +154,9 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 - [ ] Install Docker and run `docker run -t --name asterisk ghcr.io/asterisk/asterisk`  
 - [ ] Configure two SIP users in `pjsip.conf`  
 - [ ] Test call between extensions 1000 and 1001  
+
+See the expanded lesson: [Week 1 Day 7](./w1/day-07.md)
+
 </details>
 
 ---
@@ -157,6 +177,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Diagram an ICE candidate exchange  
+
+See the expanded lesson: [Week 2 Day 8](./w2/day-08.md)
 </details>
 
 ---
@@ -170,6 +192,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Add an outbound route in Asterisk (`_9XXXX. => Dial(SIP/trunk/${EXTEN:1})`)  
+
+See the expanded lesson: [Week 2 Day 9](./w2/day-09.md)
 </details>
 
 ---
@@ -183,6 +207,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Configure a demo SIP trunk (e.g., Twilio Elastic SIP)  
+
+See the expanded lesson: [Week 2 Day 10](./w2/day-10.md)
 </details>
 
 ---
@@ -197,6 +223,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 ### ✅ Tasks
 - [ ] Enable TLS on Asterisk  
 - [ ] Draw an SBC topology  
+
+See the expanded lesson: [Week 2 Day 11](./w2/day-11.md)
 </details>
 
 ---
@@ -211,6 +239,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 ### ✅ Tasks
 - [ ] Add voicemail for user 1000  
 - [ ] Build a simple “Press 1 for Sales” IVR  
+
+See the expanded lesson: [Week 2 Day 12](./w2/day-12.md)
 </details>
 
 ---
@@ -225,6 +255,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 ### ✅ Tasks
 - [ ] Use `sip set debug on` in Asterisk CLI  
 - [ ] Open a call in Wireshark → Telephony → VoIP Calls  
+
+See the expanded lesson: [Week 2 Day 13](./w2/day-13.md)
 </details>
 
 ---
@@ -243,6 +275,8 @@ A focused, hands-on learning plan to understand **Private Branch Exchanges (PBX)
 
 ### ✅ Tasks
 - [ ] Research: “How PBXs integrate with WebRTC and SIP.js”  
+
+See the expanded lesson: [Week 2 Day 14](./w2/day-14.md)
 </details>
 
 ---

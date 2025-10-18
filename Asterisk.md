@@ -1,0 +1,36 @@
+### Asterisk (in a PBX context)
+
+- **What it is**: Open‑source telephony engine and toolkit used to build PBX/UC systems (calls, IVR, queues, voicemail). Runs on Linux, highly modular.
+- **Core pieces**:
+  - **Endpoints/Devices**: SIP phones, softphones, trunks (ITSPs), gateways.
+  - **Channels**: Abstractions of call legs (SIP, IAX2, DAHDI/PSTN).
+  - **Dialplan**: Call routing logic in `extensions.conf` (contexts → extensions → priorities → applications).
+- **Protocols/Codecs**:
+  - **Signaling**: PJSIP (modern), IAX2 (Asterisk‑native), legacy `chan_sip` (deprecated).
+  - **Media**: Opus, G.711, G.722, G.729 (license), VP8/Opus for WebRTC. Supports SRTP.
+- **Key features**:
+  - **Call control**: Inbound/outbound routing, time conditions, DIDs, caller‑ID rules.
+  - **IVR/DTMF**: Menus, prompts, data capture.
+  - **Queues/ACD**: Agents, skills/basic strategies, announcements, wrap‑up.
+  - **Voicemail/Email**: Mailbox, email notifications, transcription via external services.
+  - **Conferencing/Recording**: MeetMe/ConfBridge, on‑demand/auto record.
+  - **CDR/CEL**: Call detail and event logging for billing/analytics.
+- **Extensibility APIs**:
+  - **AMI**: Manager interface for external control (originate, monitor, events).
+  - **AGI/FastAGI**: Run external scripts during dialplan execution.
+  - **ARI**: REST+WebSocket for building custom call apps, bridges, flows.
+- **Deployment patterns**:
+  - **Single instance**: Small offices; direct SIP trunks and phones.
+  - **Scaled**: Use Kamailio/OpenSIPS as SIP edge/SBC; multiple Asterisk workers behind it; shared DB/Redis for state (e.g., queue members, presence).
+  - **PSTN**: Via SIP trunks or gateways; DAHDI for T1/E1/analog if needed.
+  - **GUI options**: FreePBX/Issabel for admin UI, or manage raw configs for maximal control.
+- **Security**:
+  - Enforce strong auth, IP allowlists, PJSIP ACLs; TLS/SRTP; separate signaling/media networks.
+  - Fail2ban on logs; rate limiting; disable unused modules; restrict AMI/ARI by IP/credentials.
+- **Ops/Monitoring**:
+  - Logs via `logger.conf`; CLI `asterisk -rvvv` for live debug; RTCP stats; CDR to SQL; Prometheus exporters available via community modules.
+- **Typical PBX use cases**:
+  - Office PBX, IVR front doors, call centers, SIP‑to‑PSTN bridging, WebRTC click‑to‑call, programmable voice flows.
+- **Pros/Cons**:
+  - Pros: Mature, flexible, huge ecosystem, no license fees, programmable.
+  - Cons: Manual config can be complex; clustering is pattern‑based (not built‑in HA); SIP security hardening required.
