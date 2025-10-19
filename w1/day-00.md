@@ -10,7 +10,7 @@ Before PBXs and SIP, people still needed to communicate at a distance. Knowing h
 
 ## A Fast Timeline
 - Prehistory → 19th c.: Beacons, drums, optical semaphores, electric telegraph (Morse, 1830s)
-- 1876: Bell’s telephone patent — transmit voice as a varying electrical signal
+- 1876: Bell’s telephone patXent — transmit voice as a varying electrical signal
 - 1880s–1900s: Manual switchboards, local loops, magneto telephones
 - 1910s–1930s: Common-battery systems, loaded lines, vacuum-tube amplifiers
 - 1930s–1960s: Carrier telephony (FDM), crossbar switches, long-haul coaxial/radio
