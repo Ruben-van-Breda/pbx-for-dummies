@@ -95,3 +95,68 @@
 
 10) If packetization increases (larger ptime), what's a tradeoff?
    - Answer: Fewer packets (lower overhead) but more latency and loss impact per packet.
+
+## Appendix — Deep Dives
+
+### Deep Dive: SDP Offer/Answer and Packetization (ptime)
+
+- Why it matters: Codec choice and packetization directly affect bandwidth, latency, and loss impact. SIP endpoints negotiate these via SDP during offer/answer.
+- Key details:
+  - Offer/answer defines how endpoints agree on media parameters and codecs [RFC 3264 — Offer/Answer](https://www.rfc-editor.org/rfc/rfc3264).
+  - SDP syntax and attributes (including `a=ptime` and `a=maxptime`) are specified in the current SDP spec [RFC 8866 — SDP](https://www.rfc-editor.org/rfc/rfc8866).
+  - `ptime` indicates the preferred packetization time in milliseconds per audio packet; common values: 20 ms (G.711 default), 10–60 ms typical ranges. `maxptime` bounds the maximum.
+  - Endpoints may advertise preferences but can transmit different packetization if needed; interoperability improves when both sides support 20 ms.
+  - Tradeoffs: larger `ptime` lowers packets/second and overhead but adds mouth-to-ear delay and increases loss impact per packet.
+- Practical example:
+
+```sdp
+v=0
+o=- 0 0 IN IP4 203.0.113.10
+s=Call
+c=IN IP4 203.0.113.10
+t=0 0
+m=audio 40000 RTP/AVP 0 8 101
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-16
+a=ptime:20
+a=maxptime:40
+```
+
+- References: [RFC 3264 — Offer/Answer](https://www.rfc-editor.org/rfc/rfc3264), [RFC 8866 — SDP](https://www.rfc-editor.org/rfc/rfc8866)
+
+### Deep Dive: RTCP Reports and Jitter Interpretation
+
+- Why it matters: RTCP sender/receiver reports quantify quality (loss, jitter, RTT) and help pinpoint impairments.
+- Key details:
+  - RTP defines interarrival jitter and RTCP report blocks with fraction lost, cumulative lost, highest seq, jitter, and LSR/DLSR for RTT [RFC 3550 — RTP](https://www.rfc-editor.org/rfc/rfc3550).
+  - Jitter is a smoothed estimator (per-packet transit variance); values are in timestamp units. Tools convert to milliseconds using the payload clock rate.
+  - RTT is derived from sender/receiver report timestamps: `RTT ≈ now - LSR - DLSR` per [RFC 3550 — RTP](https://www.rfc-editor.org/rfc/rfc3550).
+  - Reasonable targets: low single-digit ms jitter on wired LANs; higher on Wi‑Fi. One‑way delay budgets above ~150 ms start to be noticeable [ITU‑T G.114](https://www.itu.int/rec/T-REC-G.114/en).
+  - Loss patterns matter: bursty loss degrades voice more than the same average random loss.
+- Practical checklist:
+  - In Wireshark: Telephony → RTP → Streams → Analyze to view jitter, loss, and clock skew; correlate with RTCP [Wireshark RTP Analysis](https://www.wireshark.org/docs/wsug_html_chunked/ChTelRTP.html).
+  - Compare uplink vs downlink metrics; asymmetry often indicates access-network problems.
+  - Validate that SSRCs and payload types match negotiated SDP.
+- References: [RFC 3550 — RTP](https://www.rfc-editor.org/rfc/rfc3550), [ITU‑T G.114](https://www.itu.int/rec/T-REC-G.114/en), [Wireshark RTP Analysis](https://www.wireshark.org/docs/wsug_html_chunked/ChTelRTP.html)
+
+### Deep Dive: Opus over RTP (Payload, FEC, and Packetization)
+
+- Why it matters: Opus is a modern, adaptive codec that delivers high quality across diverse networks when configured correctly.
+- Key details:
+  - RTP payload format for Opus, including clock rate (48000 Hz) and channel parameters, is defined in [RFC 7587 — RTP Payload for Opus](https://www.rfc-editor.org/rfc/rfc7587).
+  - Typical SDP advertises `rtpmap` and optional `fmtp` parameters such as `minptime`, `maxptime`, `stereo`, `sprop-maxcapturerate`, and `useinbandfec`.
+  - In-band FEC (`useinbandfec=1`) improves robustness to burst loss; consider enabling on lossy links in combination with smaller `ptime` (e.g., 20 ms).
+  - DTX can reduce bandwidth during silence but may interact with VAD/comfort-noise; test end-to-end behavior.
+  - Interop notes: ensure both sides agree on stereo vs mono and honor `maxptime` ≤ 60 ms as commonly implemented.
+- Example SDP offer snippet:
+
+```sdp
+m=audio 49170 RTP/AVP 111 101
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxptime=60;useinbandfec=1
+a=rtpmap:101 telephone-event/8000
+```
+
+- References: [RFC 7587 — RTP Payload for Opus](https://www.rfc-editor.org/rfc/rfc7587), [Opus Codec — Official Site](https://opus-codec.org/)

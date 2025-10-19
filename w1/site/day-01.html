@@ -36,8 +36,8 @@
       <h2>Mental Model</h2>
       <p>A PBX is like your company’s internal air traffic control for calls. It knows who is calling, where to route the call, how to handle external lines, and how to apply features (voicemail, IVR, queues).</p>
       <pre><code>Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ PSTN ─▶ Destination
-              ▲         │
-              └─────────┴── Internal extensions, voicemail, IVR, queues</code></pre>
+             ▲         │
+             └─────────┴── Internal extensions, voicemail, IVR, queues</code></pre>
 
       <h2>What VoIP Changed</h2>
       <ul>
@@ -136,9 +136,10 @@
       .quiz-modal .dialog{position:relative;background:var(--panel);border:1px solid #2a323c;border-radius:12px;max-width:640px;width:92%;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
       .quiz-modal header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
       .quiz-modal header h3{margin:0}
-      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px}
+      .quiz-modal .flashcard{background:#0f1318;border:1px solid #2a323c;border-radius:10px;padding:16px;min-height:140px;cursor:pointer;position:relative}
       .quiz-modal .label{color:var(--muted);font-size:.9rem;margin-bottom:6px}
       .quiz-modal .text{white-space:pre-wrap}
+      .quiz-modal .hint{position:absolute;left:0;right:0;bottom:10px;text-align:center;color:var(--muted);font-size:.9rem;opacity:.9}
       .quiz-modal .note{margin-top:10px;width:100%;min-height:80px;background:#0f1318;border:1px solid #2a323c;border-radius:8px;color:var(--text);padding:8px}
       .quiz-modal footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
       .quiz-modal button{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;color:var(--text)}
@@ -151,9 +152,10 @@
             <h3 id="quiz-title">Day 1 — Quiz</h3>
             <button id="quiz-close" type="button" aria-label="Close">✕</button>
           </header>
-          <div class="flashcard">
+          <div class="flashcard" id="flashcard" role="button" aria-pressed="false" tabindex="0">
             <div id="flashcard-label" class="label">Question</div>
             <div id="flashcard-text" class="text"></div>
+            <div id="flashcard-hint" class="hint">See answer</div>
           </div>
           <textarea id="quiz-note" class="note" placeholder="Optional: jot your answer..."></textarea>
           <footer>
@@ -173,6 +175,8 @@
         var backBtn = document.getElementById('quiz-back');
         var labelEl = document.getElementById('flashcard-label');
         var textEl = document.getElementById('flashcard-text');
+        var hintEl = document.getElementById('flashcard-hint');
+        var cardEl = document.getElementById('flashcard');
         var noteEl = document.getElementById('quiz-note');
 
         if(!quizContainer) return;
@@ -202,9 +206,13 @@
           if(showingAnswer){
             labelEl.textContent = 'Answer';
             textEl.textContent = item.a || '(No answer provided)';
+            if(hintEl){ hintEl.textContent = 'See question'; }
+            if(cardEl){ cardEl.setAttribute('aria-pressed','true'); }
           } else {
             labelEl.textContent = 'Question';
             textEl.textContent = item.q;
+            if(hintEl){ hintEl.textContent = 'See answer'; }
+            if(cardEl){ cardEl.setAttribute('aria-pressed','false'); }
           }
           if(noteEl){ noteEl.value = notes[idx] || ''; }
         }
@@ -222,11 +230,9 @@
         function next(){
           if(!qa.length) return;
           if(noteEl){ notes[idx] = noteEl.value; }
-          if(!showingAnswer){
-            showingAnswer = true; render();
-          } else {
-            showingAnswer = false; idx = (idx + 1) % qa.length; render();
-          }
+          idx = (idx + 1) % qa.length;
+          showingAnswer = false;
+          render();
         }
 
         function back(){
@@ -239,12 +245,27 @@
           }
         }
 
+        function toggle(){
+          if(!qa.length) return;
+          showingAnswer = !showingAnswer; render();
+        }
+
         if(startBtn){ startBtn.addEventListener('click', openModal); }
         if(closeBtn){ closeBtn.addEventListener('click', closeModal); }
         if(nextBtn){ nextBtn.addEventListener('click', next); }
         if(backBtn){ backBtn.addEventListener('click', back); }
+        if(cardEl){
+          cardEl.addEventListener('click', toggle);
+          cardEl.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }});
+        }
         modal.addEventListener('click', function(e){ if(e.target && e.target.getAttribute('data-close')) closeModal(); });
-        document.addEventListener('keydown', function(e){ if(!modal.hasAttribute('hidden') && e.key === 'Escape') closeModal(); });
+        document.addEventListener('keydown', function(e){
+          if(modal.hasAttribute('hidden')) return;
+          if(e.key === 'Escape') closeModal();
+          if(e.key === 'ArrowRight') next();
+          if(e.key === 'ArrowLeft') back();
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+        });
       })();
       </script>
     </section>

@@ -137,3 +137,35 @@ dialplan reload
 
 10) What should be captured as proof of success for this lab?
    - Answer: Screenshot showing both softphones registered and a call setup/tear down in CLI.
+
+## Appendix — Deep Dives
+
+### Deep Dive: Docker Networking for SIP/RTP
+
+- Why it matters: NAT and port mapping affect SIP signaling and media reachability.
+- Key details:
+  - `--network host` avoids port mapping on Linux; on macOS/Windows, use bridge with explicit port maps.
+  - Map SIP (UDP/TCP 5060/5061) and the PBX RTP port range; adjust configs to advertise the correct external IP/ports.
+- Practical checklist:
+  - If not using host network, publish SIP + RTP ranges and set external/public addresses.
+- References: [Docker Networking Overview](https://docs.docker.com/network/)
+
+### Deep Dive: PJSIP NAT and Symmetric Media
+
+- Why it matters: Registrations and media often traverse NAT; wrong settings cause one‑way audio.
+- Key details:
+  - Enable `force_rport`/`rewrite_contact` for symmetric signaling; `rtp_symmetric` for symmetric RTP.
+  - Set external/public addresses in `pjsip.conf` and `rtp.conf` where applicable.
+- Practical checklist:
+  - Verify with `pjsip set logger on`; confirm Contact rewriting and RTP src/dst after answer.
+- References: [Asterisk PJSIP NAT Settings](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration), [Asterisk RTP Configuration](https://wiki.asterisk.org/wiki/display/AST/RTP+Configuration)
+
+### Deep Dive: RTP Ports and Firewalls
+
+- Why it matters: Closed RTP ports lead to no or one‑way audio.
+- Key details:
+  - PBXs use a configurable UDP port range for RTP (commonly thousands of ports).
+  - Align firewall rules and NAT with the configured range and transport.
+- Practical checklist:
+  - Confirm the configured RTP range; open it on host and upstream firewalls; test with packet captures.
+- References: [Asterisk RTP Configuration](https://wiki.asterisk.org/wiki/display/AST/RTP+Configuration)

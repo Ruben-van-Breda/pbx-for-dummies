@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Week 1 — Day 0: From Fire Signals to Analog Telephony</title>
+  <link rel="stylesheet" href="./site.css" />
+  <meta name="description" content="Day 0 — history to analog telephony, Bell's 1876 patent, and key analog concepts that shape VoIP." />
+</head>
+<body>
+  <main class="lesson">
+    <header>
+      <nav class="nav-top">
+        <a href="./index.html">← Back to Week 1</a>
+        <div>
+          <a href="./day-01.html">Next →</a>
+        </div>
+      </nav>
+      <h1>Day 0 — From Fire Signals to Analog Telephony</h1>
+    </header>
+    <section class="content">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Trace the evolution of communications from ancient signaling to analog telephony</li>
+        <li>Understand how physics and engineering constraints shaped early telephone systems</li>
+        <li>Learn the core analog concepts that lead into digital telephony (Day 2)</li>
+      </ul>
+
+      <h2>Why Day 0?</h2>
+      <p>Before PBXs and SIP, people still needed to communicate at a distance. Knowing how we got to analog telephony gives you the intuition for why telephony systems look the way they do today.</p>
+
+      <h2>A Fast Timeline</h2>
+      <ul>
+        <li>Prehistory → 19th c.: Beacons, drums, optical semaphores, electric telegraph (Morse, 1830s)</li>
+        <li>1876: Bell’s telephone patent — transmit voice as a varying electrical signal</li>
+        <li>1880s–1900s: Manual switchboards, local loops, magneto telephones</li>
+        <li>1910s–1930s: Common-battery systems, loaded lines, vacuum-tube amplifiers</li>
+        <li>1930s–1960s: Carrier telephony (FDM), crossbar switches, long-haul coaxial/radio</li>
+        <li>1960s–1980s: Electronic switching systems (ESS), T1/E1 digital trunks, PCM</li>
+      </ul>
+
+      <h2>Key Concepts (Explained)</h2>
+      <ul>
+        <li><strong>Analog Signal</strong>: A continuous electrical waveform representing air pressure (voice).</li>
+        <li><strong>Local Loop</strong>: The copper pair from subscriber to central office (CO); typically ~600 Ω.</li>
+        <li><strong>Transducer Pair</strong>: Microphone converts sound to current; earpiece reconverts current to sound.</li>
+        <li><strong>Transmission Loss &amp; Impedance</strong>: Line length and mismatch cause attenuation and echo.</li>
+        <li><strong>Signaling vs. Speech</strong>: Supervisory signaling (on/off-hook, ringing) vs. voice band (300–3400 Hz).</li>
+        <li><strong>Switching</strong>: Manual cord boards → electromechanical (Strowger/step-by-step, crossbar).</li>
+      </ul>
+
+      <h2>Bell’s 1876 Patent — What it actually claims (plain English)</h2>
+      <p><strong>TL;DR</strong>: Bell formalizes sending continuous, wave-like ("undulatory") electrical signals that mirror sound waves, and shows a practical transmitter/receiver so speech can ride those waves. This is the core leap from on/off telegraph pulses to the telephone.</p>
+
+      <h3>Core ideas</h3>
+      <ul>
+        <li><strong>Undulatory vs. intermittent currents</strong>: Instead of on/off telegraph pulses, Bell uses smooth electrical variations that map to sound pressure (a sinusoid analogy).</li>
+        <li><strong>How to make them</strong>: Vibrate a magnet near a coil, or vibrate a membrane (diaphragm) linked to an armature in front of an electromagnet—voice in → matching electrical undulations out.</li>
+        <li><strong>How to detect them</strong>: A tuned receiver’s armature vibrates in sympathy, recreating the sound.</li>
+        <li><strong>Multiple notes/signals at once</strong>: Different pitches superpose without collapsing into a "continuous" DC level—key insight for multiplexing concepts.</li>
+      </ul>
+
+      <h3>The five claims (simplified)</h3>
+      <ol>
+        <li>Use undulatory currents to vibrate a receiver for telegraphy (foundation for voice telegraphy).</li>
+        <li>Combine a vibrating magnetic element (or any inductive body) with a closed circuit so its motion induces electrical undulations—whether the magnet moves, the conductor moves, or both.</li>
+        <li>Produce undulations in a continuous current by moving inductive bodies (or the conductor) near each other.</li>
+        <li>Also produce undulations by varying resistance or battery power gradually (not breaking the circuit).</li>
+        <li>Transmit vocal (or other) sounds by creating electrical undulations that are similar in form to the air vibrations of those sounds—i.e., speech-grade transmission.</li>
+      </ol>
+
+      <h3>Why it matters to our PBX/VoIP course</h3>
+      <ul>
+        <li><strong>Day 1 (Big Picture)</strong>: Bell’s "undulations" = the first analog of today’s digitized RTP media stream—the idea that signal shape encodes sound is the through-line from 1876 to IP telephony.</li>
+        <li><strong>Day 2 (Analog→Digital)</strong>: Bell’s continuous currents are the analog side we later sample/quantize (e.g., G.711) before shipping over packet networks.</li>
+        <li><strong>Day 4 (SIP signaling)</strong>: Bell’s patent is about media, not call setup. Modern SIP sets up sessions; RTP carries the (now digital) "undulations."</li>
+        <li><strong>Day 3 (Codecs/RTP)</strong>: Where Bell had a vibrating armature and membrane, we use codecs (Opus, G.711) and RTP timestamps/sequence to reconstruct voice.</li>
+      </ul>
+
+      <h2>Hands-on (10–15 min)</h2>
+      <ol>
+        <li>Draw a subscriber loop: handset, battery, local loop, central office line card, switch.</li>
+        <li>Note where signaling happens (on/off-hook, ringing) versus where speech travels.</li>
+        <li>List two ways analog design constraints still show up in VoIP (e.g., echo canceller, 3.4 kHz band).</li>
+      </ol>
+
+      <h2>Quick Check (Self-test)</h2>
+      <ul>
+        <li>Why did early phone systems standardize around the 300–3400 Hz band?</li>
+        <li>What problem do loading coils solve on long copper loops?</li>
+        <li>How did switching evolve from manual to automated?</li>
+      </ul>
+
+      <h2>📚 Further Reading &amp; References</h2>
+      <ul>
+        <li><a href="https://patents.google.com/patent/US174465A" target="_blank" rel="noopener noreferrer">Bell’s 1876 Telephone Patent — USPTO/Google Patents</a>: Landmark patent describing voice transmission by undulatory current.</li>
+        <li><a href="https://www.itu.int/rec/T-REC-G.711" target="_blank" rel="noopener noreferrer">ITU-T G.711 History and Rationale</a>: Context for voiceband limits that originated in analog networks.</li>
+        <li><a href="https://www.britannica.com/technology/automatic-telephone-exchange" target="_blank" rel="noopener noreferrer">E. H. Strowger Automatic Telephone Exchange</a>: Origins of automated electromechanical switching.</li>
+        <li><a href="https://www.vacuumtubeera.com/Bell-System-Technical-Journal.html" target="_blank" rel="noopener noreferrer">Loaded Telephone Cables — Bell System Technical Journal (classic)</a>: How loading coils extended voice transmission distance.</li>
+        <li><a href="https://www.britannica.com/technology/frequency-division-multiplexing" target="_blank" rel="noopener noreferrer">Frequency-Division Multiplexing (FDM) in Telephony</a>: Multi-channel analog carrier systems before digital PCM.</li>
+      </ul>
+
+      <h2>🧾 Deliverable</h2>
+      <ul>
+        <li>File: <code>day0_subscriber_loop.png</code> or <code>.pdf</code></li>
+        <li>Notes: 3 bullets on analog constraints that persist in IP telephony</li>
+        <li>Goal: Build intuition for why telephony systems evolved the way they did.</li>
+      </ul>
+    </section>
+    <footer>
+      <nav class="nav-top">
+        <a href="./index.html">← Back to Week 1</a>
+        <div>
+          <a href="./day-01.html">Next →</a>
+        </div>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>
+
+

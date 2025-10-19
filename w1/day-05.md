@@ -92,3 +92,38 @@ exten => _9X.,n,Dial(PJSIP/trunk/${NUM})
 
 10) Give two items typically found in an internal context.
    - Answer: Extension-to-endpoint mappings (e.g., 1000/1001), local feature codes.
+
+## Appendix — Deep Dives
+
+### Deep Dive: Asterisk Dialplan Pattern Matching
+
+- Why it matters: Precise patterns prevent misroutes and enable safe outbound rules.
+- Key details:
+  - `_X` matches a digit; `.` matches one or more of any digits; character classes `[ ]` constrain sets.
+  - Priority sequence `1, n, n+1...`; use `same => n` for readability.
+  - Use separate contexts for internal vs outbound; include contexts to compose routing.
+- Practical checklist:
+  - Validate with `dialplan show` and `console dial` tests; add explicit denies or whitelists for expensive routes.
+- References: [Asterisk Dialplan](https://wiki.asterisk.org/wiki/display/AST/Dialplan), [Pattern Matching](https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching)
+
+### Deep Dive: PJSIP Object Model (endpoint, aor, auth, transport)
+
+- Why it matters: Understanding object roles simplifies provisioning and troubleshooting.
+- Key details:
+  - `endpoint`: media/signaling capabilities; `aor`: contact bindings; `auth`: credentials; `transport`: IP/port/TLS.
+  - NAT helpers: `rewrite_contact`, `force_rport`, `rtp_symmetric` for symmetric signaling/media.
+  - Link dialplan to objects via `Dial(PJSIP/endpoint)`.
+- Practical checklist:
+  - Verify endpoint name matches dialplan; check `pjsip show endpoint <id>`; confirm NAT flags on remote clients.
+- References: [Asterisk PJSIP Configuration](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration)
+
+### Deep Dive: Bridging and DIALSTATUS Handling
+
+- Why it matters: Clean failure handling improves reliability and user experience.
+- Key details:
+  - `Dial()` returns statuses like `BUSY`, `CONGESTION`, `NOANSWER`, `CHANUNAVAIL`.
+  - Implement fallback routes (backup trunk, voicemail) based on `DIALSTATUS`.
+  - Mid‑call features (transfer/record) depend on PBX B2BUA control.
+- Practical checklist:
+  - Add post‑Dial logic; log failures; simulate carrier failover.
+- References: [Application: Dial()](https://wiki.asterisk.org/wiki/display/AST/Application_Dial)

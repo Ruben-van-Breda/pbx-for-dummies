@@ -94,3 +94,39 @@ Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ 
 
 10) Why is SIP specifically called a signaling protocol in VoIP?
    - Answer: Because it handles call setup/teardown and session control, not the actual media (which is typically carried via RTP).
+
+## Appendix — Deep Dives
+
+### Deep Dive: SIP & SDP
+- What it is and why it matters: SIP sets up, modifies, and tears down calls; SDP describes the media (codecs, ports, transport). Together they negotiate how endpoints will actually exchange audio.
+- Key details:
+  - Core SIP methods: INVITE/ACK/BYE, REGISTER; responses 1xx–6xx; URIs like `sip:1000@example.com`.
+  - SDP includes `m=audio`, codec lists, and transport attributes; offers/answers are typically in INVITE/200 OK.
+  - Early media often uses 183 Session Progress; reliable provisional responses may use PRACK.
+  - Interop tips: match codecs, DTMF via RFC 2833/4733, set correct `From`/`Contact` domains.
+- Example (minimal flow): INVITE (SDP offer) → 100 Trying → 180 Ringing → 200 OK (SDP answer) → ACK; media flows via RTP per SDP.
+- References: [RFC 3261 (SIP, 2002)](https://www.rfc-editor.org/rfc/rfc3261), [RFC 8866 (SDP, 2021)](https://www.rfc-editor.org/rfc/rfc8866), [Asterisk PJSIP Configuration Examples](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration+Examples)
+
+### Deep Dive: SIP Trunking
+- What it is and why it matters: A SIP trunk is the PBX’s connection to an ITSP/carrier for external calling. It replaces legacy PRI/analog lines with IP-based sessions.
+- Key details:
+  - Models: registration-based vs static-IP peering; DIDs map inbound to extensions/IVRs.
+  - Security: prefer TLS for signaling and SRTP for media when supported; restrict by IP; use SBCs when available.
+  - Interop: caller ID via P-Asserted-Identity/From; normalize numbers to E.164; agree on codecs (G.711 µ/A-law common).
+  - Reliability: carrier failover IPs, DNS SRV, SIP timers; plan 911/E911 routing and location data.
+- Checklist:
+  - Collect carrier SIP endpoints/IPs, credentials, DID list, codec policy, SRTP/TLS requirements, and fax/T.38 needs.
+  - Configure outbound dial plan (local/long-distance/international), inbound DID routing, and failover destinations.
+- References: [SIPconnect 2.0 — SIP Forum](https://www.sipforum.org/activities/sipconnect/), [Asterisk Trunking Introduction](https://wiki.asterisk.org/wiki/display/AST/Trunking+Introduction)
+
+### Deep Dive: RTP Media Path
+- What it is and why it matters: RTP carries the audio; it is separate from SIP signaling. Correct RTP handling ensures quality and interoperability across NATs and firewalls.
+- Key details:
+  - RTP typically uses UDP across a port range; media may flow directly endpoint↔endpoint or via the PBX.
+  - Security: SRTP (RFC 3711) with keying via SDES or DTLS-SRTP; align with endpoint support.
+  - Quality: jitter buffers, packet loss concealment; prefer symmetric RTP; consider disabling direct media if NAT/SBC constraints exist.
+  - Firewall/NAT: open the PBX RTP range; use ICE/rtcp-mux/WebRTC when relevant; confirm codec payload types match SDP.
+- Checklist (PBX-focused):
+  - Verify RTP port range and firewall rules; set symmetric RTP; choose allowed codecs; enable SRTP when supported.
+  - Test early media and DTMF; capture with `pcap`/SIP traces when troubleshooting.
+- References: [RFC 3550 (RTP, 2003)](https://www.rfc-editor.org/rfc/rfc3550), [RFC 3711 (SRTP, 2004)](https://www.rfc-editor.org/rfc/rfc3711), [Asterisk RTP Configuration](https://wiki.asterisk.org/wiki/display/AST/RTP+Configuration)

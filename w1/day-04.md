@@ -97,3 +97,47 @@ Caller ← 200 OK ← Callee
 
 10) If media is negotiated but there is no audio, give two likely causes.
    - Answer: Codec mismatch or UDP/RTP blocked by firewall/NAT.
+
+## Appendix — Deep Dives
+
+### Deep Dive: SIP Transactions vs Dialogs (why both matter)
+
+- Why it matters: Understanding the transaction layer (request–response over a single branch) vs the dialog layer (longer-lived peer relationship) helps debug retransmissions, forking, and mid-dialog requests.
+- Key details:
+  - A transaction spans a request and all responses to it (through completion). INVITE server/client transactions have special timer behavior [RFC 3261].
+  - A dialog is established by matching Call-ID, local/remote tags, and route set; it persists across multiple transactions (e.g., re-INVITE, BYE) [RFC 3261].
+  - Forking can create multiple early dialogs; only one typically answers 200 OK. Others must be terminated.
+  - CSeq increases per transaction within a dialog; mismatches cause 500/491/Out-of-order errors.
+- Practical checklist:
+  - In traces, group by Call-ID and From/To tags to follow a dialog; use Via branch to follow a transaction.
+  - Confirm CSeq increments on re-INVITE/UPDATE; verify Route set is respected for mid-dialog requests.
+- References: [RFC 3261 — SIP](https://www.rfc-editor.org/rfc/rfc3261)
+
+### Deep Dive: Via branch, magic cookie, and rport (reply routing/NAT)
+
+- Why it matters: Correct reply routing prevents stray responses and fixes many NAT traversal issues in request/response paths.
+- Key details:
+  - The Via branch parameter must start with magic cookie `z9hG4bK` and be unique per branch [RFC 3261].
+  - The `rport` parameter requests that responses be sent back to the source port from which the request came (useful behind NAT) [RFC 3581].
+  - Proxies add their own Via at the top and remove it when forwarding responses; mismatched or reused branches break transactions.
+  - Combine with SIP `Contact` and outbound keepalives for stable registrations.
+- Practical example (Via header excerpt):
+
+```
+Via: SIP/2.0/UDP 198.51.100.10;branch=z9hG4bK-a1b2c3;rport
+```
+
+- References: [RFC 3261 — SIP](https://www.rfc-editor.org/rfc/rfc3261), [RFC 3581 — rport](https://www.rfc-editor.org/rfc/rfc3581)
+
+### Deep Dive: Early Media (180 vs 183) and Reliable Provisionals (PRACK)
+
+- Why it matters: Ringback and announcements before answer depend on early media; reliability avoids SDP mismatch and clipping on lossy links.
+- Key details:
+  - 180 Ringing typically implies local ringback; 183 Session Progress may carry SDP for early media [RFC 3960].
+  - Reliable provisional responses use `Require: 100rel` and PRACK to confirm receipt and allow offer/answer before 200 OK [RFC 3262].
+  - Early dialogs exist prior to final response; ensure consistent SDP direction and ports to avoid one-way early audio.
+  - Gateways/SBCs often anchor early media; verify RTP actually flows when 183+SDP is seen.
+- Practical checklist:
+  - When early media is expected, look for 183 with SDP and confirm PRACK if `100rel` is used.
+  - Check that final 200 OK SDP matches or properly renegotiates from provisional SDP.
+- References: [RFC 3960 — Early Media](https://www.rfc-editor.org/rfc/rfc3960), [RFC 3262 — PRACK](https://www.rfc-editor.org/rfc/rfc3262)

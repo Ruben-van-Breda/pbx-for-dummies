@@ -82,3 +82,32 @@
 
 10) What artifact should you produce for this day’s deliverable?
    - Answer: A selection matrix comparing platforms for your context.
+
+## Appendix — Deep Dives
+
+### Deep Dive: Architecture — Asterisk vs FreeSWITCH
+
+- Why it matters: Internal architecture influences features, scaling, and integration patterns.
+- Key details:
+  - Asterisk: application/dialplan centric, channel drivers (PJSIP), ARI/AMI control surfaces.
+  - FreeSWITCH: media switch core, XML dialplan, strong conferencing/mixing.
+  - Both act as B2BUAs; choose based on feature fit and ecosystem.
+- References: [Asterisk — Official](https://www.asterisk.org), [FreeSWITCH — Modules](https://developer.signalwire.com/freeswitch/FreeSWITCH-Explained/Modules/)
+
+### Deep Dive: Licensing and Ecosystem
+
+- Why it matters: License and ecosystem affect deployment models and extensions.
+- Key details:
+  - Asterisk: GPLv2 with commercial add‑ons available via partners.
+  - FreeSWITCH: MPL 2.0; commercial support via vendors.
+  - 3CX: commercial licensing; integrated apps; closed source.
+- References: [Asterisk License](https://www.asterisk.org/license/), [FreeSWITCH License](https://freeswitch.com/legal/), [3CX Licensing](https://www.3cx.com/ordering/pricing/)
+
+### Deep Dive: UCaaS/CPaaS Tradeoffs vs On‑Prem
+
+- Why it matters: Align platform choice with ops, compliance, and integration needs.
+- Key details:
+  - Cloud: rapid provisioning, APIs, global scale; vendor constraints, egress costs, data residency.
+  - On‑prem: control/compliance, custom media paths; operational burden.
+  - Hybrid: SBCs and SIP trunks bridge models.
+- References: [Twilio Elastic SIP Trunking](https://www.twilio.com/voice/sip-trunking), [Plivo SIP Trunking](https://www.plivo.com/sip-trunking/)
