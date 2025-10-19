@@ -16,6 +16,8 @@ Welcome to Week 1 of PBX & VoIP Fundamentals. This week builds a strong conceptu
 - A diagramming tool (draw.io, Excalidraw, or pen & paper)
 
 ## Day-by-day
+- Day 0: From Fire Signals to Analog Telephony
+  - See: [Day 0](./day-00.md)
 - Day 1: The Big Picture — What is a PBX?
   - See: [Day 1](./day-01.md)
 - Day 2: Telephony 101 — From Analog to Digital
