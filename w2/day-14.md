@@ -108,3 +108,76 @@ References: [Siperb](https://www.siperb.com/) · [Siperb Knowledge Base](https:/
 
 10) What should your architecture diagram highlight for WebRTC↔PBX?
    - Answer: WSS signaling path, ICE/TURN servers, DTLS-SRTP media, and SBC/gateway placement.
+
+## Appendix — Deep Dives
+
+### Deep Dive: SIP over WebSocket (WSS) — Production Considerations
+
+- What it is and why it matters: WSS enables SIP in browsers; production readiness hinges on TLS, origins, and scaling.
+- Key details:
+  - Certificates: public CA, correct SANs; browsers reject self‑signed.
+  - CORS and origins: restrict to allowed origins; handle WebSocket upgrades at proxy.
+  - Keep‑alives: tune ping/pong and server timeouts to avoid drops; support load‑balancing with sticky sessions.
+- Practical checklist:
+  - Terminate TLS properly; verify `Sec-WebSocket-Protocol` (e.g., `sip`/`sip.js`).
+  - Test reconnect/backoff and NAT edge cases.
+- References: [SIP.js](https://sipjs.com), [Asterisk & WebRTC](https://wiki.asterisk.org/wiki/display/AST/WebRTC)
+
+### Deep Dive: WebRTC Media — DTLS‑SRTP, ICE/TURN, and Opus
+
+- What it is and why it matters: Modern browser media stacks require secure transport and NAT traversal to interop with SIP PBXes.
+- Key details:
+  - DTLS‑SRTP is mandatory; no `a=crypto` in WebRTC. [RFC 5764](https://www.rfc-editor.org/rfc/rfc5764)
+  - ICE is required; plan TURN for corporate networks. [RFC 8445](https://www.rfc-editor.org/rfc/rfc8445)
+  - Opus preferred; plan transcoding to G.711 for legacy SIP.
+- Practical checklist:
+  - Provide working STUN/TURN; validate with Trickle ICE.
+  - Confirm DTLS handshake, SRTP keys, and codec negotiation.
+- References: [Asterisk WebRTC](https://wiki.asterisk.org/wiki/display/AST/WebRTC)
+
+### Deep Dive: UCaaS vs CPaaS vs Self‑Hosted — Decision Factors
+
+- What it is and why it matters: Picking the right model balances control, time‑to‑value, and operating complexity.
+- Key details:
+  - UCaaS: fastest rollout, managed ops, subscription cost; limited deep customization.
+  - CPaaS: API‑driven; you own logic; variable costs with usage.
+  - Self‑hosted: full control; capex/opex for SBCs, security, HA, and compliance.
+- Practical checklist:
+  - List requirements (compliance, integrations, latency) and map to models.
+  - Prototype critical flows (inbound, outbound, WebRTC) before committing.
+- References: [Twilio Voice](https://www.twilio.com/voice), [Zoom Phone](https://explore.zoom.us/en/zoom-phone/), [Plivo Voice](https://www.plivo.com/voice/)
+
+---
+
+## ✅ Quiz — Day 14 (Deep Dives, 10 Questions + Answers)
+
+1) Why do browsers reject many lab TLS setups?
+   - Answer: Self‑signed/invalid certs without proper SANs and chains.
+
+2) What WebSocket aspect often breaks in reverse proxies?
+   - Answer: Upgrade handling and missing `Sec-WebSocket-Protocol`.
+
+3) Why is TURN often required in enterprises?
+   - Answer: Corporate firewalls/NATs block direct UDP.
+
+4) Which codec often needs transcoding between WebRTC and legacy SIP?
+   - Answer: Opus ↔ G.711.
+
+5) What security method is mandatory for WebRTC media?
+   - Answer: DTLS‑SRTP.
+
+6) Which model offers fastest time‑to‑value for PBX features?
+   - Answer: UCaaS.
+
+7) Which model gives API‑level control of call logic?
+   - Answer: CPaaS.
+
+8) A hidden cost of self‑hosting PBX at scale?
+   - Answer: Operating SBCs, security, HA, and compliance overhead.
+
+9) What should be validated in a WebRTC PoC?
+   - Answer: WSS signaling, ICE/TURN, DTLS‑SRTP, and codec interop.
+
+10) Why use sticky sessions with WSS?
+   - Answer: Maintain dialog state and keep‑alive affinity across load balancers.
+

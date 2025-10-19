@@ -97,6 +97,25 @@ Caller ← 200 OK ← Callee</code></pre>
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
+
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: SIP Transactions vs Dialogs</h3>
+      <ul>
+        <li>A transaction spans a request and its responses. A dialog persists across transactions (re‑INVITE, BYE) and is identified by Call‑ID and tags (<a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>).</li>
+        <li>Forking creates multiple early dialogs; only one answers 200 OK.</li>
+      </ul>
+
+      <h3>Deep Dive: Via branch, magic cookie, and rport</h3>
+      <ul>
+        <li>Via branch values begin with <code>z9hG4bK</code> and must be unique; <code>rport</code> requests replies to source port (NAT aid). References: <a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>, <a href="https://www.rfc-editor.org/rfc/rfc3581" target="_blank" rel="noopener noreferrer">RFC 3581</a>.</li>
+      </ul>
+
+      <h3>Deep Dive: Early Media and Reliable Provisionals (PRACK)</h3>
+      <ul>
+        <li>180 Ringing vs 183 Session Progress with SDP for early media (<a href="https://www.rfc-editor.org/rfc/rfc3960" target="_blank" rel="noopener noreferrer">RFC 3960</a>).</li>
+        <li>Reliable provisional responses with <code>100rel</code> and PRACK (<a href="https://www.rfc-editor.org/rfc/rfc3262" target="_blank" rel="noopener noreferrer">RFC 3262</a>).</li>
+      </ul>
       <div id="quiz" hidden>
         <h2>✅ Quiz — Day 4 (10 Questions + Answers)</h2>
         <ol>

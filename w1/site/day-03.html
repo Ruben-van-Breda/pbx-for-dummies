@@ -72,7 +72,7 @@
       <ul>
         <li><a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RTP (RFC 3550) — IETF</a></li>
         <li><a href="https://www.rfc-editor.org/rfc/rfc3551" target="_blank" rel="noopener noreferrer">RTP Profile (RFC 3551) — IETF</a></li>
-        <li><a href="https://www.rfc-editor.org/rfc/rfc4566" target="_blank" rel="noopener noreferrer">SDP (RFC 4566) — IETF</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">SDP (RFC 8866) — IETF</a></li>
         <li><a href="https://www.voip-info.org/rtp/" target="_blank" rel="noopener noreferrer">RTP basics — VoIP-Info.org</a></li>
         <li><a href="https://www.voip-info.org/codecs/" target="_blank" rel="noopener noreferrer">Codecs overview — VoIP-Info.org</a></li>
         <li><a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus codec — opus-codec.org</a></li>
@@ -98,6 +98,53 @@
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
+
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: SDP Offer/Answer and Packetization (ptime)</h3>
+      <p><strong>Why it matters</strong>: Codec choice and packetization affect bandwidth, latency, and loss impact. SIP endpoints negotiate these via SDP during offer/answer.</p>
+      <ul>
+        <li>Offer/answer defines media parameters and codecs (<a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264</a>).</li>
+        <li>SDP syntax and attributes including <code>a=ptime</code>/<code>a=maxptime</code> are in <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866</a>.</li>
+        <li>Tradeoffs: larger ptime lowers packets/second but adds delay and increases loss impact.</li>
+      </ul>
+      <pre><code>v=0
+o=- 0 0 IN IP4 203.0.113.10
+s=Call
+c=IN IP4 203.0.113.10
+t=0 0
+m=audio 40000 RTP/AVP 0 8 101
+a=rtpmap:0 PCMU/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:101 telephone-event/8000
+a=fmtp:101 0-16
+a=ptime:20
+a=maxptime:40</code></pre>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264</a>, <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866</a></li>
+      </ul>
+
+      <h3>Deep Dive: RTCP Reports and Jitter Interpretation</h3>
+      <ul>
+        <li>RTCP report blocks provide loss/jitter/RTT; jitter is in RTP timestamp units (<a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>).</li>
+        <li>Targets: low single‑digit ms jitter on wired LANs; delay budgets ≲ 150 ms one‑way (<a href="https://www.itu.int/rec/T-REC-G.114/en" target="_blank" rel="noopener noreferrer">ITU‑T G.114</a>).</li>
+      </ul>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>, <a href="https://www.itu.int/rec/T-REC-G.114/en" target="_blank" rel="noopener noreferrer">G.114</a></li>
+      </ul>
+
+      <h3>Deep Dive: Opus over RTP (Payload, FEC, Packetization)</h3>
+      <ul>
+        <li>RTP payload format and parameters: <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587</a>.</li>
+        <li>Options: <code>minptime</code>, <code>maxptime</code>, <code>stereo</code>, <code>useinbandfec</code>; enable FEC on lossy links.</li>
+      </ul>
+      <pre><code>m=audio 49170 RTP/AVP 111 101
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxptime=60;useinbandfec=1
+a=rtpmap:101 telephone-event/8000</code></pre>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587</a>, <a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus</a></li>
+      </ul>
       <div id="quiz" hidden>
         <h2>✅ Quiz — Day 3 (10 Questions + Answers)</h2>
         <ol>

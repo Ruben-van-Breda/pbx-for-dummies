@@ -89,6 +89,44 @@
         <li>Goal: Visualize your understanding of how a PBX routes internal vs external calls.</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: SIP &amp; SDP</h3>
+      <p><strong>What it is and why it matters</strong>: SIP sets up, modifies, and tears down calls; SDP describes media (codecs, ports, transport). Together they negotiate how endpoints exchange audio.</p>
+      <ul>
+        <li>Core SIP methods: INVITE/ACK/BYE, REGISTER; responses 1xx–6xx; URIs like <code>sip:1000@example.com</code>.</li>
+        <li>SDP includes <code>m=audio</code>, codec lists, and transport attributes; offers/answers are typically in INVITE/200 OK.</li>
+        <li>Early media can use 183 Session Progress; reliable provisionals may use PRACK.</li>
+        <li>Interop tips: match codecs, DTMF via RFC 2833/4733, set correct From/Contact domains.</li>
+      </ul>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261 (SIP)</a>, <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866 (SDP)</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration+Examples" target="_blank" rel="noopener noreferrer">Asterisk PJSIP Configuration Examples</a></li>
+      </ul>
+
+      <h3>Deep Dive: SIP Trunking</h3>
+      <p><strong>What it is and why it matters</strong>: A SIP trunk is the PBX’s connection to an ITSP/carrier for external calling, replacing legacy PRI/analog lines with IP sessions.</p>
+      <ul>
+        <li>Models: registration-based vs static-IP peering; DIDs map inbound to extensions/IVRs.</li>
+        <li>Security: prefer TLS for signaling and SRTP for media when supported; restrict by IP; use SBCs when available.</li>
+        <li>Interop: caller ID via P-Asserted-Identity/From; normalize numbers to E.164; agree on codecs (G.711 µ/A-law common).</li>
+        <li>Reliability: carrier failover IPs, DNS SRV, SIP timers; plan 911/E911 and location data.</li>
+      </ul>
+      <ul>
+        <li>References: <a href="https://www.sipforum.org/activities/sipconnect/" target="_blank" rel="noopener noreferrer">SIPconnect 2.0 — SIP Forum</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/Trunking+Introduction" target="_blank" rel="noopener noreferrer">Asterisk Trunking Introduction</a></li>
+      </ul>
+
+      <h3>Deep Dive: RTP Media Path</h3>
+      <p><strong>What it is and why it matters</strong>: RTP carries the audio separately from SIP signaling. Correct RTP handling ensures quality and interop across NATs and firewalls.</p>
+      <ul>
+        <li>RTP typically uses UDP across a port range; media may flow endpoint↔endpoint or via the PBX/SBC.</li>
+        <li>Security: SRTP (RFC 3711) with keying via SDES or DTLS‑SRTP; align with endpoint support.</li>
+        <li>Quality: jitter buffers, packet loss concealment; prefer symmetric RTP; disable direct media if NAT/SBC constraints exist.</li>
+        <li>Firewall/NAT: open PBX RTP range; use ICE/rtcp-mux/WebRTC when relevant; confirm codec payload types match SDP.</li>
+      </ul>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550 (RTP)</a>, <a href="https://www.rfc-editor.org/rfc/rfc3711" target="_blank" rel="noopener noreferrer">RFC 3711 (SRTP)</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/RTP+Configuration" target="_blank" rel="noopener noreferrer">Asterisk RTP Configuration</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">

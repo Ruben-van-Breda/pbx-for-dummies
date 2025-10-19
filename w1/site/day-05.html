@@ -89,6 +89,28 @@ exten => _9X.,n,Dial(PJSIP/trunk/${NUM})</code></pre>
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
+
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: Asterisk Dialplan Pattern Matching</h3>
+      <ul>
+        <li><code>_X</code> matches a digit; <code>.</code> matches one or more digits; character classes constrain sets.</li>
+        <li>Use separate contexts for internal vs outbound; include contexts to compose routing.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Dialplan" target="_blank" rel="noopener noreferrer">Dialplan</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching" target="_blank" rel="noopener noreferrer">Pattern Matching</a></li>
+      </ul>
+
+      <h3>Deep Dive: PJSIP Object Model (endpoint, aor, auth, transport)</h3>
+      <ul>
+        <li><code>endpoint</code>: media/signaling; <code>aor</code>: contacts; <code>auth</code>: credentials; <code>transport</code>: IP/port/TLS.</li>
+        <li>NAT helpers: <code>rewrite_contact</code>, <code>force_rport</code>, <code>rtp_symmetric</code>.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration" target="_blank" rel="noopener noreferrer">PJSIP Configuration</a></li>
+      </ul>
+
+      <h3>Deep Dive: Bridging and DIALSTATUS Handling</h3>
+      <ul>
+        <li><code>Dial()</code> returns statuses (BUSY, CONGESTION, NOANSWER, CHANUNAVAIL); implement fallbacks.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Application_Dial" target="_blank" rel="noopener noreferrer">Application: Dial()</a></li>
+      </ul>
       <div id="quiz" hidden>
         <h2>✅ Quiz — Day 5 (10 Questions + Answers)</h2>
         <ol>

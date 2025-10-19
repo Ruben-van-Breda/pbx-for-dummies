@@ -102,3 +102,76 @@ exten => t,1,Playback(vm-goodbye)
 
 10) What should be tested when validating IVR DTMF?
    - Answer: Correct option mapping, timeout behavior, and audio levels.
+
+## Appendix — Deep Dives
+
+### Deep Dive: DTMF Transport — In‑Band vs RFC 4733 vs SIP INFO
+
+- What it is and why it matters: IVRs rely on accurate DTMF; mismatched methods cause missed inputs or double‑detection.
+- Key details:
+  - In‑band: Tones ride in audio; sensitive to compression and noise.
+  - RFC 4733 events: Out‑of‑band RTP payload for reliable detection. [RFC 4733](https://www.rfc-editor.org/rfc/rfc4733)
+  - SIP INFO: Signaled over SIP; may not pass through all networks/SBCs.
+- Practical checklist:
+  - Prefer RFC 4733 with non‑lossy codecs; avoid in‑band with compressed codecs.
+  - Verify end‑to‑end DTMF method with providers.
+- References: [RFC 4733](https://www.rfc-editor.org/rfc/rfc4733)
+
+### Deep Dive: IVR Design — Usability and Timeout Handling
+
+- What it is and why it matters: Simple, fast menus reduce abandonment and errors.
+- Key details:
+  - Keep menus shallow (≤ 3 options per level); provide 0 for operator or voicemail.
+  - Timeouts: implement `t` and invalid (`i`) handlers; replay prompt briefly before exit. [Asterisk Apps](https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+Application+List)
+  - Audio: normalize prompts to consistent loudness to improve recognition.
+- Practical checklist:
+  - Script options clearly; confirm DTMF after selection; log path chosen.
+  - Provide after‑hours path via time conditions.
+- References: [IVR Best Practices](https://www.voip-info.org/ivr/)
+
+### Deep Dive: Voicemail Storage and Quotas
+
+- What it is and why it matters: Proper storage prevents failures and ensures compliance.
+- Key details:
+  - Backends: filesystem vs ODBC/IMAP integration; set folder permissions correctly. [Asterisk Voicemail](https://wiki.asterisk.org/wiki/display/AST/Voicemail)
+  - Quotas/retention: avoid full mailboxes; set sensible limits and notification.
+  - Security: PIN policies; avoid trivial PINs and brute force exposure.
+- Practical checklist:
+  - Monitor disk usage; rotate/expire old messages.
+  - Enforce PIN length and lockout after repeated failures.
+- References: [Asterisk Voicemail](https://wiki.asterisk.org/wiki/display/AST/Voicemail)
+
+---
+
+## ✅ Quiz — Day 12 (Deep Dives, 10 Questions + Answers)
+
+1) Which DTMF method is most robust across compressed links?
+   - Answer: RFC 4733 telephone events.
+
+2) Why avoid in‑band DTMF with lossy codecs?
+   - Answer: Compression distorts tones causing misdetection.
+
+3) What handler should be present for no input in an IVR?
+   - Answer: `t` (timeout) handler.
+
+4) One usability guideline for IVR menus?
+   - Answer: Keep options shallow and under ~3 per level.
+
+5) Where to store voicemail PINs and settings?
+   - Answer: `voicemail.conf` mailbox definitions.
+
+6) A benefit of IMAP/ODBC voicemail backends?
+   - Answer: Centralized storage and easier management/replication.
+
+7) How to prevent full mailboxes from breaking delivery?
+   - Answer: Set quotas and retention policies with alerts.
+
+8) Security measure for voicemail access?
+   - Answer: Enforce strong PINs and lockouts on repeated failures.
+
+9) Why normalize audio prompts?
+   - Answer: Improve DTMF recognition and caller experience.
+
+10) What should you log for IVR selections?
+   - Answer: Caller path/option chosen and any timeout/invalid events.
+

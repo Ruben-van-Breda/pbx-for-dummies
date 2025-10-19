@@ -85,3 +85,76 @@ core set verbose 5
 
 10) What should a troubleshooting log include?
    - Answer: Symptoms, hypotheses, tests, evidence (SIP/RTCP/CLI), root cause, and fix.
+
+## Appendix — Deep Dives
+
+### Deep Dive: SIP Error Taxonomy and Triage Flow
+
+- What it is and why it matters: Classifying failures speeds resolution and avoids blind changes.
+- Key details:
+  - 4xx = client/request issues (auth, number format); 5xx = server/provider issues; 6xx = global.
+  - Map common codes: 403 (forbidden), 404 (not found), 408 (timeout), 486 (busy), 488 (not acceptable), 500/503 (server/unavailable).
+  - Triage: signaling succeeds but no media → inspect SDP, NAT, RTP ports.
+- Practical checklist:
+  - Start with CLI and precise codes; correlate timestamps with pcap and CDR.
+  - Change one variable at a time; document each step.
+- References: [Asterisk CLI](https://wiki.asterisk.org/wiki/display/AST/Asterisk+CLI)
+
+### Deep Dive: RTP/RTCP Analysis for One‑Way and Choppy Audio
+
+- What it is and why it matters: RTCP and packet patterns reveal path issues even when SRTP hides payloads.
+- Key details:
+  - Look for symmetric flow, consistent SSRC/ports, and increasing sequence numbers.
+  - High jitter/loss correlates with choppy audio; confirm DSCP/QoS and network path.
+  - SRTP: rely on ports/RTCP stats when payload is encrypted.
+- Practical checklist:
+  - Use Wireshark VoIP/RTCP stats; confirm RTP both directions.
+  - Validate firewall/NAT pinholes match SDP.
+- References: [Wireshark VoIP Analysis](https://www.wireshark.org/docs/wsug_html_chunked/ChTel.html)
+
+### Deep Dive: Logging Strategy and Reproducible Test Cases
+
+- What it is and why it matters: Structured logs and reproducible steps make fixes durable and auditable.
+- Key details:
+  - Raise verbosity selectively; persist logs; rotate responsibly.
+  - Capture environment (IPs, codecs, versions) with each test; keep fixtures.
+  - Red/green tests: prove failure, apply change, prove success.
+- Practical checklist:
+  - Template a troubleshooting log; include timestamps and exact commands.
+  - Store small pcaps alongside notes for future reference.
+- References: [Asterisk CDRs](https://wiki.asterisk.org/wiki/display/AST/Call+Detail+Records)
+
+---
+
+## ✅ Quiz — Day 13 (Deep Dives, 10 Questions + Answers)
+
+1) What does a 488 response usually indicate?
+   - Answer: Not acceptable here (e.g., codec/SDP mismatch).
+
+2) First step when signaling works but no audio?
+   - Answer: Inspect SDP addresses/ports and NAT/firewall.
+
+3) What reveals choppy audio causes in encrypted calls?
+   - Answer: RTCP stats, loss/jitter patterns, and RTP directionality.
+
+4) How should test changes be applied during triage?
+   - Answer: Change one variable at a time and document.
+
+5) Two artifacts to attach to a troubleshooting log?
+   - Answer: CLI excerpts and pcap/RTCP stats.
+
+6) What does 404 vs 486 imply?
+   - Answer: 404 not found (routing/number), 486 busy (callee busy).
+
+7) Which Wireshark view visualizes the call ladder?
+   - Answer: Telephony → VoIP Calls → Flow Sequence.
+
+8) Why store small pcaps with notes?
+   - Answer: Reproducibility and future regression checks.
+
+9) What DSCP/QoS check helps with jitter?
+   - Answer: Confirm proper DSCP marking and priority queuing.
+
+10) What correlates logs and captures across systems?
+   - Answer: Accurate NTP time sync.
+

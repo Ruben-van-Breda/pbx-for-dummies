@@ -108,3 +108,77 @@ contact=sip:PROVIDER_SIP_DOMAIN_OR_IP
 
 10) Why open provider RTP ranges on firewall?
    - Answer: So media can flow; SIP may work otherwise but audio will fail.
+
+## Appendix — Deep Dives
+
+### Deep Dive: Registration vs IP‑Based Trunks — Security and Reliability
+
+- What it is and why it matters: Choosing between credentialed registration and IP‑ACL trunks affects reachability, security posture, and failover.
+- Key details:
+  - Registration: NAT‑friendly for dynamic IPs; requires auth; provider learns your current contact URI.
+  - IP‑ACL: Static IPs with firewall rules; lower signaling overhead but brittle if IP changes.
+  - Security: Lock registration to TLS and strong creds; lock IP‑ACL to exact source IPs and ports.
+- Practical checklist:
+  - Confirm provider mode; avoid mixing auth on IP‑ACL trunks.
+  - Use TLS for signaling and open only provider RTP ranges.
+  - Monitor registration refreshes and 401/403 failures.
+- References: [Asterisk PJSIP Trunk Config](https://wiki.asterisk.org/wiki/display/AST/PJSIP+Trunk+Configuration)
+
+### Deep Dive: Number Normalization and Caller ID (CLI/CNAM)
+
+- What it is and why it matters: Consistent E.164 formatting and proper caller identity increase answer rates and reduce rejections.
+- Key details:
+  - Outbound formatting: enforce `+E.164`; map local dialing to international.
+  - CLI/CNAM: Providers may require verified caller IDs; stamping `From`/`P-Asserted-Identity` differs by trunk. [voip-info CallerID](https://www.voip-info.org/callerid/)
+  - Inbound DID mapping: normalize to internal format for routing.
+- Practical checklist:
+  - Add normalization functions; document per‑trunk CLI rules.
+  - Test with multiple carriers for interop.
+- References: [ITU E.164](https://www.itu.int/rec/T-REC-E.164/en)
+
+### Deep Dive: NAT/Media Considerations for Trunks
+
+- What it is and why it matters: Even with successful SIP signaling, media often fails due to NAT/firewalls; correct external addresses and ports are critical.
+- Key details:
+  - Disable SIP ALG; set PBX external signaling/media addresses.
+  - Align codecs (G.711 safe default) and confirm RTP port ranges are open.
+  - Consider SBCs or media anchoring when endpoints/carriers are behind NAT.
+- Practical checklist:
+  - Verify SDP contains correct public IP; run a test call and check RTP both ways.
+  - Open provider RTP UDP range; confirm no double‑NAT issues.
+- References: [Asterisk NAT Support](https://wiki.asterisk.org/wiki/display/AST/Asterisk+SIP+NAT+support)
+
+---
+
+## ✅ Quiz — Day 10 (Deep Dives, 10 Questions + Answers)
+
+1) Why might you choose registration over IP‑ACL?
+   - Answer: Dynamic IPs/NAT friendliness and provider‑learned contact URI.
+
+2) A risk unique to IP‑ACL trunks?
+   - Answer: Breakage on IP changes or asymmetric routing.
+
+3) Which header may be required to present a verified caller ID?
+   - Answer: `P-Asserted-Identity` (varies by provider).
+
+4) What default codec is widely accepted by carriers?
+   - Answer: G.711 (ulaw/alaw).
+
+5) What NAT feature should usually be disabled on firewalls?
+   - Answer: SIP ALG.
+
+6) Where should E.164 normalization happen?
+   - Answer: At the outbound routing boundary.
+
+7) What indicates a registration auth issue?
+   - Answer: 401/403 responses in CLI.
+
+8) What confirms media is flowing bidirectionally?
+   - Answer: RTP seen both ways (ports/RTCP stats) and two‑way audio.
+
+9) Why anchor media via an SBC?
+   - Answer: Normalize NAT and ensure routable RTP paths.
+
+10) What to validate after enabling TLS on trunks?
+   - Answer: Certificate CN/SAN, method (TLS1.2/1.3), and provider compatibility.
+

@@ -100,3 +100,76 @@ media_encryption=sdes
 
 10) When should you consider an SBC?
    - Answer: For internet-facing trunks/remote users to handle security, NAT, and policy.
+
+## Appendix — Deep Dives
+
+### Deep Dive: TLS Ciphers, Versions, and Certificate Hygiene
+
+- What it is and why it matters: Correct TLS versions/ciphers and valid certificates prevent handshake failures and MITM risks.
+- Key details:
+  - Prefer TLS 1.2/1.3; disable outdated versions/ciphers. [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)
+  - Certificates must include correct SANs (FQDN) and valid chains; clients validate hostname.
+  - Align client/server cipher suites; test with `openssl s_client`.
+- Practical checklist:
+  - Use modern cipher suites; renew certs before expiry; sync time (NTP).
+  - Verify CN/SAN match and intermediate chain on the server.
+- References: [RFC 8446 — TLS 1.3](https://www.rfc-editor.org/rfc/rfc8446), [Asterisk Secure Calling](https://wiki.asterisk.org/wiki/display/AST/Secure+Calling)
+
+### Deep Dive: SRTP Keying — SDES vs DTLS‑SRTP
+
+- What it is and why it matters: SRTP protects media; key exchange method impacts security and interoperability.
+- Key details:
+  - SDES: Keys signaled in SDP (`a=crypto`); simpler but exposes keys to signaling path.
+  - DTLS‑SRTP: Keys negotiated over DTLS; preferred in WebRTC and modern endpoints. [RFC 5764](https://www.rfc-editor.org/rfc/rfc5764)
+  - Interop: Ensure both ends support the same mode; otherwise expect no media.
+- Practical checklist:
+  - Prefer DTLS‑SRTP where possible; fall back to SDES for legacy.
+  - Confirm cipher suites (AES_CM_128_HMAC_SHA1_80) and rekey behavior.
+- References: [RFC 3711 — SRTP](https://www.rfc-editor.org/rfc/rfc3711), [RFC 5764 — DTLS‑SRTP](https://www.rfc-editor.org/rfc/rfc5764)
+
+### Deep Dive: SBC Capabilities and Topology Hiding
+
+- What it is and why it matters: SBCs act as B2BUAs that enforce security policies, normalize signaling, and hide internal topology.
+- Key details:
+  - Header manipulation: remove private IPs, normalize `Via`/`Contact`, enforce auth.
+  - Media anchoring: centralize RTP, enable transcoding and QoS; simplifies NAT traversal.
+  - Policy and DoS controls: rate limiting, access lists, TLS termination.
+- Practical checklist:
+  - Place SBC at the edge; define ingress/egress policies; log SIP and media metrics.
+  - Test with encrypted and legacy peers; verify failover.
+- References: [voip-info SBC](https://www.voip-info.org/sbc/)
+
+---
+
+## ✅ Quiz — Day 11 (Deep Dives, 10 Questions + Answers)
+
+1) Which TLS version should be preferred today?
+   - Answer: TLS 1.2 or 1.3 (prefer 1.3 where supported).
+
+2) What SAN requirement often breaks TLS for SIP clients?
+   - Answer: Missing/correct FQDN in the certificate SAN.
+
+3) A security drawback of SDES vs DTLS‑SRTP?
+   - Answer: Keys travel in SDP signaling with SDES.
+
+4) Which SRTP cipher is widely supported?
+   - Answer: AES_CM_128_HMAC_SHA1_80.
+
+5) Name two SBC functions that help NAT traversal.
+   - Answer: Media anchoring and header normalization/topology hiding.
+
+6) How to test TLS handshake and ciphers from CLI?
+   - Answer: `openssl s_client -connect host:5061 -tls1_2` (or `-tls1_3`).
+
+7) What indicates DTLS‑SRTP is negotiated?
+   - Answer: DTLS handshake followed by SRTP keys; no `a=crypto` lines.
+
+8) Why is time sync important for TLS?
+   - Answer: Certificate validity checks rely on accurate time.
+
+9) Where should an SBC be placed?
+   - Answer: At the network edge between providers/Internet and your PBX.
+
+10) What breaks media when SRTP modes mismatch?
+   - Answer: One end uses SDES while the other expects DTLS‑SRTP.
+
