@@ -5,7 +5,7 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.
 .site-header,.site-footer{padding:24px 16px;text-align:center;background:linear-gradient(180deg,rgba(48,167,255,.15),rgba(0,0,0,0));border-bottom:1px solid #223}
 .site-footer{border-top:1px solid #223;border-bottom:none;color:var(--muted)}
 .subtitle{color:var(--muted);margin-top:-6px}
-main{max-width:1000px;margin:0 auto;padding:24px 16px}
+main{max-width:1200px;margin:0 auto;padding:24px 16px}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
 .card{display:block;padding:16px;background:var(--card);border:1px solid #2a323c;border-radius:12px;color:var(--text);text-decoration:none;transition:transform .08s ease, border-color .2s}
 .card:hover{transform:translateY(-2px);border-color:var(--accent)}
@@ -17,7 +17,7 @@ main{max-width:1000px;margin:0 auto;padding:24px 16px}
 a{color:var(--link)}
 
 /* Lesson layout */
-.lesson{max-width:860px;margin:0 auto}
+.lesson{max-width:1000px;margin:0 auto}
 .lesson header{margin:12px 0 8px 0}
 .lesson .nav-top{display:flex;justify-content:space-between;gap:8px;margin:12px 0}
 .lesson .nav-top a{background:var(--card);border:1px solid #2a323c;border-radius:10px;padding:8px 12px;text-decoration:none;color:var(--text)}
@@ -29,6 +29,10 @@ a{color:var(--link)}
 .lesson th{background:#0f1318}
 .lesson h2,.lesson h3{border-left:3px solid var(--accent);padding-left:8px}
 .lesson footer{margin-top:16px;color:var(--muted);text-align:center}
+
+/* Responsive media */
+.lesson .content video{display:block;width:100%;max-width:100%;height:auto;max-height:70vh;background:#000;border:1px solid #2a323c;border-radius:10px;margin:12px 0}
+@media (max-width:720px){.lesson .content{padding:14px}.lesson .nav-top{flex-wrap:wrap}.lesson .content video{max-height:45vh}}
 
 /* Quiz controls */
 .quiz-controls{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:12px 0}

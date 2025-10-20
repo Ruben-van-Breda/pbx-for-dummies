@@ -32,6 +32,8 @@
         <li><strong>Jitter buffer</strong>: Smooths packet timing variation; too small leads to choppiness, too big adds delay.</li>
       </ul>
 
+      <video controls src="../../resources/The_Journey_of_a_VoIP_Call.mp4" title="The Journey of a VoIP Call"></video>
+
       <h2>Call Flow Snapshot</h2>
       <ol>
         <li>Endpoints negotiate codecs in SIP (offer/answer, SDP)</li>
@@ -72,7 +74,7 @@
       <ul>
         <li><a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RTP (RFC 3550) — IETF</a></li>
         <li><a href="https://www.rfc-editor.org/rfc/rfc3551" target="_blank" rel="noopener noreferrer">RTP Profile (RFC 3551) — IETF</a></li>
-        <li><a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">SDP (RFC 8866) — IETF</a></li>
+        <li><a href="https://www.rfc-editor.org/rfc/rfc4566" target="_blank" rel="noopener noreferrer">SDP (RFC 4566) — IETF</a></li>
         <li><a href="https://www.voip-info.org/rtp/" target="_blank" rel="noopener noreferrer">RTP basics — VoIP-Info.org</a></li>
         <li><a href="https://www.voip-info.org/codecs/" target="_blank" rel="noopener noreferrer">Codecs overview — VoIP-Info.org</a></li>
         <li><a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus codec — opus-codec.org</a></li>
@@ -102,11 +104,13 @@
       <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
 
       <h3>Deep Dive: SDP Offer/Answer and Packetization (ptime)</h3>
-      <p><strong>Why it matters</strong>: Codec choice and packetization affect bandwidth, latency, and loss impact. SIP endpoints negotiate these via SDP during offer/answer.</p>
+      <p><strong>Why it matters</strong>: Codec choice and packetization directly affect bandwidth, latency, and loss impact. SIP endpoints negotiate these via SDP during offer/answer.</p>
       <ul>
-        <li>Offer/answer defines media parameters and codecs (<a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264</a>).</li>
-        <li>SDP syntax and attributes including <code>a=ptime</code>/<code>a=maxptime</code> are in <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866</a>.</li>
-        <li>Tradeoffs: larger ptime lowers packets/second but adds delay and increases loss impact.</li>
+        <li>Offer/answer defines how endpoints agree on media parameters and codecs (<a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264</a>).</li>
+        <li>SDP syntax and attributes (including <code>a=ptime</code> and <code>a=maxptime</code>) are specified in the current SDP spec (<a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866</a>).</li>
+        <li><code>ptime</code> indicates the preferred packetization time in ms per audio packet; common values: 20 ms (G.711 default), 10–60 ms typical ranges. <code>maxptime</code> bounds the maximum.</li>
+        <li>Endpoints may advertise preferences but can transmit different packetization if needed; interoperability improves when both sides support 20 ms.</li>
+        <li>Tradeoffs: larger <code>ptime</code> lowers packets/second and overhead but adds mouth‑to‑ear delay and increases loss impact per packet.</li>
       </ul>
       <pre><code>v=0
 o=- 0 0 IN IP4 203.0.113.10
@@ -121,29 +125,40 @@ a=fmtp:101 0-16
 a=ptime:20
 a=maxptime:40</code></pre>
       <ul>
-        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264</a>, <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866</a></li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3264" target="_blank" rel="noopener noreferrer">RFC 3264 — Offer/Answer</a>, <a href="https://www.rfc-editor.org/rfc/rfc8866" target="_blank" rel="noopener noreferrer">RFC 8866 — SDP</a></li>
       </ul>
 
       <h3>Deep Dive: RTCP Reports and Jitter Interpretation</h3>
+      <p><strong>Why it matters</strong>: RTCP sender/receiver reports quantify quality (loss, jitter, RTT) and help pinpoint impairments.</p>
       <ul>
-        <li>RTCP report blocks provide loss/jitter/RTT; jitter is in RTP timestamp units (<a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>).</li>
-        <li>Targets: low single‑digit ms jitter on wired LANs; delay budgets ≲ 150 ms one‑way (<a href="https://www.itu.int/rec/T-REC-G.114/en" target="_blank" rel="noopener noreferrer">ITU‑T G.114</a>).</li>
+        <li>RTP defines interarrival jitter and RTCP report blocks with fraction lost, cumulative lost, highest seq, jitter, and LSR/DLSR for RTT (<a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>).</li>
+        <li>Jitter is a smoothed estimator (per‑packet transit variance); values are in timestamp units. Tools convert to milliseconds using the payload clock rate.</li>
+        <li>RTT derives from sender/receiver report timestamps: <code>RTT ≈ now − LSR − DLSR</code> (<a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>).</li>
+        <li>Reasonable targets: low single‑digit ms jitter on wired LANs; one‑way delay above ~150 ms becomes noticeable (<a href="https://www.itu.int/rec/T-REC-G.114/en" target="_blank" rel="noopener noreferrer">ITU‑T G.114</a>).</li>
+        <li>Loss patterns matter: bursty loss degrades voice more than the same average random loss.</li>
       </ul>
+      <p><strong>Practical checklist:</strong></p>
       <ul>
-        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3550" target="_blank" rel="noopener noreferrer">RFC 3550</a>, <a href="https://www.itu.int/rec/T-REC-G.114/en" target="_blank" rel="noopener noreferrer">G.114</a></li>
+        <li>In Wireshark: Telephony → RTP → Streams → Analyze to view jitter, loss, and clock skew; correlate with RTCP (<a href="https://www.wireshark.org/docs/wsug_html_chunked/ChTelRTP.html" target="_blank" rel="noopener noreferrer">Wireshark RTP Analysis</a>).</li>
+        <li>Compare uplink vs downlink metrics; asymmetry often indicates access‑network problems.</li>
+        <li>Validate that SSRCs and payload types match negotiated SDP.</li>
       </ul>
 
-      <h3>Deep Dive: Opus over RTP (Payload, FEC, Packetization)</h3>
+      <h3>Deep Dive: Opus over RTP (Payload, FEC, and Packetization)</h3>
+      <p><strong>Why it matters</strong>: Opus is a modern, adaptive codec that delivers high quality across diverse networks when configured correctly.</p>
       <ul>
-        <li>RTP payload format and parameters: <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587</a>.</li>
-        <li>Options: <code>minptime</code>, <code>maxptime</code>, <code>stereo</code>, <code>useinbandfec</code>; enable FEC on lossy links.</li>
+        <li>RTP payload format for Opus, including clock rate (48000 Hz) and channel parameters, is defined in <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587</a>.</li>
+        <li>Typical SDP advertises <code>rtpmap</code> and optional <code>fmtp</code> parameters such as <code>minptime</code>, <code>maxptime</code>, <code>stereo</code>, <code>sprop-maxcapturerate</code>, and <code>useinbandfec</code>.</li>
+        <li>In‑band FEC (<code>useinbandfec=1</code>) improves robustness to burst loss; consider enabling on lossy links in combination with smaller <code>ptime</code> (e.g., 20 ms).</li>
+        <li>DTX can reduce bandwidth during silence but may interact with VAD/comfort‑noise; test end‑to‑end behavior.</li>
+        <li>Interop notes: ensure both sides agree on stereo vs mono and honor <code>maxptime</code> ≤ 60 ms as commonly implemented.</li>
       </ul>
       <pre><code>m=audio 49170 RTP/AVP 111 101
 a=rtpmap:111 opus/48000/2
 a=fmtp:111 minptime=10;maxptime=60;useinbandfec=1
 a=rtpmap:101 telephone-event/8000</code></pre>
       <ul>
-        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587</a>, <a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus</a></li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc7587" target="_blank" rel="noopener noreferrer">RFC 7587 — RTP Payload for Opus</a>, <a href="https://opus-codec.org/" target="_blank" rel="noopener noreferrer">Opus Codec — Official Site</a></li>
       </ul>
       <div id="quiz" hidden>
         <h2>✅ Quiz — Day 3 (10 Questions + Answers)</h2>

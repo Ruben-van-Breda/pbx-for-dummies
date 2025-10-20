@@ -11,6 +11,8 @@
 - RTCP: Companion control protocol that reports quality (jitter, loss, round-trip time).
 - Jitter buffer: Smooths packet timing variation; too small leads to choppiness, too big adds delay.
 
+<video controls src="../The_Journey_of_a_VoIP_Call.mp4" title="Voip Calling" ></video>
+
 ## Call Flow Snapshot
 1) Endpoints negotiate codecs in SIP (offer/answer, SDP)
 2) Media flows directly between endpoints (or via PBX/SBC) over RTP/UDP

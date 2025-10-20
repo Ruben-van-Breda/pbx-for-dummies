@@ -20,6 +20,14 @@ Phones/Softphones ──▶ PBX ──▶ SIP Trunk ──▶ Carrier ──▶ 
               └─────────┴── Internal extensions, voicemail, IVR, queues
 ```
 
+<video controls src="../Demystifying_the_PBX.mp4" title="Title"></video>
+
+### Podcast
+
+<audio controls src="../resources/From_Copper_Wires_to_Codecs__Decoding_the_Hidden_Infrastructure%20Podcast.mp4"></audio>
+
+[Download podcast](../resources/From_Copper_Wires_to_Codecs__Decoding_the_Hidden_Infrastructure%20Podcast.mp4)
+
 ## What VoIP Changed
 - Switched from proprietary hardware to software running on commodity servers
 - Reduced cost and increased flexibility (APIs, integrations, remote work)

@@ -30,6 +30,8 @@
         <li>Important headers: Via (routing), From/To (caller/callee), Contact (reachable URI), Call-ID (dialog), CSeq (sequence), SDP (media offer/answer in body).</li>
       </ul>
 
+      <video controls src="../../resources/The_Invisible_Conversation_04.mp4" title="The Invisible Conversation"></video>
+
       <h2>Minimal Call Flow</h2>
       <pre><code>Caller → INVITE → Callee
 Caller ← 100 Trying ← Callee
@@ -100,21 +102,48 @@ Caller ← 200 OK ← Callee</code></pre>
 
       <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
 
-      <h3>Deep Dive: SIP Transactions vs Dialogs</h3>
+      <h3>Deep Dive: SIP Transactions vs Dialogs (why both matter)</h3>
+      <p><strong>Why it matters:</strong> Understanding the transaction layer (request–response over a single branch) vs the dialog layer (longer‑lived peer relationship) helps debug retransmissions, forking, and mid‑dialog requests.</p>
       <ul>
-        <li>A transaction spans a request and its responses. A dialog persists across transactions (re‑INVITE, BYE) and is identified by Call‑ID and tags (<a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>).</li>
-        <li>Forking creates multiple early dialogs; only one answers 200 OK.</li>
+        <li><strong>Transactions</strong>: A transaction spans a request and all responses to it (through completion). INVITE server/client transactions have special timer behavior (<a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>).</li>
+        <li><strong>Dialogs</strong>: A dialog is established by matching Call‑ID, local/remote tags, and route set; it persists across multiple transactions (e.g., re‑INVITE, BYE) (<a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>).</li>
+        <li><strong>Forking</strong>: Can create multiple early dialogs; only one typically answers 200 OK. Others must be terminated.</li>
+        <li><strong>CSeq</strong>: Increases per transaction within a dialog; mismatches cause 500/491 out‑of‑order errors.</li>
+      </ul>
+      <p><strong>Practical checklist:</strong></p>
+      <ul>
+        <li>In traces, group by Call‑ID and From/To tags to follow a dialog; use Via <code>branch</code> to follow a transaction.</li>
+        <li>Confirm CSeq increments on re‑INVITE/UPDATE; verify Route set is respected for mid‑dialog requests.</li>
       </ul>
 
-      <h3>Deep Dive: Via branch, magic cookie, and rport</h3>
+      <h3>Deep Dive: Via branch, magic cookie, and rport (reply routing/NAT)</h3>
+      <p><strong>Why it matters:</strong> Correct reply routing prevents stray responses and fixes many NAT traversal issues in request/response paths.</p>
       <ul>
-        <li>Via branch values begin with <code>z9hG4bK</code> and must be unique; <code>rport</code> requests replies to source port (NAT aid). References: <a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>, <a href="https://www.rfc-editor.org/rfc/rfc3581" target="_blank" rel="noopener noreferrer">RFC 3581</a>.</li>
+        <li>The Via <code>branch</code> parameter must start with magic cookie <code>z9hG4bK</code> and be unique per branch (<a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261</a>).</li>
+        <li>The <code>rport</code> parameter requests that responses be sent back to the source port from which the request came (useful behind NAT) (<a href="https://www.rfc-editor.org/rfc/rfc3581" target="_blank" rel="noopener noreferrer">RFC 3581</a>).</li>
+        <li>Proxies add their own Via at the top and remove it when forwarding responses; mismatched or reused branches break transactions.</li>
+        <li>Combine with SIP <code>Contact</code> and outbound keepalives for stable registrations.</li>
+      </ul>
+      <pre><code>Via: SIP/2.0/UDP 198.51.100.10;branch=z9hG4bK-a1b2c3;rport</code></pre>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3261" target="_blank" rel="noopener noreferrer">RFC 3261 — SIP</a>, <a href="https://www.rfc-editor.org/rfc/rfc3581" target="_blank" rel="noopener noreferrer">RFC 3581 — rport</a></li>
       </ul>
 
-      <h3>Deep Dive: Early Media and Reliable Provisionals (PRACK)</h3>
+      <h3>Deep Dive: Early Media (180 vs 183) and Reliable Provisionals (PRACK)</h3>
+      <p><strong>Why it matters:</strong> Ringback and announcements before answer depend on early media; reliability avoids SDP mismatch and clipping on lossy links.</p>
       <ul>
-        <li>180 Ringing vs 183 Session Progress with SDP for early media (<a href="https://www.rfc-editor.org/rfc/rfc3960" target="_blank" rel="noopener noreferrer">RFC 3960</a>).</li>
-        <li>Reliable provisional responses with <code>100rel</code> and PRACK (<a href="https://www.rfc-editor.org/rfc/rfc3262" target="_blank" rel="noopener noreferrer">RFC 3262</a>).</li>
+        <li><strong>180 Ringing</strong> typically implies local ringback; <strong>183 Session Progress</strong> may carry SDP for early media (<a href="https://www.rfc-editor.org/rfc/rfc3960" target="_blank" rel="noopener noreferrer">RFC 3960</a>).</li>
+        <li>Reliable provisional responses use <code>Require: 100rel</code> and PRACK to confirm receipt and allow offer/answer before 200 OK (<a href="https://www.rfc-editor.org/rfc/rfc3262" target="_blank" rel="noopener noreferrer">RFC 3262</a>).</li>
+        <li>Early dialogs exist prior to final response; ensure consistent SDP direction and ports to avoid one‑way early audio.</li>
+        <li>Gateways/SBCs often anchor early media; verify RTP actually flows when 183+SDP is seen.</li>
+      </ul>
+      <p><strong>Practical checklist:</strong></p>
+      <ul>
+        <li>When early media is expected, look for 183 with SDP and confirm PRACK if <code>100rel</code> is used.</li>
+        <li>Check that final 200 OK SDP matches or properly renegotiates from provisional SDP.</li>
+      </ul>
+      <ul>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3960" target="_blank" rel="noopener noreferrer">RFC 3960 — Early Media</a>, <a href="https://www.rfc-editor.org/rfc/rfc3262" target="_blank" rel="noopener noreferrer">RFC 3262 — PRACK</a></li>
       </ul>
       <div id="quiz" hidden>
         <h2>✅ Quiz — Day 4 (10 Questions + Answers)</h2>
