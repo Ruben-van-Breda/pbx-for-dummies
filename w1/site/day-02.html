@@ -33,6 +33,43 @@
         <li><strong>Call setup vs transport</strong>: Setup is signaling (e.g., SIP/ISDN); transport is voice frames (e.g., RTP/TDM).</li>
       </ul>
 
+      <video controls src="../../Telephony__Analog_to_Digital.mp4" title="Analog to Digital"></video>
+
+      <h2>Details: FXS/FXO, PRI (T1/E1), and Analog↔IP Gateways</h2>
+
+      <h3>FXS vs FXO (Analog Interfaces)</h3>
+      <p><strong>What it is and why it matters</strong>: FXS provides battery and dial tone to analog phones; FXO receives that service to connect devices toward the PSTN. Choosing the correct side avoids wiring errors and no-dial-tone issues.</p>
+      <p><strong>Key details:</strong></p>
+      <ul>
+        <li>FXS → Phone/ATA; FXO → PSTN/FXS.</li>
+        <li>Ring voltage, polarity, and impedance vary by region; verify device specs.</li>
+        <li>Caller ID delivery methods (FSK/DTMF) and timing differ by country; align with gateways.</li>
+      </ul>
+      <p><strong>Checklist:</strong> Identify the power-supplying side; match regional signaling; test ring cadence and caller ID.</p>
+      <p><strong>References:</strong> <a href="https://www.voip-info.org/fxs-fxo/" target="_blank" rel="noopener noreferrer">FXS/FXO — VoIP-Info.org</a></p>
+
+      <h3>PRI over T1/E1</h3>
+      <p><strong>What it is and why it matters</strong>: PRI provided multi-channel digital trunks before SIP became ubiquitous. Understanding channelization and signaling helps with legacy migrations and troubleshooting.</p>
+      <p><strong>Key details:</strong></p>
+      <ul>
+        <li>T1 PRI: 23B+1D (24 timeslots); E1 PRI: 30B+1D+1 framing slot (32 timeslots).</li>
+        <li>Signaling: ISDN Q.931 on the D-channel; framing/line defined by G.704/G.703 (E1).</li>
+        <li>Common gotchas: CRC/framing mismatches, clock slips, and profile differences (NI2 vs EuroISDN).</li>
+      </ul>
+      <p><strong>Checklist:</strong> Confirm framing/CRC/clocking, switch type, and channel map; test inbound/outbound call setup.</p>
+      <p><strong>References:</strong> <a href="https://www.itu.int/rec/T-REC-Q.931" target="_blank" rel="noopener noreferrer">ITU‑T Q.931 (ISDN DSS1)</a>, <a href="https://www.itu.int/rec/T-REC-G.704" target="_blank" rel="noopener noreferrer">ITU‑T G.704</a>, <a href="https://www.itu.int/rec/T-REC-G.703" target="_blank" rel="noopener noreferrer">ITU‑T G.703</a>, <a href="https://wiki.asterisk.org/wiki/display/DAHDI/DAHDI+Telephony+Interfaces" target="_blank" rel="noopener noreferrer">Asterisk DAHDI/PRI Overview</a></p>
+
+      <h3>Analog↔IP Gateways (ATAs and Media Gateways)</h3>
+      <p><strong>What it is and why it matters</strong>: Gateways and ATAs bridge legacy analog phones/faxes, door phones, and alarms into IP PBXs. They enable phased migrations and preserve critical analog endpoints.</p>
+      <p><strong>Key details:</strong></p>
+      <ul>
+        <li>ATA ports are FXS (to analog device); upstream SIP to PBX/ITSP.</li>
+        <li>Fax: prefer T.38 when supported; otherwise G.711 pass-through with careful jitter/ptime.</li>
+        <li>Dial-plan nuances: hook-flash, pulse-to-tone conversion, and caller ID timing.</li>
+      </ul>
+      <p><strong>Checklist:</strong> Map ports to extensions/DIDs; set codec policy (G.711 for fax); test hook-flash features and failover.</p>
+      <p><strong>References:</strong> <a href="https://www.voip-info.org/ata/" target="_blank" rel="noopener noreferrer">Analog Telephone Adapter (ATA) — VoIP-Info.org</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/PJSIP+Configuration+Examples" target="_blank" rel="noopener noreferrer">Asterisk PJSIP Examples</a></p>
+
       <h2>Visual</h2>
       <pre><code>Analog phone ──(FXS)── PBX FXO card ── PSTN
 
@@ -252,44 +289,29 @@ PBX ──(T1/E1 PRI)── Telco switch  (multiple voice channels)</code></pre>
 </body>
 </html>
 
-      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+      <h2>Appendix — Deep Dives</h2>
 
       <h3>Deep Dive: PRI Signaling and Framing (Q.931, G.704)</h3>
       <ul>
-        <li>D‑channel carries Q.931 call control (SETUP/CONNECT/RELEASE) for channel allocation.</li>
-        <li>T1: 23B+1D; E1: 30B+1D(+1 framing). Framing/CRC/clocking must match the telco.</li>
-        <li>References: <a href="https://www.itu.int/rec/T-REC-Q.931" target="_blank" rel="noopener noreferrer">ITU‑T Q.931</a>, <a href="https://www.itu.int/rec/T-REC-G.704" target="_blank" rel="noopener noreferrer">G.704</a>, <a href="https://www.itu.int/rec/T-REC-G.703" target="_blank" rel="noopener noreferrer">G.703</a>.</li>
+        <li><strong>Why it matters:</strong> Correct framing and signaling are essential for stable T1/E1 PRI links during migrations.</li>
+        <li><strong>Key details:</strong> D‑channel carries Q.931 call control (SETUP/CONNECT/RELEASE) for channel allocation. T1: 23B+1D; E1: 30B+1D(+1 framing). Framing/CRC/clocking must match the telco.</li>
+        <li><strong>Practical checklist:</strong> Verify line coding, framing, CRC, and switch type; monitor alarms/slips; confirm channel maps.</li>
+        <li><strong>References:</strong> <a href="https://www.itu.int/rec/T-REC-Q.931" target="_blank" rel="noopener noreferrer">ITU‑T Q.931</a>, <a href="https://www.itu.int/rec/T-REC-G.704" target="_blank" rel="noopener noreferrer">ITU‑T G.704</a>, <a href="https://www.itu.int/rec/T-REC-G.703" target="_blank" rel="noopener noreferrer">ITU‑T G.703</a></li>
       </ul>
 
       <h3>Deep Dive: Fax over IP — T.38 vs G.711 Pass‑Through</h3>
       <ul>
-        <li>T.38 relays fax data, avoiding PCM impairments; G.711 pass‑through can work on clean networks; sensitive to jitter/loss/ptime.</li>
-        <li>References: <a href="https://www.itu.int/rec/T-REC-T.38/en" target="_blank" rel="noopener noreferrer">ITU‑T T.38</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/T.38+Gateway" target="_blank" rel="noopener noreferrer">Asterisk T.38 Gateway</a>.</li>
+        <li><strong>Why it matters:</strong> Fax reliability depends on choosing the right transport over lossy IP links.</li>
+        <li><strong>Key details:</strong> T.38 relays fax data, avoiding PCM impairments; G.711 pass‑through can work on clean networks; sensitive to jitter/loss/ptime. Interop: negotiate per call; some gateways can switch to T.38 mid‑call on CED/ANS detection.</li>
+        <li><strong>Practical checklist:</strong> Prefer T.38 when available; otherwise use G.711 µ/A‑law, stable jitter buffers, 20 ms <code>ptime</code>.</li>
+        <li><strong>References:</strong> <a href="https://www.itu.int/rec/T-REC-T.38/en" target="_blank" rel="noopener noreferrer">ITU‑T T.38</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/T.38+Gateway" target="_blank" rel="noopener noreferrer">Asterisk T.38 Gateway</a></li>
       </ul>
 
       <h3>Deep Dive: Analog Caller ID Signaling (FSK vs DTMF)</h3>
       <ul>
-        <li>Regions vary between Bellcore/ETSI FSK and DTMF; timing and polarity affect decode success; configure per locale.</li>
-        <li>References: <a href="https://www.etsi.org/deliver/etsi_en/300600_300699/30065901/01.03.01_60/en_30065901v010301p.pdf" target="_blank" rel="noopener noreferrer">ETSI EN 300 659</a>.</li>
-      </ul>
-
-      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
-
-      <h3>Deep Dive: PRI Signaling and Framing (Q.931, G.704)</h3>
-      <ul>
-        <li>D‑channel carries Q.931 call control; T1: 23B+1D; E1: 30B+1D (+framing). Align framing/CRC/clocking with the telco.</li>
-        <li>References: <a href="https://www.itu.int/rec/T-REC-Q.931" target="_blank" rel="noopener noreferrer">ITU‑T Q.931</a>, <a href="https://www.itu.int/rec/T-REC-G.704" target="_blank" rel="noopener noreferrer">G.704</a>, <a href="https://www.itu.int/rec/T-REC-G.703" target="_blank" rel="noopener noreferrer">G.703</a>.</li>
-      </ul>
-
-      <h3>Deep Dive: Fax over IP — T.38 vs G.711 Pass‑Through</h3>
-      <ul>
-        <li>T.38 relays fax data over IP; G.711 pass‑through can work on clean networks but is sensitive to jitter/ptime.</li>
-        <li>References: <a href="https://www.itu.int/rec/T-REC-T.38/en" target="_blank" rel="noopener noreferrer">ITU‑T T.38</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/T.38+Gateway" target="_blank" rel="noopener noreferrer">Asterisk T.38 Gateway</a>.</li>
-      </ul>
-
-      <h3>Deep Dive: Analog Caller ID Signaling (FSK vs DTMF)</h3>
-      <ul>
-        <li>Regions vary between FSK (Bellcore/ETSI) and DTMF; timing and polarity affect decode success.</li>
-        <li>References: <a href="https://www.etsi.org/deliver/etsi_en/300600_300699/30065901/01.03.01_60/en_30065901v010301p.pdf" target="_blank" rel="noopener noreferrer">ETSI EN 300 659</a>.</li>
+        <li><strong>Why it matters:</strong> CID delivery differences impact ATAs/gateway configs across regions.</li>
+        <li><strong>Key details:</strong> Many regions use Bellcore/ETSI FSK between first/second ring; others use DTMF post‑ring. Timing/leveling and polarity can affect decode success; configure per locale.</li>
+        <li><strong>Practical checklist:</strong> Set country profile on ATAs; test CID with local carriers and adjust timing.</li>
+        <li><strong>References:</strong> <a href="https://www.etsi.org/deliver/etsi_en/300600_300699/30065901/01.03.01_60/en_30065901v010301p.pdf" target="_blank" rel="noopener noreferrer">ETSI EN 300 659</a></li>
       </ul>
 

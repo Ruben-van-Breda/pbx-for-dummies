@@ -25,6 +25,8 @@ Before PBXs and SIP, people still needed to communicate at a distance. Knowing h
 - Signaling vs. Speech: Supervisory signaling (on/off-hook, ringing) vs. voice band (300–3400 Hz).
 - Switching: Manual cord boards → electromechanical (Strowger/step-by-step, crossbar).
 
+<video controls src="../The_Birth_of_the_Telephone.mp4" title="History"></video>
+
 ## Bell’s 1876 Patent — What it actually claims (plain English)
 
 TL;DR: Bell formalizes sending continuous, wave-like ("undulatory") electrical signals that mirror sound waves, and shows a practical transmitter/receiver so speech can ride those waves. This is the core leap from on/off telegraph pulses to the telephone.

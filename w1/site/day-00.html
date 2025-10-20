@@ -49,6 +49,8 @@
         <li><strong>Switching</strong>: Manual cord boards → electromechanical (Strowger/step-by-step, crossbar).</li>
       </ul>
 
+      <video controls src="../../The_Birth_of_the_Telephone.mp4" title="History"></video>
+
       <h2>Bell’s 1876 Patent — What it actually claims (plain English)</h2>
       <p><strong>TL;DR</strong>: Bell formalizes sending continuous, wave-like ("undulatory") electrical signals that mirror sound waves, and shows a practical transmitter/receiver so speech can ride those waves. This is the core leap from on/off telegraph pulses to the telephone.</p>
 
@@ -76,6 +78,26 @@
         <li><strong>Day 4 (SIP signaling)</strong>: Bell’s patent is about media, not call setup. Modern SIP sets up sessions; RTP carries the (now digital) "undulations."</li>
         <li><strong>Day 3 (Codecs/RTP)</strong>: Where Bell had a vibrating armature and membrane, we use codecs (Opus, G.711) and RTP timestamps/sequence to reconstruct voice.</li>
       </ul>
+
+      <h2>How We Got to Analog Telephony</h2>
+      <ol>
+        <li>Telegraph taught us that information can ride on electricity. But dots/dashes aren’t voice.</li>
+        <li>In telephones, the carbon microphone varies resistance with air pressure, modulating current — a true analog of the voice waveform.</li>
+        <li>Long loops lose high frequencies; loading coils and amplifiers extended reach and fidelity.</li>
+        <li>Networks needed switching: first humans (operators), then machines (Strowger/rotary), later crossbar.</li>
+        <li>Multi-channel long distance used frequency-division multiplexing (FDM): many voice channels on one medium.</li>
+      </ol>
+
+      <h2>Analog Building Blocks You’ll See Again</h2>
+      <ul>
+        <li><strong>Bandwidth</strong>: Voice band standardized ~300–3400 Hz → codecs mirror this later in digital.</li>
+        <li><strong>Leveling</strong>: dBm/dBrn, 600 Ω references → echoes in impedance and hybrid design in VoIP gateways.</li>
+        <li><strong>Echo &amp; Delay</strong>: 2-wire/4-wire hybrids created echo — why echo cancellers exist in IP networks.</li>
+        <li><strong>Supervision &amp; Addressing</strong>: Loop current, ringing, rotary dial pulses, later DTMF — precursors to SIP signaling concepts.</li>
+      </ul>
+
+      <h2>Mental Model</h2>
+      <p>Think of a phone as an energy translator: sound pressure → current variation → sound pressure again. The network’s job is to preserve shape and level of that waveform from mouth to ear, while separate mechanisms indicate when to connect/disconnect and where to route.</p>
 
       <h2>Hands-on (10–15 min)</h2>
       <ol>
@@ -106,6 +128,85 @@
         <li>Notes: 3 bullets on analog constraints that persist in IP telephony</li>
         <li>Goal: Build intuition for why telephony systems evolved the way they did.</li>
       </ul>
+
+      <h2>✅ Quiz — Day 0 (10 Questions + Answers)</h2>
+      <ol>
+        <li>
+          What does an analog telephone microphone do at the electrical level?
+          <div><em>Answer:</em> It varies resistance proportional to sound pressure, modulating current.</div>
+        </li>
+        <li>
+          Why were loading coils introduced on copper loops?
+          <div><em>Answer:</em> To reduce high-frequency attenuation and extend transmission distance/fidelity.</div>
+        </li>
+        <li>
+          What’s the difference between speech transmission and supervisory signaling?
+          <div><em>Answer:</em> Speech carries the voice waveform; supervisory signals indicate loop state and control (on/off-hook, ringing).</div>
+        </li>
+        <li>
+          Which early switching method replaced human operators for most calls?
+          <div><em>Answer:</em> Electromechanical systems like Strowger (step-by-step) and crossbar.</div>
+        </li>
+        <li>
+          What bandwidth is traditionally allocated to voice, and why?
+          <div><em>Answer:</em> ~300–3400 Hz, balancing intelligibility with line/equipment constraints.</div>
+        </li>
+        <li>
+          What created echo in analog systems that we still mitigate today?
+          <div><em>Answer:</em> 2-wire/4-wire hybrids and impedance mismatches.</div>
+        </li>
+        <li>
+          What addressing method came before DTMF tones?
+          <div><em>Answer:</em> Rotary dial pulses.</div>
+        </li>
+        <li>
+          Name one reason the local loop is referenced to ~600 Ω.
+          <div><em>Answer:</em> It standardizes impedance for matching, measurement, and equipment design.</div>
+        </li>
+        <li>
+          How did analog carrier systems pack multiple calls onto one medium?
+          <div><em>Answer:</em> Frequency-division multiplexing assigning each call a separate band.</div>
+        </li>
+        <li>
+          What later digital concept directly replaced analog FDM for trunks?
+          <div><em>Answer:</em> PCM time-division multiplexing (e.g., T1/E1).</div>
+        </li>
+      </ol>
+
+      <h2>Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: Local Loop Impedance, Hybrids, and Echo</h3>
+      <p><strong>Why it matters:</strong> The classic ~600 Ω reference and 2-wire/4-wire hybrids shaped analog design and still influence gateways and echo cancellers today.</p>
+      <ul>
+        <li><strong>Impedance mismatches</strong> cause reflections → audible echo; hybrids convert 2-wire subscriber loops to separate send/receive paths.</li>
+        <li><strong>Echo cancellers</strong> in modern IP gear model hybrid leakage; long one-way delays make echo more noticeable (ITU‑T G.168).</li>
+        <li><strong>Voiceband standardization</strong> (~300–3400 Hz) informed later PCM sampling (8 kHz) (ITU‑T G.711).</li>
+      </ul>
+      <p><strong>Practical checklist:</strong></p>
+      <ul>
+        <li>When using ATAs/gateways, match impedance/regional settings; enable echo cancellation; verify levels.</li>
+      </ul>
+      <p><strong>References:</strong> <a href="https://www.itu.int/rec/T-REC-G.711" target="_blank" rel="noopener noreferrer">ITU‑T G.711 — PCM of Voice Frequencies</a>, <a href="https://www.itu.int/rec/T-REC-G.168" target="_blank" rel="noopener noreferrer">ITU‑T G.168 — Echo Cancellers</a></p>
+
+      <h3>Deep Dive: Loading Coils and Line Equalization</h3>
+      <p><strong>Why it matters:</strong> Loading coils extended analog reach by improving high‑frequency response on long copper pairs.</p>
+      <ul>
+        <li>Series inductance reduces attenuation and flattens the passband over voice frequencies on long loops.</li>
+        <li>Incompatible with broadband (xDSL) and must be removed for modern services.</li>
+        <li>Historic techniques informed later equalization/compensation designs.</li>
+      </ul>
+      <p><strong>Practical example:</strong> Long rural loops with audible high‑frequency roll‑off improved after removing legacy loading before VoIP migration.</p>
+      <p><strong>References:</strong> <a href="https://www.vacuumtubeera.com/Bell-System-Technical-Journal.html" target="_blank" rel="noopener noreferrer">Bell System Technical Journal — Loaded Cables (classic collection)</a>, <a href="https://en.wikipedia.org/wiki/Loading_coil" target="_blank" rel="noopener noreferrer">Loading Coil — Wikipedia</a></p>
+
+      <h3>Deep Dive: From FDM Carrier to PCM (T1/E1)</h3>
+      <p><strong>Why it matters:</strong> Understanding FDM explains how many analog calls shared a medium and why digital PCM (T1/E1) replaced it.</p>
+      <ul>
+        <li>Analog carrier systems stacked channels in frequency bands (FDM) over coax/radio.</li>
+        <li>PCM digitizes voice at 8 kHz with 8‑bit samples → 64 kbps per channel (G.711), multiplexed into T1/E1 frames.</li>
+        <li>Digital trunks simplified regeneration, switching, and noise accumulation.</li>
+      </ul>
+      <p><strong>Practical checklist:</strong> When migrating legacy sites, map FDM-era concepts to digital/VoIP capacity planning (channels ↔ sessions).</p>
+      <p><strong>References:</strong> <a href="https://www.itu.int/rec/T-REC-G.711" target="_blank" rel="noopener noreferrer">ITU‑T G.711</a>, <a href="https://www.britannica.com/technology/frequency-division-multiplexing" target="_blank" rel="noopener noreferrer">Frequency‑Division Multiplexing — Britannica</a></p>
     </section>
     <footer>
       <nav class="nav-top">

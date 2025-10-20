@@ -12,6 +12,8 @@
 - Trunk: A high-capacity link carrying multiple calls between systems.
 - Call setup vs transport: Setup is signaling (e.g., SIP/ISDN); transport is voice frames (e.g., RTP/TDM).
 
+<video controls src="../Telephony__Analog_to_Digital.mp4" title="Title"></video>
+
 ## Details: FXS/FXO, PRI (T1/E1), and Analog↔IP Gateways
 
 ### FXS vs FXO (Analog Interfaces)

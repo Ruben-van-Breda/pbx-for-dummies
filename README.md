@@ -8,5 +8,7 @@ This is a project aiming to explain an overview of how phone calling works and h
 git clone https://github.com/Ruben-van-Breda/pbx-for-dummies.git
 ```
 
+Some Lesson Video's have been made using https://notebooklm.google.com/ 
+
 This crash crouse was built with the assistance of AI.
 Author: Ruben van Breda
