@@ -75,13 +75,33 @@
         <li>Goal: Clear WebRTC↔PBX/CPaaS architecture</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: SIP over WebSocket (WSS) — Production Considerations</h3>
+      <ul>
+        <li>Public‑CA certs with correct SANs; restrict origins; handle WS upgrades at proxy; tune keep‑alives and stickiness.</li>
+        <li>References: <a href="https://sipjs.com" target="_blank" rel="noopener noreferrer">SIP.js</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/WebRTC" target="_blank" rel="noopener noreferrer">Asterisk WebRTC</a></li>
+      </ul>
+
+      <h3>Deep Dive: WebRTC Media — DTLS‑SRTP, ICE/TURN, and Opus</h3>
+      <ul>
+        <li>DTLS‑SRTP mandatory; ICE required; plan TURN for enterprises; Opus↔G.711 transcoding often needed.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc5764" target="_blank" rel="noopener noreferrer">RFC 5764</a>, <a href="https://www.rfc-editor.org/rfc/rfc8445" target="_blank" rel="noopener noreferrer">RFC 8445</a></li>
+      </ul>
+
+      <h3>Deep Dive: UCaaS vs CPaaS vs Self‑Hosted — Decision Factors</h3>
+      <ul>
+        <li>UCaaS: managed/fast; CPaaS: API control; Self‑host: full control with ops burden; prototype critical flows before committing.</li>
+        <li>References: <a href="https://www.twilio.com/voice" target="_blank" rel="noopener noreferrer">Twilio Voice</a>, <a href="https://explore.zoom.us/en/zoom-phone/" target="_blank" rel="noopener noreferrer">Zoom Phone</a>, <a href="https://www.plivo.com/voice/" target="_blank" rel="noopener noreferrer">Plivo Voice</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 14 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 14 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>What is UCaaS?
             <ul><li>Answer: Hosted PBX + collaboration tools.</li></ul>

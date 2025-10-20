@@ -82,13 +82,36 @@ exten => _9NXXNXXXXXX,1,Set(NUM=${EXTEN:1})
         <li>Goal: Reliable inbound/outbound routing with clear patterns</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: Dialplan Pattern Strategy and Normalization</h3>
+      <ul>
+        <li>Order matters: put specific patterns (e.g., <code>_911</code>) before broad catch‑alls (e.g., <code>_X.</code>).</li>
+        <li>Normalize to +E.164 at boundaries; map inbound DID format to internal canonical form.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Pattern+Matching" target="_blank" rel="noopener noreferrer">Asterisk Patterns</a>, <a href="https://www.itu.int/rec/T-REC-E.164/en" target="_blank" rel="noopener noreferrer">ITU E.164</a></li>
+      </ul>
+
+      <h3>Deep Dive: Least Cost Routing (LCR) and Failover</h3>
+      <ul>
+        <li>Selection by prefix/time/quality; implement bounded retries and backoff.</li>
+        <li>Log trunk attempts with reason codes; avoid loops.</li>
+        <li>References: <a href="https://www.voip-info.org/least-cost-routing/" target="_blank" rel="noopener noreferrer">voip-info LCR</a></li>
+      </ul>
+
+      <h3>Deep Dive: Context Design and Route Isolation</h3>
+      <ul>
+        <li>Separate <code>from-trunk</code>, <code>inbound</code>, and <code>outbound</code> to prevent hairpins and enforce policy.</li>
+        <li>Add explicit terminals (Hangup/Busy) for unmatched paths; unit‑test with sample DIDs.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Extensions+and+Contexts" target="_blank" rel="noopener noreferrer">Extensions & Contexts</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 9 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 9 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>What does the pattern <code>_9NXXNXXXXXX</code> match?
             <ul><li>Answer: 9 followed by a 10-digit NANP number.</li></ul>

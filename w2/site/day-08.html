@@ -77,13 +77,45 @@
         <li>Goal: Show understanding of NAT traversal and media anchoring</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: ICE Candidate Nomination (Regular vs Aggressive)</h3>
+      <p><strong>What it is and why it matters</strong>: Nomination is how the controlling agent chooses the final candidate pair. Choosing too early can lock in a sub‑optimal path; too late delays media.</p>
+      <ul>
+        <li>Regular nomination waits for the highest‑priority successful check and then uses USE‑CANDIDATE (recommended with trickle ICE).</li>
+        <li>Aggressive nomination marks the first check with USE‑CANDIDATE; risky with trickle ICE.</li>
+        <li>Exactly one side must be controlling; resolve role conflicts via tie‑breaker (RFC 8445 §6).</li>
+        <li>With ICE‑Lite peers, the full agent is controlling and performs nomination.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc8445" target="_blank" rel="noopener noreferrer">RFC 8445</a>, <a href="https://webrtc.org/getting-started/ice" target="_blank" rel="noopener noreferrer">WebRTC ICE Overview</a></li>
+      </ul>
+
+      <h3>Deep Dive: TURN Allocations, Permissions, and Channels</h3>
+      <p><strong>What it is and why it matters</strong>: TURN relays media when P2P fails, enabling connectivity through symmetric NATs and strict firewalls.</p>
+      <ul>
+        <li>Allocation lifetime ~10 minutes; must refresh (RFC 5766 §7).</li>
+        <li>Permissions per peer IP last 300 seconds (RFC 5766 §8).</li>
+        <li>Channels bind a peer with lower overhead vs Send Indications (RFC 5766 §11).</li>
+        <li>Auth uses STUN long‑term credentials with HMAC‑SHA1 integrity (RFC 5389 §9).</li>
+        <li>Ports: 3478 (UDP/TCP), 5349 (TLS). Ensure egress is allowed.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc5766" target="_blank" rel="noopener noreferrer">RFC 5766</a>, <a href="https://www.rfc-editor.org/rfc/rfc5389" target="_blank" rel="noopener noreferrer">RFC 5389</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Connectivity" target="_blank" rel="noopener noreferrer">MDN</a></li>
+      </ul>
+
+      <h3>Deep Dive: ICE Lite vs ICE Full (Servers, PBXs, SBCs)</h3>
+      <p><strong>What it is and why it matters</strong>: ICE‑Lite simplifies servers with public IPs by not running checks, remaining interoperable with full ICE peers.</p>
+      <ul>
+        <li>ICE‑Lite advertises only host candidates and indicates <code>ice-lite</code> in SDP.</li>
+        <li>Full agent MUST be controlling when talking to ICE‑Lite and performs all checks.</li>
+        <li>Use on publicly reachable media relays/SBCs; prefer full ICE if behind NAT or multi‑homed.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc8445" target="_blank" rel="noopener noreferrer">RFC 8445</a>, <a href="https://webrtc.org/getting-started/ice" target="_blank" rel="noopener noreferrer">WebRTC ICE Overview</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 8 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 8 (20 Questions + Answers)</h2>
         <ol>
           <li>What problem does NAT introduce for VoIP media?
             <ul><li>Answer: Private IP/ports are not reachable; SDP may advertise unroutable addresses.</li></ul>
@@ -114,6 +146,36 @@
           </li>
           <li>What tradeoff does TURN introduce?
             <ul><li>Answer: Higher latency and relay cost vs reliability.</li></ul>
+          </li>
+          <li>In regular nomination, when is USE‑CANDIDATE applied?
+            <ul><li>Answer: Only after the highest‑priority successful check is selected.</li></ul>
+          </li>
+          <li>Why is aggressive nomination risky with trickle ICE?
+            <ul><li>Answer: It can nominate a sub‑optimal pair before better candidates arrive.</li></ul>
+          </li>
+          <li>Who performs checks when a full ICE agent talks to an ICE‑Lite agent?
+            <ul><li>Answer: The full ICE agent (controlling).</li></ul>
+          </li>
+          <li>Default TURN allocation lifetime to maintain?
+            <ul><li>Answer: About 10 minutes (refresh periodically).</li></ul>
+          </li>
+          <li>How long do TURN permissions last if not refreshed?
+            <ul><li>Answer: 300 seconds (5 minutes).</li></ul>
+          </li>
+          <li>What advantage do TURN channels provide?
+            <ul><li>Answer: Lower overhead and better throughput once bound.</li></ul>
+          </li>
+          <li>Which auth mechanism does TURN use?
+            <ul><li>Answer: STUN long‑term credentials with HMAC‑SHA1 integrity.</li></ul>
+          </li>
+          <li>Which ports are commonly used for TURN?
+            <ul><li>Answer: 3478 (UDP/TCP) and 5349 (TLS).</li></ul>
+          </li>
+          <li>What SDP attribute signals ICE‑Lite?
+            <ul><li>Answer: <code>ice-lite</code>.</li></ul>
+          </li>
+          <li>What resolves an ICE role conflict?
+            <ul><li>Answer: The tie‑breaker procedure in RFC 8445.</li></ul>
           </li>
         </ol>
       </div>

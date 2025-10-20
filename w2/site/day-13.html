@@ -71,13 +71,32 @@ core set verbose 5</code></pre>
         <li>Goal: A repeatable approach to isolate signaling vs media problems</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: SIP Error Taxonomy and Triage Flow</h3>
+      <ul>
+        <li>4xx client vs 5xx server vs 6xx global; map common codes (403/404/408/486/488/500/503).</li>
+        <li>Triage: signaling ok but no media → inspect SDP, NAT, RTP ports.</li>
+      </ul>
+
+      <h3>Deep Dive: RTP/RTCP Analysis for One‑Way and Choppy Audio</h3>
+      <ul>
+        <li>Check symmetric flow, SSRC/ports, seq numbers; use RTCP stats when SRTP hides payload.</li>
+        <li>Targets: low jitter on wired; confirm DSCP/QoS; validate firewall/NAT pinholes.</li>
+      </ul>
+
+      <h3>Deep Dive: Logging Strategy and Reproducible Test Cases</h3>
+      <ul>
+        <li>Persist logs; capture environment (IPs, codecs, versions); red/green tests to prove fixes.</li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 13 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 13 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>Which CLI commands enable useful SIP debug in Asterisk?
             <ul><li>Answer: <code>pjsip set logger on</code> and <code>core set verbose 5</code>.</li></ul>

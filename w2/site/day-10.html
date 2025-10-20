@@ -96,13 +96,34 @@ contact=sip:PROVIDER_SIP_DOMAIN_OR_IP</code></pre>
         <li>Goal: A functioning trunk with verified call flow end-to-end</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: Registration vs IP‑Based Trunks — Security and Reliability</h3>
+      <ul>
+        <li>Registration: NAT‑friendly for dynamic IPs; provider learns contact URI; secure with TLS and strong creds.</li>
+        <li>IP‑ACL: Static IP with firewall rules; low overhead but brittle if IP changes.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/PJSIP+Trunk+Configuration" target="_blank" rel="noopener noreferrer">Asterisk PJSIP Trunk Config</a></li>
+      </ul>
+
+      <h3>Deep Dive: Number Normalization and Caller ID</h3>
+      <ul>
+        <li>Enforce +E.164; per‑trunk CLI rules via From/P‑Asserted‑Identity; verify with carriers.</li>
+        <li>References: <a href="https://www.itu.int/rec/T-REC-E.164/en" target="_blank" rel="noopener noreferrer">ITU E.164</a>, <a href="https://www.voip-info.org/callerid/" target="_blank" rel="noopener noreferrer">voip-info Caller ID</a></li>
+      </ul>
+
+      <h3>Deep Dive: NAT/Media Considerations for Trunks</h3>
+      <ul>
+        <li>Disable SIP ALG; set external signaling/media addresses; align codecs; open provider RTP ranges.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+SIP+NAT+support" target="_blank" rel="noopener noreferrer">Asterisk NAT Support</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 10 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 10 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>What is a DID?
             <ul><li>Answer: A Direct Inward Dial number mapped to your PBX.</li></ul>

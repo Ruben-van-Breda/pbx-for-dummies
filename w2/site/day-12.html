@@ -87,13 +87,33 @@ exten => t,1,Playback(vm-goodbye)
         <li>Goal: A basic but functional auto-attendant with voicemail fallback</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: DTMF Transport — In‑Band vs RFC 4733 vs SIP INFO</h3>
+      <ul>
+        <li>Prefer RFC 4733 telephone events; avoid in‑band with compressed codecs; verify end‑to‑end method.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc4733" target="_blank" rel="noopener noreferrer">RFC 4733</a></li>
+      </ul>
+
+      <h3>Deep Dive: IVR Design — Usability and Timeout Handling</h3>
+      <ul>
+        <li>Keep menus shallow; provide 0 for operator; implement <code>t</code> and <code>i</code> handlers; normalize prompts.</li>
+        <li>References: <a href="https://www.voip-info.org/ivr/" target="_blank" rel="noopener noreferrer">IVR Best Practices</a></li>
+      </ul>
+
+      <h3>Deep Dive: Voicemail Storage and Quotas</h3>
+      <ul>
+        <li>Filesystem vs ODBC/IMAP; set permissions; quotas/retention; enforce strong PINs and lockouts.</li>
+        <li>References: <a href="https://wiki.asterisk.org/wiki/display/AST/Voicemail" target="_blank" rel="noopener noreferrer">Asterisk Voicemail</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 12 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 12 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>Where are voicemail mailboxes defined in Asterisk?
             <ul><li>Answer: In <code>voicemail.conf</code> under a voicemail context.</li></ul>

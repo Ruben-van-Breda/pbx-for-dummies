@@ -87,13 +87,33 @@ priv_key_file=/etc/asterisk/keys/asterisk.key</code></pre>
         <li>Goal: Demonstrate encrypted signaling and media</li>
       </ul>
 
+      <h2 id="appendix-deep-dives">Appendix — Deep Dives</h2>
+
+      <h3>Deep Dive: TLS Ciphers, Versions, and Certificate Hygiene</h3>
+      <ul>
+        <li>Prefer TLS 1.2/1.3; disable outdated ciphers; include correct SANs and chains; test with <code>openssl s_client</code>.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc8446" target="_blank" rel="noopener noreferrer">RFC 8446</a>, <a href="https://wiki.asterisk.org/wiki/display/AST/Secure+Calling" target="_blank" rel="noopener noreferrer">Asterisk Secure Calling</a></li>
+      </ul>
+
+      <h3>Deep Dive: SRTP Keying — SDES vs DTLS‑SRTP</h3>
+      <ul>
+        <li>SDES: keys in SDP; DTLS‑SRTP: keys via DTLS (preferred). Ensure both ends match.</li>
+        <li>References: <a href="https://www.rfc-editor.org/rfc/rfc3711" target="_blank" rel="noopener noreferrer">RFC 3711</a>, <a href="https://www.rfc-editor.org/rfc/rfc5764" target="_blank" rel="noopener noreferrer">RFC 5764</a></li>
+      </ul>
+
+      <h3>Deep Dive: SBC Capabilities and Topology Hiding</h3>
+      <ul>
+        <li>Header normalization, media anchoring, QoS/policy, DoS controls; place at edge and log SIP/media metrics.</li>
+        <li>References: <a href="https://www.voip-info.org/sbc/" target="_blank" rel="noopener noreferrer">voip-info SBC</a></li>
+      </ul>
+
       <hr />
 
       <div class="quiz-controls">
         <button id="start-quiz" type="button">Start Quiz</button>
       </div>
       <div id="quiz" hidden>
-        <h2>✅ Quiz — Day 11 (10 Questions + Answers)</h2>
+        <h2>✅ Quiz — Day 11 (Deep Dives, 10 Questions + Answers)</h2>
         <ol>
           <li>What does TLS secure in SIP and what port is commonly used?
             <ul><li>Answer: Signaling over TCP; commonly 5061 for TLS.</li></ul>
