@@ -9,6 +9,8 @@
 - Core messages: INVITE (start call), 100 Trying, 180 Ringing, 200 OK, ACK (confirm), BYE (end), REGISTER (location).
 - Important headers: Via (routing), From/To (caller/callee), Contact (reachable URI), Call-ID (dialog), CSeq (sequence), SDP (media offer/answer in body).
 
+<video controls src="../resources/The_Invisible_Conversation_04.mp4" title="Title"></video>
+
 ## Minimal Call Flow
 ```
 Caller → INVITE → Callee
