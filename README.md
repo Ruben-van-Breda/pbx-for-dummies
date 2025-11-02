@@ -1,6 +1,9 @@
 # pbx-for-dummies
 This is a project aiming to explain an overview of how phone calling works and how PBX and Asterisk come into play. This is a kick-start in gaining more insight in Phone Systems, Pbx, Asterisks and Sip.
 
+Hosting:
+142.93.232.41
+
 [Pbx for Dummies](pbx-for-dummies.md)
 
 <!-- Git clone -->
